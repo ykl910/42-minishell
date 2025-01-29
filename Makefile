@@ -6,7 +6,7 @@
 #    By: kyang <kyang@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:15:05 by kyang             #+#    #+#              #
-#    Updated: 2025/01/29 16:14:34 by kyang            ###   ########.fr        #
+#    Updated: 2025/01/29 18:01:28 by kyang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@ NAME = minishell
 CC = cc
 
 SRC_PATH = src/
-SRC 	= main.c
+SRC 	= main.c \
+			built_in.c \
+			utils_pipex.c \
+			utils_pipex2.c \
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 
