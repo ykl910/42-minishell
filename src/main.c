@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/01/30 12:38:22 by kyang            ###   ########.fr       */
+/*   Updated: 2025/01/30 17:59:15 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@ int	main(int ac, char **env)
 {
 	char	*r;
 	(void)	ac;
+	(void)	env;
 	
-	r = readline("input prompt >");
-	
-	//printf("$> %s", r);
-	//built_in_command(r);
-	execute_command(r, env);
+	while (1)
+	{
+		r = readline("input prompt >");
+		if (r)
+			add_history(r);
+		printf("%d\n", count_input(r));
+		//execute_command(r, env);
+		free(r);
+	}
 	return (0);
 }
 
@@ -36,29 +41,14 @@ void	execute_command(char *av, char **env)
 	else if (pid == 0)
 	{
 		argv_c = exec_args(av);
-		printf("%s\n",argv_c[1]);
 		if (execve(argv_c[0], argv_c, env) == -1)
-			error();
+		{
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}	
 	}
 	else if (pid > 0)
 	{
 		wait(NULL);
 	}
-}
-
-void	built_in_command(char *r)
-{
-	char **av;
-	
-	av = ft_split(r, ' ');
-	if (ft_strncmp(av[0], "cd", 3) == 0)
-	{
-		if (av[1] == NULL)
-			error();
-		else if (chdir(av[1]) != 0)
-		{
-			error();
-		}
-	}
-	printf("you are at %s",av[1]);
 }

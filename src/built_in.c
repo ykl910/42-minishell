@@ -6,9 +6,24 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:51:20 by kyang             #+#    #+#             */
-/*   Updated: 2025/01/29 17:51:35 by kyang            ###   ########.fr       */
+/*   Updated: 2025/01/30 17:04:03 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	built_in_cd(char *r)
+{
+	char **av;
+	
+	av = ft_split(r, ' ');
+	if (ft_strncmp(av[0], "cd", 3) == 0)
+	{
+		if (av[1] == NULL)
+			error();
+		else if (chdir(av[1]) != 0)
+			error();
+	}
+	printf("you are at %s",av[1]);
+}
 

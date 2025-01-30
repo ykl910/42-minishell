@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 20:00:03 by kyang             #+#    #+#             */
-/*   Updated: 2025/01/30 12:37:11 by kyang            ###   ########.fr       */
+/*   Updated: 2025/01/30 16:10:12 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	*get_env(char *arg, char **split_arg)
 	if (!paths)
 		return (NULL);
 	result = get_path(paths, arg, split_arg);
+
 	free_split(paths);
 	return (result);
 }
@@ -102,6 +103,6 @@ char	**exec_args(char *av)
 	free_split(split_av);
 	if (!first)
 		error();
-	args = ft_split(ft_strchr(av, ' '), ' ');
+	args = ft_split(av, ' ');
 	return (exec_args_list(args, first, i, j));
 }
