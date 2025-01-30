@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 20:00:03 by kyang             #+#    #+#             */
-/*   Updated: 2025/01/29 17:40:07 by kyang            ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:11 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,19 @@ char	*get_path(char **paths, char *arg, char **split_arg)
 	return (NULL);
 }
 
-char	*get_env(char **env, char *arg, char **split_arg)
+char	*get_env(char *arg, char **split_arg)
 {
 	char	**paths;
-	char	**split_env;
 	char	*result;
 	int		i;
 
 	i = 0;
-	while (env[i])
-	{
-		split_env = ft_split(env[i], '=');
-		if (!split_env)
-			return (NULL);
-		if (ft_strncmp(split_env[0], "PATH", 4) == 0)
-		{
-			paths = ft_split(ft_strchr(env[i], '=') + 1, ':');
-			free_split(split_env);
-			result = get_path(paths, arg, split_arg);
-			free_split(paths);
-			return (result);
-		}
-		free_split(split_env);
-		i++;
-	}
-	return (NULL);
+	paths = ft_split(getenv("PATH"), ':');
+	if (!paths)
+		return (NULL);
+	result = get_path(paths, arg, split_arg);
+	free_split(paths);
+	return (result);
 }
 
 char	**exec_args_list(char **args, char *first, int i, int j)
@@ -97,7 +85,7 @@ char	**exec_args_list(char **args, char *first, int i, int j)
 	return (res);
 }
 
-char	**exec_args(char *av, char **env)
+char	**exec_args(char *av)
 {
 	char	**args;
 	char	**split_av;
@@ -110,7 +98,7 @@ char	**exec_args(char *av, char **env)
 	split_av = ft_split(av, ' ');
 	if (!split_av)
 		return (NULL);
-	first = get_env(env, split_av[0], split_av);
+	first = get_env(split_av[0], split_av);
 	free_split(split_av);
 	if (!first)
 		error();
