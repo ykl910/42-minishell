@@ -6,7 +6,7 @@
 #    By: kyang <kyang@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:15:05 by kyang             #+#    #+#              #
-#    Updated: 2025/01/30 17:59:42 by kyang            ###   ########.fr        #
+#    Updated: 2025/01/31 12:02:53 by kyang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRC 	= main.c \
 			built_in.c \
 			utils_pipex.c \
 			utils_pipex2.c \
-			lexer.c
+			lexer.c \
+			parser.c
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 

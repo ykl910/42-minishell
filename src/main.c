@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/01/30 17:59:15 by kyang            ###   ########.fr       */
+/*   Updated: 2025/01/31 16:08:13 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,19 @@ int	main(int ac, char **env)
 	char	*r;
 	(void)	ac;
 	(void)	env;
+	int		i;
 	
 	while (1)
 	{
-		r = readline("input prompt >");
+		i = 0;
+		r = readline("input prompt > ");
 		if (r)
 			add_history(r);
-		printf("%d\n", count_input(r));
+		while (lexer(r)[i])
+		{
+			printf("%u - %s\n", lexer(r)[i]->token_type, lexer(r)[i]->value);
+			i++;
+		}
 		//execute_command(r, env);
 		free(r);
 	}

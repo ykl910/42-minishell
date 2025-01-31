@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/01/30 18:53:10 by kyang            ###   ########.fr       */
+/*   Updated: 2025/01/31 15:58:33 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_token	**lexer(char *av)
 	int		count;
 	int		i;
 	int		j;
+	int		start;
 
 	i = 0;
 	j = 0;
@@ -86,8 +87,33 @@ t_token	**lexer(char *av)
 			i += 1;
 		}
 		else if (av[i] == '|')
-			tokens[j] = init_token(TOKEN_PIPE, "<");
-
+		{
+			tokens[j] = init_token(TOKEN_PIPE, "|");
+			i += 1;
+		}
+		else if (ft_isalnum(av[i]))
+		{
+			start = i;
+			while (ft_isalnum(av[i]))
+				i++;
+	        tokens[j] = init_token(TOKEN_COMMAND, ft_strndup(av + start, i - start));
+		}		
+		else if (av[i] == '-')
+		{
+			start = i;
+			while (!ft_isspace(av[i]) && av[i] != '>' && av[i] != '<' && av[i] != '|')
+				i++;
+	        tokens[j] = init_token(TOKEN_OPTIONS, ft_strndup(av + start, i - start));
+		}
+		else
+		{
+			start = i;
+			while (!ft_isspace(av[i]) && av[i] != '>' && av[i] != '<' && av[i] != '|')
+				i++;
+	        tokens[j] = init_token(TOKEN_OTHERS, ft_strndup(av + start, i - start));
+		}
+		j++;
 	}
+	tokens[j] = NULL;
 	return (tokens);
 }
