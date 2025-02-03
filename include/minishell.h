@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/01 19:10:35 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/03 11:45:12 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef enum
 	TOKEN_REDIRECT_OUT,
 	TOKEN_HERE_DOC,
 	TOKEN_REDIRECT_APPEND,
-	//TOKEN_OPTIONS,
 	TOKEN_TEXT,
 }	e_token;
 
@@ -49,7 +48,7 @@ typedef struct s_token
 
 typedef struct s_command
 {
-	char	*value;
+	char	*name;
 	char	*in_file;
 	char	*out_file;
 	char	**args;

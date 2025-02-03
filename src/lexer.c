@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/01 19:10:49 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/03 12:02:52 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*init_token(e_token	type, char *av)
 {
 	t_token	*token;
 
-	token = malloc(sizeof(t_token));
+	token = ft_calloc((sizeof(t_token)), 1);
 	if (!token)
 		return (NULL);
 	token->token_type = type;
@@ -59,7 +59,7 @@ t_token	**lexer(char *av)
 	i = 0;
 	j = 0;
 	count = count_input(av);
-	tokens = malloc(sizeof(t_token *) * count);
+	tokens = ft_calloc(sizeof(t_token *), count + 1);
 	if (!tokens)
 		return (NULL);
 	while (av[i])
@@ -76,12 +76,12 @@ t_token	**lexer(char *av)
 			tokens[j] = init_token(TOKEN_REDIRECT_APPEND, ">>");
 			i += 2;
 		}
-		else if (av[i] == '<')
+		else if (av[i] == '<' && av[i + 1] != '<')
 		{
 			tokens[j] = init_token(TOKEN_REDIRECT_IN, "<");
 			i += 1;
 		}
-		else if (av[i] == '>')
+		else if (av[i] == '>' && av[i + 1] != '<')
 		{
 			tokens[j] = init_token(TOKEN_REDIRECT_OUT, ">");
 			i += 1;
@@ -91,13 +91,6 @@ t_token	**lexer(char *av)
 			tokens[j] = init_token(TOKEN_PIPE, "|");
 			i += 1;
 		}
-		// else if (av[i] == '-')
-		// {
-		// 	start = i;
-		// 	while (!ft_isspace(av[i]) && av[i] != '>' && av[i] != '<' && av[i] != '|')
-		// 		i++;
-	    //     tokens[j] = init_token(TOKEN_OPTIONS, ft_strndup(av + start, i - start));
-		// }
 		else
 		{
 			start = i;
