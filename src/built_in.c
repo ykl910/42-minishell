@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:51:20 by kyang             #+#    #+#             */
-/*   Updated: 2025/01/30 17:04:03 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/03 15:34:23 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	built_in_cd(char *r)
 {
-	char **av;
-	
+	char	**av;
+
 	av = ft_split(r, ' ');
 	if (ft_strncmp(av[0], "cd", 3) == 0)
 	{
@@ -24,6 +24,5 @@ void	built_in_cd(char *r)
 		else if (chdir(av[1]) != 0)
 			error();
 	}
-	printf("you are at %s",av[1]);
+	printf("you are at %s", av[1]);
 }
-

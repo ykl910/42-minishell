@@ -6,7 +6,7 @@
 #    By: kyang <kyang@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:15:05 by kyang             #+#    #+#              #
-#    Updated: 2025/01/31 12:02:53 by kyang            ###   ########.fr        #
+#    Updated: 2025/02/03 15:36:01 by kyang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,6 @@ CC = cc
 SRC_PATH = src/
 SRC 	= main.c \
 			built_in.c \
-			utils_pipex.c \
-			utils_pipex2.c \
 			lexer.c \
 			parser.c
 
@@ -33,7 +31,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	make all bonus -C libft
+	make all -C libft
 	$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME) -lreadline
 	
 %.o: %.c

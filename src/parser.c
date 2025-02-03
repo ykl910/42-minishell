@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:02:38 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 14:21:30 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/03 15:33:27 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ t_command	**parser(t_token **tokens)
 	i = 0;
 	while (tokens[i])
 		i++;
-	commands = ft_calloc(sizeof(t_command *), (i + 1));
+	commands = ft_calloc((i + 1), sizeof(t_command *));
 	if (!commands)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (tokens[i + j])
 	{
-		commands[i] = ft_calloc(sizeof(t_command), 1);
+		commands[i] = ft_calloc(1, sizeof(t_command));
 		if (!commands[i])
 			return (NULL);
 		if (tokens[i + j]->token_type == 5)
@@ -86,7 +86,7 @@ t_command	**parser(t_token **tokens)
 		{
 			if (!commands[i]->args)
 			{
-				commands[i]->args = calloc(sizeof(char *), 1);
+				commands[i]->args = calloc(1, sizeof(char *));
 				if (commands[i]->args)
 					return (NULL);
 			}
