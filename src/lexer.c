@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 12:02:52 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/03 14:24:24 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*init_token(e_token	type, char *av)
+t_token	*init_token(e_token type, char *av)
 {
 	t_token	*token;
 
@@ -21,13 +21,14 @@ t_token	*init_token(e_token	type, char *av)
 		return (NULL);
 	token->token_type = type;
 	token->value = ft_strdup(av);
+	if (!token->value)
+		return (ft_putstr_fd("init token malloc error", STDERR_FILENO), NULL);
 	return (token);
 }
 
 int	ft_isspace(char c)
 {
-	if (c == '\f' || c == '\n' || c == '\r' || c == '\t' \
-		|| c == '\v' || c == ' ' || c == '\0')
+	if (c <= ' ')
 		return (1);
 	return (0);
 }
@@ -59,9 +60,9 @@ t_token	**lexer(char *av)
 	i = 0;
 	j = 0;
 	count = count_input(av);
-	tokens = ft_calloc(sizeof(t_token *), count + 1);
+	tokens = ft_calloc(count + 1, sizeof(t_token *));
 	if (!tokens)
-		return (NULL);
+		return (ft_putstr_fd("lexer calloc", STDERR_FILENO), NULL);
 	while (av[i])
 	{
 		while (ft_isspace(av[i]))
@@ -94,9 +95,11 @@ t_token	**lexer(char *av)
 		else
 		{
 			start = i;
-			while (!ft_isspace(av[i]) && av[i] != '>' && av[i] != '<' && av[i] != '|')
+			while (!ft_isspace(av[i]) && av[i] != '>' && av[i] != '<'
+				&& av[i] != '|')
 				i++;
-	        tokens[j] = init_token(TOKEN_TEXT, ft_strndup(av + start, i - start));
+			tokens[j] = init_token(TOKEN_TEXT, ft_strndup(av + start, i
+						- start));
 		}
 		j++;
 	}
