@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:02:38 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 15:33:27 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/03 17:27:55 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ t_command	*init_command(void)
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (NULL);
-	command->name = NULL;
 	command->in_file = NULL;
 	command->out_file = NULL;
-	command->args = ft_calloc(1, sizeof(char *));
-	if (!command->args)
+	command->name = ft_calloc(1, sizeof(char *));
+	if (!command->name)
 		return (NULL);
 	return (command);
 }
@@ -50,8 +49,7 @@ char	**append_args(char **origin_args, char *new_arg)
 	}
 	new_args[i] = ft_strdup(new_arg);
 	if (!new_arg[i])
-		return (ft_putstr_fd("malloc error at app.args", STDERR_FILENO),
-			NULL);
+		return (ft_putstr_fd("malloc error at app.args", STDERR_FILENO), NULL);
 	return (new_args);
 }
 
@@ -84,21 +82,21 @@ t_command	**parser(t_token **tokens)
 		}
 		while (tokens[i + j]->token_type != 0)
 		{
-			if (!commands[i]->args)
+			if (!commands[i]->name)
 			{
-				commands[i]->args = calloc(1, sizeof(char *));
-				if (commands[i]->args)
+				commands[i]->name = calloc(1, sizeof(char *));
+				if (commands[i]->name)
 					return (NULL);
 			}
 			if (tokens[i + j]->token_type == 1)
 				commands[i]->in_file = tokens[i + 1]->value;
-			else if (tokens[i + j]->token_type == 2 || tokens[i
-				+ j]->token_type == 4)
+			else if (tokens[i + j]->token_type == 2
+			|| tokens[i + j]->token_type == 4)
 				commands[i]->out_file = tokens[i + 1]->value;
 			else if (tokens[i + j]->token_type == 5 && !commands[i]->name)
 				commands[i]->name = tokens[i + j]->value;
 			else
-				commands[i]->args = append_args(commands[i]->args, tokens[i
+				commands[i]->name = append_args(commands[i]->name, tokens[i
 						+ j]->value);
 			j++;
 		}

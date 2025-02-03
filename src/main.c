@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 15:36:29 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/03 17:26:40 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 int	main(int ac, char **env)
 {
-	char	*r;
-	(void)	ac;
-	(void)	env;
+	char	*line;
 	int		i;
-	
+
+	(void)ac;
+	(void)env;
 	while (1)
 	{
 		i = 0;
-		r = readline("input prompt > ");
-		if (r)
-			add_history(r);
-		while (lexer(r)[i])
+		line = readline("input prompt > ");
+		if (line)
+			add_history(line);
+		while (lexer(line)[i])
 		{
-			printf("%u - %s\n", lexer(r)[i]->token_type, lexer(r)[i]->value);
+			printf("%u - %s\n", lexer(line)[i]->token_type,
+				lexer(line)[i]->value);
 			i++;
 		}
-		free(r);
+		free(line);
 	}
 	return (0);
 }
-

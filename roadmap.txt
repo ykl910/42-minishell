@@ -1,0 +1,13 @@
+
+----LEXER
+ENV VAR:
+	1/ trim the spaces between quotes
+	2/ if there's several '=', the first one prevails
+	3/ must not be spcaes between variable name and value, otherwise null value is assigned
+	4/ if only export is entered, the behavior is undefined
+
+----PARSER
+
+----EXECUTER
+HOW TO MANAGE SEVERAL PIPES ex: "< Makefile grep SRC > test | cat"
+	When the left side of a pipe is redirection, it's equivalent to a call to a pipex in a pipex with output of the previous pipe as input
