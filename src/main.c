@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 17:26:40 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:45:16 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	main(int ac, char **env)
 {
 	char	*line;
 	int		i;
+	t_token	**tokens;
+	t_command **commands;
 
 	(void)ac;
 	(void)env;
@@ -25,12 +27,22 @@ int	main(int ac, char **env)
 		line = readline("input prompt > ");
 		if (line)
 			add_history(line);
-		while (lexer(line)[i])
+		tokens = lexer(line);
+		while (tokens[i])
 		{
-			printf("%u - %s\n", lexer(line)[i]->token_type,
-				lexer(line)[i]->value);
+			printf("%u - %s\n", tokens[i]->token_type,
+				tokens[i]->value);
 			i++;
 		}
+		// commands = parser(tokens);
+		// if (!commands)
+		// 	return (ft_putstr_fd("malloc error at parsing1\n", STDERR_FILENO), 0);
+		// i = 0;
+		// while (commands[i])
+		// {
+		// 	printf("dew");
+		// 	i++;			
+		// }
 		free(line);
 	}
 	return (0);

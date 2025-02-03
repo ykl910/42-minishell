@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:02:38 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 17:27:55 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:37:16 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_command	*init_command(void)
 		return (NULL);
 	command->in_file = NULL;
 	command->out_file = NULL;
-	command->name = ft_calloc(1, sizeof(char *));
-	if (!command->name)
-		return (NULL);
+	command->name = NULL;//ft_calloc(1, sizeof(char *));
+	// if (!command->name)
+	// 	return (ft_putstr_fd("malloc error init_command\n", STDERR_FILENO), NULL);
 	return (command);
 }
 
@@ -42,19 +42,17 @@ char	**append_args(char **origin_args, char *new_arg)
 	while (origin_args[i])
 	{
 		new_args[i] = ft_strdup(origin_args[i]);
-		if (!new_arg[i])
-			return (ft_putstr_fd("malloc error app.arg", STDERR_FILENO), NULL);
+		if (!new_args[i])
+			return (ft_putstr_fd("malloc error app.arg\n", STDERR_FILENO), NULL);
 		free(origin_args[i]);
 		i++;
 	}
+	free(origin_args);
 	new_args[i] = ft_strdup(new_arg);
-	if (!new_arg[i])
-		return (ft_putstr_fd("malloc error at app.args", STDERR_FILENO), NULL);
+	if (!new_args[i])
+		return (ft_putstr_fd("malloc error at app.args\n", STDERR_FILENO), NULL);
 	return (new_args);
 }
-
-// first token is command or redirection
-// the token after redirection is a file
 
 t_command	**parser(t_token **tokens)
 {
@@ -65,43 +63,52 @@ t_command	**parser(t_token **tokens)
 	i = 0;
 	while (tokens[i])
 		i++;
+	printf("%d",i);
 	commands = ft_calloc((i + 1), sizeof(t_command *));
 	if (!commands)
-		return (NULL);
+		return (ft_putstr_fd("malloc error at parsing1\n", STDERR_FILENO), NULL);
 	i = 0;
 	j = 0;
 	while (tokens[i + j])
 	{
-		commands[i] = ft_calloc(1, sizeof(t_command));
+		commands[i] = init_command();
 		if (!commands[i])
-			return (NULL);
-		if (tokens[i + j]->token_type == 5)
-		{
-			commands[i]->name = tokens[i + j]->value;
-			j++;
-		}
+			return (ft_putstr_fd("malloc error at parsing1\n", STDERR_FILENO), NULL);
 		while (tokens[i + j]->token_type != 0)
 		{
-			if (!commands[i]->name)
+			if (tokens[i + j]->token_type == 5)
 			{
-				commands[i]->name = calloc(1, sizeof(char *));
-				if (commands[i]->name)
-					return (NULL);
+				if (!commands[i]->name)
+				{
+					commands[i]->name[j] =  ft_strdup(tokens[i + j]->value);
+					if (!commands[i]->name[j])
+						return (ft_putstr_fd("malloc error at parsing1\n", STDERR_FILENO), NULL);
+				}
+				else
+					commands[i]->name = append_args(commands[i]->name, tokens[i + j]->value);
 			}
-			if (tokens[i + j]->token_type == 1)
-				commands[i]->in_file = tokens[i + 1]->value;
+			else if (tokens[i + j]->token_type == 1)
+			{
+				if (tokens[i + j + 1])
+				{
+					commands[i]->in_file = tokens[i + j + 1]->value;
+					j++;
+				}
+			}
 			else if (tokens[i + j]->token_type == 2
 			|| tokens[i + j]->token_type == 4)
-				commands[i]->out_file = tokens[i + 1]->value;
-			else if (tokens[i + j]->token_type == 5 && !commands[i]->name)
-				commands[i]->name = tokens[i + j]->value;
-			else
-				commands[i]->name = append_args(commands[i]->name, tokens[i
-						+ j]->value);
+			{
+				if (tokens[i + j + 1])
+				{
+					commands[i]->out_file = tokens[i + j + 1]->value;
+					j++;					
+				}
+			}
 			j++;
 		}
 		j = 0;
 		i++;
 	}
+	commands[i] = NULL;
 	return (commands);
 }
