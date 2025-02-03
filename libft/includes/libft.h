@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:31:38 by alacroix          #+#    #+#             */
-/*   Updated: 2025/01/29 17:11:02 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:37:20 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int					ft_strsize_comp(const char *s1, const char *s2);
 char				*ft_itoa(int n);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strdup(const char *s);
+char				*ft_strndup(const char *s1, int n);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strnstr(const char *big, const char *little,
 						size_t len);
