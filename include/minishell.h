@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/04 16:38:04 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:33:15 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -67,7 +68,7 @@ typedef struct s_shell
 	t_token				**tokens;
 	t_command			**cmd_lst;
 	t_env				**env;
-
+	int					status;
 }						t_shell;
 
 // lexer
@@ -90,7 +91,6 @@ void					free_splits(char **split1, char **split2, char *arg);
 void					execute_command(char *av, char **env);
 
 // built in
-void					builtin_cd(char **cmd);
 
 // ERROR
 void					error(char *msg, char *target);

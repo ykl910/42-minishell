@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 12:06:19 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/04 12:40:51 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:44:17 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@
 # define ARG "Error: Invalid argument(s)"
 # define OPEN_FD "Error: Cannot open file ->"
 # define PERM "Error: Permission denied -> "
-
+# define EXIT "numeric argument required"
 #endif
