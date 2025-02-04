@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kyang <kyang@student.42.fr>                +#+  +:+       +#+         #
+#    By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:15:05 by kyang             #+#    #+#              #
-#    Updated: 2025/02/03 15:36:01 by kyang            ###   ########.fr        #
+#    Updated: 2025/02/04 14:11:01 by alacroix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,14 @@ SRC_PATH = src/
 SRC 	= main.c \
 			built_in.c \
 			lexer.c \
-			parser.c
+			parser.c \
+			error.c
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 
 LIBFT = ./libft
 
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror
 
 OBJS = $(SRCS:.c=.o)
 
@@ -33,9 +34,9 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT)
 	make all -C libft
 	$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME) -lreadline
-	
+
 %.o: %.c
-	$(CC) $(CFLAGS) -Iinclude -I $(LIBFT) -O3 -c $< -o $@ 
+	$(CC) $(CFLAGS) -Iinclude -I $(LIBFT) -O3 -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
@@ -44,7 +45,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	make -C $(LIBFT) fclean
-	
+
 re: fclean all
 
 .PHONY: all clean fclean re bonus

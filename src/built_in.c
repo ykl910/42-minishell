@@ -3,26 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:51:20 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 15:34:23 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/04 14:17:15 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	built_in_cd(char *r)
+void	builtin_cd(char *line)
 {
-	char	**av;
+	char		**cmd;
+	const char	*home_path;
 
-	av = ft_split(r, ' ');
-	if (ft_strncmp(av[0], "cd", 3) == 0)
+	if (!line)
+		return ;
+	cmd = ft_split(line, ' ');
+	home_path = NULL;
+	if (!cmd)
+		return (error(MEM, "built_in_cd"));
+	if (!ft_strncmp(cmd[0], "cd", ft_strlen(cmd[0])))
 	{
-		if (av[1] == NULL)
-			error();
-		else if (chdir(av[1]) != 0)
-			error();
+		if (!cmd[1])
+		{
+			home_path = getenv("HOME");
+			if (!home_path)
+				return (error("HOME not set", NULL));
+			chdir(home_path);
+		}
+		else if (chdir(cmd[1]) == -1)
+			error(FILE_DIR, cmd[1]);
 	}
-	printf("you are at %s", av[1]);
+}
+
+void	builtin_echo(char *line)
+{
+
 }

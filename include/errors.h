@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/23 12:56:40 by alacroix          #+#    #+#             */
-/*   Updated: 2025/01/23 12:57:00 by alacroix         ###   ########.fr       */
+/*   Created: 2025/01/23 12:06:19 by alacroix          #+#    #+#             */
+/*   Updated: 2025/02/04 12:40:51 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#ifndef ERRORS_H
+# define ERRORS_H
 
-void	error(char *msg, char *target)
-{
-	ft_putstr_fd(msg, STDERR_FILENO);
-	if (target)
-		ft_putstr_fd(target, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
-}
+# define CMD "Error: Command not found -> "
+# define FILE_DIR "Error: No such file or directory -> "
+# define MEM "Error: Cannot allocate memory in fuction "
+# define ARG "Error: Invalid argument(s)"
+# define OPEN_FD "Error: Cannot open file ->"
+# define PERM "Error: Permission denied -> "
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 17:19:22 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:35:32 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
+# include "errors.h"
 # include <curses.h>
 # include <dirent.h>
 # include <errno.h>
@@ -37,43 +38,45 @@ typedef enum
 	TOKEN_HERE_DOC,
 	TOKEN_REDIRECT_APPEND,
 	TOKEN_TEXT,
-}				e_token;
+}			e_token;
 
 typedef struct s_token
 {
-	e_token		token_type;
-	char		*value;
-}				t_token;
+	e_token	token_type;
+	char	*value;
+}			t_token;
 
 typedef struct s_command
 {
-	char		**name;
-	char		*in_file;
-	char		*out_file;
-	int			index;
-	t_command	*next;
-}				t_command;
+	char	**name;
+	char	*in_file;
+	char	*out_file;
+	int		index;
+	void	*next;
+}			t_command;
 
 // lexer
-int				count_input(char *av);
-int				ft_isspace(char c);
-t_token			*init_token(e_token type, char *av);
-t_token			**lexer(char *av);
+int			count_input(char *av);
+int			ft_isspace(char c);
+t_token		*init_token(e_token type, char *av);
+t_token		**lexer(char *av);
 
 // parser
 
 // exec
-char			*get_path(char **paths, char *arg, char **split_arg);
-char			*get_env(char *arg, char **split_arg);
-char			**exec_args(char *av);
-char			**exec_args_list(char **args, char *first, int i, int j);
-void			free_split(char **split);
-void			free_split2(char **split);
-void			free_splits(char **split1, char **split2, char *arg);
-void			error(void);
-void			execute_command(char *av, char **env);
+char		*get_path(char **paths, char *arg, char **split_arg);
+char		*get_env(char *arg, char **split_arg);
+char		**exec_args(char *av);
+char		**exec_args_list(char **args, char *first, int i, int j);
+void		free_split(char **split);
+void		free_split2(char **split);
+void		free_splits(char **split1, char **split2, char *arg);
+void		execute_command(char *av, char **env);
 
 // built in
-void			built_in_cd(char *r);
+void		built_in_cd(char *r);
+
+// ERROR
+void		error(char *msg, char *target);
 
 #endif

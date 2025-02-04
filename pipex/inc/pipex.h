@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 12:05:07 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/03 18:25:16 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:02:42 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # define FD_MAX 1024
 
 # include "../../libft/includes/libft.h"
-# include "errors.h"
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdio.h>

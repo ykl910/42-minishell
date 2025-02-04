@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 17:26:40 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:20:08 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int ac, char **env)
 		line = readline("input prompt > ");
 		if (line)
 			add_history(line);
+		built_in_cd(line);
 		while (lexer(line)[i])
 		{
 			printf("%u - %s\n", lexer(line)[i]->token_type,
