@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 18:22:59 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/04 12:13:23 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,9 @@ t_token						**lexer(char *av);
 // parser
 t_command					*init_command(void);
 char						**append_args(char **origin_args, char *new_arg);
-t_command					**parser(t_token **tokens);
+t_command					*parser(t_token **tokens);
 
 // exec
 
-
-// built in
-void						built_in_cd(char *r);
 
 #endif
