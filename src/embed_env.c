@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   embed_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/04 14:32:03 by alacroix         ###   ########.fr       */
+/*   Created: 2025/02/04 16:15:11 by alacroix          #+#    #+#             */
+/*   Updated: 2025/02/04 17:38:20 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **env)
+void	embed_env(t_env **env, char **envp)
 {
-	char	*line;
-	int		i;
+	int	i;
 
-	(void)ac;
-	(void)env;
-	while (1)
+	i = 0;
+	while (envp[i])
 	{
-		i = 0;
-		line = readline("input prompt > ");
-		if (line)
-			add_history(line);
-		while (lexer(line)[i])
-		{
-			printf("%u - %s\n", lexer(line)[i]->token_type,
-				lexer(line)[i]->value);
-			i++;
-		}
-		free(line);
+		builtin_export(envp[i], env);
+		i++;
 	}
-	return (0);
 }
