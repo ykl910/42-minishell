@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/04 12:13:23 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/04 17:22:07 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ typedef enum
 	TOKEN_REDIRECT_OUT,
 	TOKEN_HERE_DOC,
 	TOKEN_REDIRECT_APPEND,
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_LPAREN,
+	TOKEN_RPAREN,
 	TOKEN_TEXT,
 }							e_token;
 
@@ -58,7 +62,7 @@ typedef struct s_command
 
 // lexer
 int							count_input(char *av);
-int							ft_isspace(char c);
+int							ft_issep(char c);
 t_token						*init_token(e_token type, char *av);
 t_token						**lexer(char *av);
 

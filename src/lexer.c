@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/03 15:34:07 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/04 17:22:30 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_token	*init_token(e_token type, char *av)
 	return (token);
 }
 
-int	ft_isspace(char c)
+int	ft_issep(char c)
 {
-	if (c <= ' ')
+	if (c <= ' ' || c == '>' || c == '<' || c == '|' || c == '&' || c == '(' || c == ')')
 		return (1);
 	return (0);
 }
@@ -42,7 +42,37 @@ int	count_input(char *av)
 	c = 0;
 	while (av[i])
 	{
-		if (!ft_isspace(av[i]) && ft_isspace(av[i + 1]))
+		if (av[i] == '|' && av[i + 1] && av[i + 1] != '|')
+			c++;
+		else if (av[i] == '<' && av[i + 1] && av[i + 1] == '<')
+		{
+			c++;
+			i++;
+		}
+		else if (av[i] == '<' && av[i + 1] && av[i + 1] != '<')
+			c++;
+		else if (av[i] == '>' && av[i + 1] && av[i + 1] == '>')
+		{
+			c++;
+			i++;
+		}
+		else if (av[i] == '>' && av[i + 1] && av[i + 1] != '>')
+			c++;
+		else if (av[i] == '&' && av[i + 1] && av[i + 1] == '&')
+		{
+			c++;
+			i++;
+		}
+		else if (av[i] == '|' && av[i + 1] && av[i + 1] == '|')
+		{
+			c++;
+			i++;
+		}
+		else if (av[i] == '(')
+			c++;
+		else if (av[i] == ')')
+			c++;
+		else if (!ft_issep(av[i]) && ft_issep(av[i + 1]))
 			c++;
 		i++;
 	}
@@ -56,16 +86,19 @@ t_token	**lexer(char *av)
 	int		i;
 	int		j;
 	int		start;
+	char	quote;
 
 	i = 0;
 	j = 0;
+	// expand_env_variable(av);
 	count = count_input(av);
+	printf("%d",count);
 	tokens = ft_calloc(count + 1, sizeof(t_token *));
 	if (!tokens)
 		return (ft_putstr_fd("lexer calloc", STDERR_FILENO), NULL);
 	while (av[i])
 	{
-		while (ft_isspace(av[i]))
+		while (av[i] <= ' ')
 			i++;
 		if (av[i] == '<' && av[i + 1] == '<')
 		{
@@ -87,19 +120,44 @@ t_token	**lexer(char *av)
 			tokens[j] = init_token(TOKEN_REDIRECT_OUT, ">");
 			i += 1;
 		}
-		else if (av[i] == '|')
+		else if (av[i] == '|' && av[i + 1] != '|')
 		{
 			tokens[j] = init_token(TOKEN_PIPE, "|");
+			i += 1;
+		}
+		else if (av[i] == '&' && av[i + 1] == '&')
+		{
+			tokens[j] = init_token(TOKEN_AND, "&&");
+			i += 2;
+		}
+		else if (av[i] == '|' && av[i + 1] == '|')
+		{
+			tokens[j] = init_token(TOKEN_OR, "||");
+			i += 2;
+		}
+		else if (av[i] == '(')
+		{
+			tokens[j] = init_token(TOKEN_LPAREN, "(");
+			i += 1;
+		}
+		else if (av[i] == ')')
+		{
+			tokens[j] = init_token(TOKEN_RPAREN, ")");
 			i += 1;
 		}
 		else
 		{
 			start = i;
-			while (!ft_isspace(av[i]) && av[i] != '>' && av[i] != '<'
-				&& av[i] != '|')
+			quote = 0;
+			while (av[i] && (!ft_issep(av[i]) || quote))
+			{
+				if (!quote && (av[i] == '\'' || av[i] == '"'))
+					quote = av[i];
+				else if (quote && av[i] == quote)
+					quote = 0;
 				i++;
-			tokens[j] = init_token(TOKEN_TEXT, ft_strndup(av + start, i
-						- start));
+			}
+			tokens[j] = init_token(TOKEN_TEXT, ft_strndup(av + start, i - start));
 		}
 		j++;
 	}
