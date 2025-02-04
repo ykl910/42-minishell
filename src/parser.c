@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 12:02:38 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/04 12:12:02 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/04 17:12:26 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_command	*parser(t_token **tokens)
 		current->index = index;
 		while (tokens[i + j] && tokens[i + j]->token_type != 0)
 		{
-			if (tokens[i + j]->token_type == 5)
+			if (tokens[i + j]->token_type == 9)
 			{
 				if (!new_cmd->name)
 				{
