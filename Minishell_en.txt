@@ -1,0 +1,110 @@
+Minishell
+
+DONE 1. **Project Initialization and Structure**
+
+	1.1 File Creation and Organization 
+	- Create a clear project structure with folders for:
+v		- **src/** (main source code)  
+v		- **includes/** (header files)
+v		- **libs/** (libft or other internal libraries)
+v	- Set up a **Makefile** for efficient project compilation.
+v	- Ensure error handling in compilation with `-Wall -Wextra -Werror`.
+
+	1.2 Data Structure Management
+v		- Define a main structure `t_shell` that will contain:
+v		- The environment (`char **envp`)
+v		- A linked list to store parsed commands with fd in and out.
+v		- A list of tokens.
+
+	1.3 Task Distribution
+	- **Teammate A:**
+v		- Create the Makefile.
+v		- Organize files and folder structures.
+v		- Define the `t_shell` structure and allocate associated memory.
+	- **Teammate B:**
+v		- Read environment and initialize `envp`.
+v		- Create utility functions for manipulating `envp`.
+
+2. **Parsing and Tokenization**
+
+	2.1 Splitting Input into Tokens
+v	- Read user input using `readline()`.
+v	- Check if the command line is empty (`NULL` or `\n` alone).
+wip	- Use a custom function to **split** the line into tokens.
+wip	- Identify **special operators** (`|`, `>`, `<`, `>>`, `<<`, `$` for environment variables, etc.).
+v	- Handle **quotes** (`'` and `"`) to preserve spaces in arguments and prevent unwanted expansion.
+	- Validate token syntax before proceeding to the next step.
+	
+	2.2 Handling Environment Variables
+	- Implement expansion of `$VAR` by retrieving environment variables and check if called variables exist; 
+	otherwise, return an empty string.
+	- Handle special cases like `$?` for the last return code.
+	
+	2.3 Creating a Abstract Syntax Tree
+	- Define the structure (command type, name, fd_in, fd_out, left node, right node).
+	- Loop through the list of tokens and stop when the first ( || && ()) is found, which will be the root.
+	- The left part of the abovementioned stop is the left node of the root.
+	- 
+
+	2.4 Task Distribution
+	- **Teammate A:**
+		- Implement the `read_input()` function to handle `readline()`.
+		- Handle tokenization and syntax validation of commands.
+	- **Teammate B:**
+		- Manage environment variable expansion (`$VAR`, `$?`).
+		- Create and manipulate the `t_cmd` linked list.
+
+
+3. **Handling Pipes and Redirections**
+
+	3.1 Pipes (`|`)
+	- Detect `|` in the command line.
+	- Create a pipe using `pipe(fd)`.
+	- Redirect `STDOUT` of the first command to `fd[1]`.
+	- Redirect `STDIN` of the next command to `fd[0]`.
+	- Close unnecessary file descriptors.
+
+	3.2 Redirections (`>`, `>>`, `<`, `<<`)
+	- **`>`**: Open a file in **write (truncate)** mode using `open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644)`.
+	- **`>>`**: Open a file in **append mode** using `open(file, O_WRONLY | O_CREAT | O_APPEND, 0644)`.
+	- **`<`**: Open a file in **read mode** using `open(file, O_RDONLY)` and redirect `STDIN`.
+	- **`<<` (Heredoc)**:
+	- Read until **delimiter** (e.g., `EOF`).
+	- Store in a temporary file or use `pipe()` to pass data directly to `STDIN`.
+	- Handle `CTRL+C` to cancel input.
+
+	3.3 Task Distribution
+	- **Teammate A:**
+		- Implement pipes (`pipe()`, `dup2()`).
+		- Manage `STDIN` and `STDOUT` redirections between commands.
+	- **Teammate B:**
+		- Handle file operations (`open()`, `close()`).
+		- Implement **heredoc** with `readline()` and `SIGINT`.
+
+
+4. **Executing Commands**
+
+	Task Distribution
+	- **Teammate A:**
+		- Find binaries (`execve()`, resolve `PATH`).
+		- Handle errors (`command not found`).
+	- **Teammate B:**
+		- Manage processes (`fork`, `waitpid`).
+		- Handle return codes and error propagation.
+
+
+5. **Implementing Builtins**
+
+	- Done !
+
+
+6. **Handling Signals**
+
+	Task Distribution
+	- **Teammate A:**
+		- Capture signals (`SIGINT`, `SIGQUIT`)
+	- **Teammate B:**
+		- Mask and restore signals
+
+
+
