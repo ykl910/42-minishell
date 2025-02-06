@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/04 17:22:07 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/05 17:13:45 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,15 @@ typedef enum
 	TOKEN_TEXT,
 }							e_token;
 
+typedef enum
+{
+	COMMAND_SIMPLE,
+	COMMAND_PIPE,
+	COMMAND_AND,
+	COMMAND_OR,
+	COMMAND_SUBSHELL,
+}							e_command;
+
 typedef struct s_token
 {
 	e_token					token_type;
@@ -53,9 +62,12 @@ typedef struct s_command	t_command;
 
 typedef struct s_command
 {
+	e_command				command_type;
 	char					**name;
 	char					*in_file;
 	char					*out_file;
+	t_command				*left_node;
+	t_command				*right_node;
 	int						index;
 	t_command				*next;
 }							t_command;

@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/04 17:22:30 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/05 19:44:09 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ t_token	**lexer(char *av)
 	j = 0;
 	// expand_env_variable(av);
 	count = count_input(av);
-	printf("%d",count);
 	tokens = ft_calloc(count + 1, sizeof(t_token *));
 	if (!tokens)
 		return (ft_putstr_fd("lexer calloc", STDERR_FILENO), NULL);
