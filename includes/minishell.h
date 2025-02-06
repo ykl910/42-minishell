@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/06 12:47:01 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:56:43 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,18 @@ typedef enum
 	TOKEN_TEXT,
 }					e_token;
 
-typedef enum
+typedef enum e_node_type
 {
-	COMMAND_SIMPLE,
-	COMMAND_PIPE,
-	COMMAND_AND,
-	COMMAND_OR,
-	COMMAND_SUBSHELL,
-}					e_command;
+	COMMAND,       // CMD
+	PIPE,          // |
+	AND,           // &&
+	OR,            // ||
+	REDIR_IN,      // <
+	RDIT_OUT,      // >
+	REDIR_APPEND,  // >>
+	REDIR_HEREDOC, // <<
+	SUBSHELL       // (..)
+}					t_node_type;
 
 typedef struct s_token
 {
@@ -60,12 +64,13 @@ typedef struct s_token
 
 typedef struct s_ast
 {
-	e_command		command_type;
-	char			**name;
-	char			*in_file;
-	char			*out_file;
-	struct s_ast	*left_node;
-	struct s_ast	*right_node;
+	t_node_type node_type;    // atom type
+	char **args;              // CMD args
+	struct s_ast *left_node;  // left son
+	struct s_ast *right_node; // right son
+	struct s_ast *subshell;   // manage Subshells
+	char *redir_file;         // target filles for redirections
+	struct s_ast *next;       // chain redirections
 }					t_ast;
 
 /*MAIN*/
@@ -77,10 +82,8 @@ int					ft_issep(char c);
 t_token				*init_token(e_token type, char *av);
 t_token				**lexer(char *av);
 
-// /*PARSER*/
-// t_ast				*init_command(void);
-// char				**append_args(char **origin_args, char *new_arg);
-// t_ast				*parser(t_token **tokens);
+/*PARSER*/
+t_ast	*parser(t_token *token_lst);
 
 /*EXECUTOR*/
 
