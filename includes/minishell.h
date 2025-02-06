@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/06 16:23:09 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:42:26 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef enum
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
 	TOKEN_TEXT,
-}					e_token;
+}			e_token;
 
 typedef enum e_node_type
 {
@@ -50,17 +50,17 @@ typedef enum e_node_type
 	AND,           // &&
 	OR,            // ||
 	REDIR_IN,      // <
-	RDIT_OUT,      // >
+	REDIR_OUT,      // >
 	REDIR_APPEND,  // >>
-	REDIR_HEREDOC, // <<
+	HEREDOC, // <<
 	SUBSHELL       // (..)
-}					t_node_type;
+}			t_node_type;
 
 typedef struct s_token
 {
-	e_token			token_type;
-	char			*value;
-}					t_token;
+	e_token	token_type;
+	char	*value;
+}			t_token;
 
 typedef struct s_ast
 {
@@ -71,19 +71,23 @@ typedef struct s_ast
 	struct s_ast *subshell;   // manage Subshells
 	char *redir_file;         // target filles for redirections
 	struct s_ast *next;       // chain redirections
-}					t_ast;
+}			t_ast;
 
 /*MAIN*/
-int					main(int ac, char **envp);
+int			main(int ac, char **envp);
 
 /*LEXER*/
-int					count_input(char *av);
-int					ft_issep(char c);
-t_token				*init_token(e_token type, char *av);
-t_token				**lexer(char *av);
+int			count_input(char *av);
+int			ft_issep(char c);
+t_token		*init_token(e_token type, char *av);
+t_token		**lexer(char *av);
 
 /*PARSER*/
-t_ast	*parser(t_token *token_lst);
+char		**create_arg(t_token *token_lst, int *token_index);
+t_ast		*parse_cmd(t_token *token_lst, int *token_index);
+t_ast		*parse_pipe(t_token *token_lst, int *token_index);
+t_ast		*parse_logic_operator(t_token *token_lst, int *token_index);
+t_ast		*parser(t_token *token_lst);
 
 /*EXECUTOR*/
 

@@ -6,14 +6,13 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/06 12:45:15 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:53:19 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-//debug function(s)//
+// debug function(s)//
 static void	print_token_lst(t_token **tkn_lst)
 {
 	int	i;
@@ -69,8 +68,9 @@ static void	print_token_lst(t_token **tkn_lst)
 
 int	main(int ac, char **envp)
 {
-	char		*line;
-	t_token		**tokens;
+	char	*line;
+	t_token	**tokens;
+	t_ast	*ast;
 
 	(void)ac;
 	(void)envp;
@@ -81,6 +81,7 @@ int	main(int ac, char **envp)
 			add_history(line);
 		tokens = lexer(line);
 		print_token_lst(tokens);
+		ast = parser(*tokens);
 		free(line);
 	}
 	return (0);
