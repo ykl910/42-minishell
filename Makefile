@@ -1,50 +1,55 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: kyang <kyang@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/01/29 15:15:05 by kyang             #+#    #+#              #
-#    Updated: 2025/02/05 19:43:49 by kyang            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 
+SRCDIR = src
+OBJDIR = obj
+INCDIR = includes
+
+SRC_MAIN = src/main.c
+SRC_LEXER = src/lexer/lexer.c
+SRC_PARSER = src/parser/ast_builder.c
+
+SRC = $(SRC_MAIN) $(SRC_LEXER) $(SRC_PARSER)
+OBJ = $(patsubst %.c, $(OBJDIR)/%.o, $(SRC))
+
+LIBFT_DIR := libft
+LIBFT := $(LIBFT_DIR)/libft.a
+LIBFT_INCLUDE := $(LIBFT_DIR)/includes
+LDFLAGS = -L$(LIBFT_DIR)
+LIBS = $(LIBFT)
+
+READ_LIB = -lreadline
+
+AR = ar
+ARFLAGS = rcs
+
 CC = cc
+CFLAGS = -Wall -Wextra -Werror -I$(INCDIR) -g3 -I$(LIBFT_INCLUDE)
 
-SRC_PATH = src/
-SRC 	= main.c \
-			executor/built_in.c \
-			lexer/lexer.c \
-			parser/parser.c
+all: $(OBJDIR) $(LIBFT) $(NAME)
 
-SRCS	= $(addprefix $(SRC_PATH), $(SRC))
+$(OBJDIR):
+	mkdir -p $(OBJDIR) || true
 
-LIBFT = ./libft
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
-CFLAGS = -Wall -Wextra -Werror 
+-include $(OBJ:.o=.d)
 
-OBJS = $(SRCS:.c=.o)
+$(NAME): $(OBJ) $(LIBFT)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(LIBS) $(READ_LIB) -o $(NAME)
 
-all: $(NAME)
-
-$(NAME): $(OBJS) $(LIBFT)
-	make all -C libft
-	$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME) -lreadline
-	
-%.o: %.c
-	$(CC) $(CFLAGS) -Iinclude -I $(LIBFT) -O3 -c $< -o $@ 
+$(LIBFT):
+	$(MAKE) --silent -C $(LIBFT_DIR)
 
 clean:
-	rm -f $(OBJS)
-	make -C $(LIBFT) clean
+	rm -rf $(OBJDIR)
 
 fclean: clean
 	rm -f $(NAME)
-	make -C $(LIBFT) fclean
-	
+	$(MAKE) --silent -C $(LIBFT_DIR) fclean
+
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
+.DEFAULT_GOAL := all

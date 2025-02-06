@@ -1,28 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.c                                         :+:      :+:    :+:   */
+/*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/29 17:51:20 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/04 09:43:09 by kyang            ###   ########.fr       */
+/*   Created: 2025/02/06 12:33:09 by alacroix          #+#    #+#             */
+/*   Updated: 2025/02/06 12:33:22 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	built_in_cd(char *r)
-// {
-// 	char	**av;
-
-// 	av = ft_split(r, ' ');
-// 	if (ft_strncmp(av[0], "cd", 3) == 0)
-// 	{
-// 		if (av[1] == NULL)
-// 			error();
-// 		else if (chdir(av[1]) != 0)
-// 			error();
-// 	}
-// 	printf("you are at %s", av[1]);
-// }
