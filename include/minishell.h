@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/05 17:13:45 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/06 11:35:24 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef enum
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
 	TOKEN_TEXT,
-}							e_token;
+}						e_token;
 
 typedef enum
 {
@@ -50,40 +50,35 @@ typedef enum
 	COMMAND_AND,
 	COMMAND_OR,
 	COMMAND_SUBSHELL,
-}							e_command;
+}						e_command;
 
 typedef struct s_token
 {
-	e_token					token_type;
-	char					*value;
-}							t_token;
-
-typedef struct s_command	t_command;
+	e_token				token_type;
+	char				*value;
+}						t_token;
 
 typedef struct s_command
 {
-	e_command				command_type;
-	char					**name;
-	char					*in_file;
-	char					*out_file;
-	t_command				*left_node;
-	t_command				*right_node;
-	int						index;
-	t_command				*next;
-}							t_command;
+	e_command			command_type;
+	char				**name;
+	char				*in_file;
+	char				*out_file;
+	struct s_command	*left_node;
+	struct s_command	*right_node;
+	int					index;
+	struct s_command	*next;
+}						t_command;
 
 // lexer
-int							count_input(char *av);
-int							ft_issep(char c);
-t_token						*init_token(e_token type, char *av);
-t_token						**lexer(char *av);
+int						count_input(char *av);
+int						ft_issep(char c);
+t_token					*init_token(e_token type, char *av);
+t_token					**lexer(char *av);
 
 // parser
-t_command					*init_command(void);
-char						**append_args(char **origin_args, char *new_arg);
-t_command					*parser(t_token **tokens);
-
-// exec
-
+t_command				*init_command(void);
+char					**append_args(char **origin_args, char *new_arg);
+t_command				*parser(t_token **tokens);
 
 #endif
