@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/06 11:35:24 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:38:53 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,14 @@ typedef struct s_token
 	e_token				token_type;
 	char				*value;
 }						t_token;
+
+typedef struct s_ast
+{
+	t_token				type;
+	char				**name;
+	struct s_ast		left;
+	struct s_ast		right;
+}						t_ast;
 
 typedef struct s_command
 {
