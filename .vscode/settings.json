@@ -1,6 +1,10 @@
 {
 	"files.associations": {
 		"type_traits": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"minishell.h": "c"
+	},
+	"[c]": {
+		 "editor.defaultFormatter": "keyhr.42-c-format"
 	}
 }

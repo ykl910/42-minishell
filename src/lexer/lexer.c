@@ -6,160 +6,131 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/05 19:44:09 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/06 18:52:59 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*init_token(e_token type, char *av)
+t_token	*create_redir(char *av, int *i)
 {
-	t_token	*token;
+	t_token	*new_token;
 
-	token = ft_calloc(1, (sizeof(t_token)));
-	if (!token)
-		return (NULL);
-	token->token_type = type;
-	token->value = ft_strdup(av);
-	if (!token->value)
-		return (ft_putstr_fd("init token malloc error", STDERR_FILENO), NULL);
-	return (token);
-}
-
-int	ft_issep(char c)
-{
-	if (c <= ' ' || c == '>' || c == '<' || c == '|' || c == '&' || c == '(' || c == ')')
-		return (1);
-	return (0);
-}
-
-int	count_input(char *av)
-{
-	int	i;
-	int	c;
-
-	i = 0;
-	c = 0;
-	while (av[i])
+	new_token = NULL;
+	if (av[*i] == '<' && av[*i + 1] == '<')
 	{
-		if (av[i] == '|' && av[i + 1] && av[i + 1] != '|')
-			c++;
-		else if (av[i] == '<' && av[i + 1] && av[i + 1] == '<')
-		{
-			c++;
-			i++;
-		}
-		else if (av[i] == '<' && av[i + 1] && av[i + 1] != '<')
-			c++;
-		else if (av[i] == '>' && av[i + 1] && av[i + 1] == '>')
-		{
-			c++;
-			i++;
-		}
-		else if (av[i] == '>' && av[i + 1] && av[i + 1] != '>')
-			c++;
-		else if (av[i] == '&' && av[i + 1] && av[i + 1] == '&')
-		{
-			c++;
-			i++;
-		}
-		else if (av[i] == '|' && av[i + 1] && av[i + 1] == '|')
-		{
-			c++;
-			i++;
-		}
-		else if (av[i] == '(')
-			c++;
-		else if (av[i] == ')')
-			c++;
-		else if (!ft_issep(av[i]) && ft_issep(av[i + 1]))
-			c++;
-		i++;
+		new_token = init_token(TOKEN_HERE_DOC, "<<");
+		*i += 2;
 	}
-	return (c);
+	else if (av[*i] == '>' && av[*i + 1] == '>')
+	{
+		new_token = init_token(TOKEN_REDIRECT_APPEND, ">>");
+		*i += 2;
+	}
+	else if (av[*i] == '<' && av[*i + 1] != '<')
+	{
+		new_token = init_token(TOKEN_REDIRECT_IN, "<");
+		*i += 1;
+	}
+	else if (av[*i] == '>' && av[*i + 1] != '<')
+	{
+		new_token = init_token(TOKEN_REDIRECT_OUT, ">");
+		*i += 1;
+	}
+	return (new_token);
 }
 
-t_token	**lexer(char *av)
+t_token	*create_logical_ops_parantheses(char *av, int *i)
 {
-	t_token	**tokens;
-	int		count;
-	int		i;
-	int		j;
+	t_token	*new_token;
+
+	new_token = NULL;
+	if (av[*i] == '&' && av[*i + 1] == '&')
+	{
+		new_token = init_token(TOKEN_AND, "&&");
+		*i += 2;
+	}
+	else if (av[*i] == '|' && av[*i + 1] == '|')
+	{
+		new_token = init_token(TOKEN_OR, "||");
+		*i += 2;
+	}
+	else if (av[*i] == '(')
+	{
+		new_token = init_token(TOKEN_LPAREN, "(");
+		*i += 1;
+	}
+	else if (av[*i] == ')')
+	{
+		new_token = init_token(TOKEN_RPAREN, ")");
+		*i += 1;
+	}
+	return (new_token);
+}
+
+t_token	*create_pipe_text(char *av, int *i)
+{
+	t_token	*new_token;
 	int		start;
-	char	quote;
+	int		quote;
+
+	new_token = NULL;
+	if (av[*i] == '|' && av[*i + 1] != '|')
+	{
+		new_token = init_token(TOKEN_PIPE, "|");
+		*i += 1;
+	}
+	else
+	{
+		start = *i;
+		quote = 0;
+		while (av[*i] && (!ft_issep(av[*i]) || quote))
+		{
+			if (!quote && (av[*i] == '\'' || av[*i] == '"'))
+				quote = av[*i];
+			else if (quote && av[*i] == quote)
+				quote = 0;
+			(*i)++;
+		}
+		new_token = init_token(TOKEN_TEXT, ft_strndup(av + start, *i - start));
+	}
+	return (new_token);
+}
+
+t_token	*create_token(char *av, int *i)
+{
+	t_token	*new_token;
+
+	new_token = NULL;
+	new_token = create_redir(av, i);
+	if (!new_token)
+		new_token = create_logical_ops_parantheses(av, i);
+	if (!new_token)
+		new_token = create_pipe_text(av, i);
+	return (new_token);
+}
+
+t_token	*lexer(char *av)
+{
+	t_token	*tokens;
+	t_token	*current;
+	t_token	*new_token;
+	int		i;
 
 	i = 0;
-	j = 0;
-	// expand_env_variable(av);
-	count = count_input(av);
-	tokens = ft_calloc(count + 1, sizeof(t_token *));
-	if (!tokens)
-		return (ft_putstr_fd("lexer calloc", STDERR_FILENO), NULL);
+	tokens = NULL;
+	current = NULL;
 	while (av[i])
 	{
 		while (av[i] <= ' ')
 			i++;
-		if (av[i] == '<' && av[i + 1] == '<')
-		{
-			tokens[j] = init_token(TOKEN_HERE_DOC, "<<");
-			i += 2;
-		}
-		else if (av[i] == '>' && av[i + 1] == '>')
-		{
-			tokens[j] = init_token(TOKEN_REDIRECT_APPEND, ">>");
-			i += 2;
-		}
-		else if (av[i] == '<' && av[i + 1] != '<')
-		{
-			tokens[j] = init_token(TOKEN_REDIRECT_IN, "<");
-			i += 1;
-		}
-		else if (av[i] == '>' && av[i + 1] != '<')
-		{
-			tokens[j] = init_token(TOKEN_REDIRECT_OUT, ">");
-			i += 1;
-		}
-		else if (av[i] == '|' && av[i + 1] != '|')
-		{
-			tokens[j] = init_token(TOKEN_PIPE, "|");
-			i += 1;
-		}
-		else if (av[i] == '&' && av[i + 1] == '&')
-		{
-			tokens[j] = init_token(TOKEN_AND, "&&");
-			i += 2;
-		}
-		else if (av[i] == '|' && av[i + 1] == '|')
-		{
-			tokens[j] = init_token(TOKEN_OR, "||");
-			i += 2;
-		}
-		else if (av[i] == '(')
-		{
-			tokens[j] = init_token(TOKEN_LPAREN, "(");
-			i += 1;
-		}
-		else if (av[i] == ')')
-		{
-			tokens[j] = init_token(TOKEN_RPAREN, ")");
-			i += 1;
-		}
+		new_token = NULL;
+		new_token = create_token(av, &i);
+		if (!tokens)
+			tokens = new_token;
 		else
-		{
-			start = i;
-			quote = 0;
-			while (av[i] && (!ft_issep(av[i]) || quote))
-			{
-				if (!quote && (av[i] == '\'' || av[i] == '"'))
-					quote = av[i];
-				else if (quote && av[i] == quote)
-					quote = 0;
-				i++;
-			}
-			tokens[j] = init_token(TOKEN_TEXT, ft_strndup(av + start, i - start));
-		}
-		j++;
+			current->next = new_token;
+		current = new_token;
 	}
-	tokens[j] = NULL;
 	return (tokens);
 }

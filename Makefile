@@ -6,7 +6,7 @@
 #    By: kyang <kyang@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 15:15:05 by kyang             #+#    #+#              #
-#    Updated: 2025/02/05 19:43:49 by kyang            ###   ########.fr        #
+#    Updated: 2025/02/06 18:05:01 by kyang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,10 @@ SRC_PATH = src/
 SRC 	= main.c \
 			executor/built_in.c \
 			lexer/lexer.c \
-			parser/parser.c
+			lexer/utils.c \
+			parser/parser.c \
+			parser/precedence_climbing.c \
+			parser/utils.c
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 
