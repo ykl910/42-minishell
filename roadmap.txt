@@ -11,3 +11,8 @@ ENV VAR:
 ----EXECUTER
 HOW TO MANAGE SEVERAL PIPES ex: "< Makefile grep SRC > test | cat"
 	When the left side of a pipe is redirection, it's equivalent to a call to a pipex in a pipex with output of the previous pipe as input
+
+
+----Pipeline
+
+export, unset, cd and exit should not be executed in a pipe (they only return 0 to thr outfile)

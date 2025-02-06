@@ -6,13 +6,13 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/04 12:11:36 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/05 17:14:27 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **env)
+int	main(int ac, char **envp)
 {
 	char	*line;
 	int		i;
@@ -20,7 +20,7 @@ int	main(int ac, char **env)
 	t_command *current;
 
 	(void)ac;
-	(void)env;
+	(void)envp;
 	while (1)
 	{
 		i = 0;
