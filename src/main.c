@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 12:39:09 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 12:47:31 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	print_ast(t_ast_node *node, int depth)
 int	main(int ac, char **envp)
 {
 	char		*line;
-	int			i;
 	t_token		*tokens;
 	t_ast_node	*ast;
 
