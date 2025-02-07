@@ -6,12 +6,14 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/06 18:53:52 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 11:48:04 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+/*Revoir la maniere de free si erreur -> retour main et appel fonction free de struct(s)*/
 char	**append_args(char **origin_args, char *new_arg)
 {
 	char	**new_args;
@@ -29,15 +31,14 @@ char	**append_args(char **origin_args, char *new_arg)
 		new_args[i] = ft_strdup(origin_args[i]);
 		if (!new_args[i])
 			return (ft_putstr_fd("malloc error app.arg\n", STDERR_FILENO),
-				NULL);
-		free(origin_args[i]);
+				ft_free_tab((void **)new_args), NULL);
 		i++;
 	}
-	free(origin_args);
+	ft_free_tab((void **)origin_args);
 	new_args[i] = ft_strdup(new_arg);
 	if (!new_args[i])
 		return (ft_putstr_fd("malloc error at app.args\n", STDERR_FILENO),
-			NULL);
+			ft_free_tab((void **)new_args), NULL);
 	return (new_args);
 }
 
@@ -53,7 +54,7 @@ int	get_precedence(e_token token)
 	else if (token == TOKEN_LPAREN)
 		return (4);
 	else
-		return (-1);
+		return (0);
 }
 
 e_command	get_command_type(e_token token_type)

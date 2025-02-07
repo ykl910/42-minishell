@@ -6,11 +6,13 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:24:18 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/06 18:53:46 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 11:51:16 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*Gerer cas de figure si create_node renvoie NULL -> Retour Main et free ?*/
 
 t_ast_node	*parse_expression(t_token **tokens, int min_precedence)
 {
@@ -34,14 +36,14 @@ t_ast_node	*parse_expression(t_token **tokens, int min_precedence)
 					STDERR_FILENO);
 				exit(1);
 			}
-			file_node = create_node(COMMAND_SIMPLE, NULL, NULL,
+			file_node = create_node(COMMAND_SIMPLE, NULL, NULL,  //ici
 					(*tokens)->value);
 			*tokens = (*tokens)->next;
-			left = create_node(get_command_type(op), left, file_node, NULL);
+			left = create_node(get_command_type(op), left, file_node, NULL); //ici
 			continue ;
 		}
 		right = parse_expression(tokens, precedence + 1);
-		left = create_node(get_command_type(op), left, right, NULL);
+		left = create_node(get_command_type(op), left, right, NULL); //ici
 	}
 	return (left);
 }
@@ -66,18 +68,18 @@ t_ast_node	*parse_primary(t_token **tokens)
 				STDERR_FILENO);
 			exit(1);
 		}
-		file_node = create_node(COMMAND_SIMPLE, NULL, NULL, (*tokens)->value);
+		file_node = create_node(COMMAND_SIMPLE, NULL, NULL, (*tokens)->value); //ici
 		*tokens = (*tokens)->next;
 		node = parse_primary(tokens);
-		return (create_node(get_command_type(op), node, file_node, NULL));
+		return (create_node(get_command_type(op), node, file_node, NULL)); //ici
 	}
 	if ((*tokens)->token_type == TOKEN_TEXT)
 	{
-		node = create_node(COMMAND_SIMPLE, NULL, NULL, (*tokens)->value);
+		node = create_node(COMMAND_SIMPLE, NULL, NULL, (*tokens)->value); //ici
 		*tokens = (*tokens)->next;
 		while ((*tokens) && ((*tokens)->token_type == TOKEN_TEXT))
 		{
-			node->value = append_args(node->value, (*tokens)->value);
+			node->value = append_args(node->value, (*tokens)->value);  //ici
 			*tokens = (*tokens)->next;
 		}
 		return (node);
@@ -92,7 +94,7 @@ t_ast_node	*parse_primary(t_token **tokens)
 			exit(1);
 		}
 		*tokens = (*tokens)->next;
-		return (create_node(COMMAND_SUBSHELL, subshell, NULL, NULL));
+		return (create_node(COMMAND_SUBSHELL, subshell, NULL, NULL)); //ici
 	}
 	ft_putstr_fd("Syntax Error: Unexpected token\n", STDERR_FILENO);
 	exit(1);
