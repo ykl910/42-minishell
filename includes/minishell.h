@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/06 17:42:26 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:39:35 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,50 +45,58 @@ typedef enum
 
 typedef enum e_node_type
 {
-	COMMAND,       // CMD
-	PIPE,          // |
-	AND,           // &&
-	OR,            // ||
-	REDIR_IN,      // <
-	REDIR_OUT,      // >
-	REDIR_APPEND,  // >>
-	HEREDOC, // <<
-	SUBSHELL       // (..)
-}			t_node_type;
+	COMMAND_SIMPLE,
+	COMMAND_PIPE,
+	COMMAND_AND,
+	COMMAND_OR,
+	COMMAND_REDIRECT_IN,
+	COMMAND_REDIRECT_OUT,
+	COMMAND_HERE_DOC,
+	COMMAND_REDIRECT_APPEND,
+	COMMAND_SUBSHELL,
+}							e_command;
+
+typedef struct s_token		t_token;
 
 typedef struct s_token
 {
-	e_token	token_type;
-	char	*value;
-}			t_token;
+	e_token					token_type;
+	char					*value;
+	t_token					*next;
+}							t_token;
 
-typedef struct s_ast
+typedef struct s_ast_node	t_ast_node;
+
+typedef struct s_ast_node
 {
-	t_node_type node_type;    // atom type
-	char **args;              // CMD args
-	struct s_ast *left_node;  // left son
-	struct s_ast *right_node; // right son
-	struct s_ast *subshell;   // manage Subshells
-	char *redir_file;         // target filles for redirections
-	struct s_ast *next;       // chain redirections
-}			t_ast;
+	e_command				node_type;
+	char					**value;
+	t_ast_node				*left;
+	t_ast_node				*right;
+}							t_ast_node;
 
-/*MAIN*/
-int			main(int ac, char **envp);
+// lexer
+t_token						*init_token(e_token type, char *av);
+int							ft_issep(char c);
+int							count_redir_text(char *av, int *i);
+int							count_logical_ops_parantheses(char *av, int *i);
+int							count_input(char *av);
+t_token						*create_redir(char *av, int *i);
+t_token						*create_logical_ops_parantheses(char *av, int *i);
+t_token						*create_pipe_text(char *av, int *i);
+t_token						*create_token(char *av, int *i);
+t_token						*lexer(char *av);
 
-/*LEXER*/
-int			count_input(char *av);
-int			ft_issep(char c);
-t_token		*init_token(e_token type, char *av);
-t_token		**lexer(char *av);
+// parser
+int							get_precedence(e_token token);
+e_command					get_command_type(e_token token_type);
+t_ast_node					*create_node(e_command type, t_ast_node *left,
+								t_ast_node *right, char *value);
+char						**append_args(char **origin_args, char *new_arg);
+t_ast_node					*parse_primary(t_token **tokens);
+t_ast_node					*parse_expression(t_token **tokens,
+								int min_precedence);
 
-/*PARSER*/
-char		**create_arg(t_token *token_lst, int *token_index);
-t_ast		*parse_cmd(t_token *token_lst, int *token_index);
-t_ast		*parse_pipe(t_token *token_lst, int *token_index);
-t_ast		*parse_logic_operator(t_token *token_lst, int *token_index);
-t_ast		*parser(t_token *token_lst);
-
-/*EXECUTOR*/
+// exec
 
 #endif
