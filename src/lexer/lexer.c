@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 15:25:02 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 19:08:41 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,22 @@ t_token	*create_redir(char *av, int *i)
 	new_token = NULL;
 	if (av[*i] == '<' && av[*i + 1] == '<')
 	{
-		//new_token = init_token(TOKEN_HERE_DOC, "<<");
-		new_token = init_token(TOKEN_TEXT, "<<");
-
+		new_token = init_token(TOKEN_HERE_DOC, "<<");
 		*i += 2;
 	}
 	else if (av[*i] == '>' && av[*i + 1] == '>')
 	{
-		//new_token = init_token(TOKEN_REDIRECT_APPEND, ">>");
-		new_token = init_token(TOKEN_TEXT, ">>");
-
+		new_token = init_token(TOKEN_REDIRECT_APPEND, ">>");
 		*i += 2;
 	}
 	else if (av[*i] == '<' && av[*i + 1] != '<')
 	{
-		//new_token = init_token(TOKEN_REDIRECT_IN, "<");
-		new_token = init_token(TOKEN_TEXT, "<");
-
+		new_token = init_token(TOKEN_REDIRECT_IN, "<");
 		*i += 1;
 	}
 	else if (av[*i] == '>' && av[*i + 1] != '<')
 	{
-		//new_token = init_token(TOKEN_REDIRECT_OUT, ">");
-		new_token = init_token(TOKEN_TEXT, ">");
-
+		new_token = init_token(TOKEN_REDIRECT_OUT, ">");
 		*i += 1;
 	}
 	return (new_token);
@@ -141,4 +133,31 @@ t_token	*lexer(char *av)
 		current = new_token;
 	}
 	return (tokens);
+}
+
+void	check_lexer(t_token **tokens)
+{
+	t_token	*current;
+	t_token	*new_token;
+
+	current = *tokens;
+	if (!current->next)
+	{
+		if (current->token_type != TOKEN_TEXT)
+		{
+			ft_putstr_fd("Syntax Error near unexpected token 1\n", STDERR_FILENO);
+			exit(1);
+		}
+	}
+	new_token = current->next;
+	while (new_token)
+	{
+		if ((current->token_type != TOKEN_TEXT) && \
+		current->token_type == new_token->token_type)
+		{
+			ft_putstr_fd("Syntax Error near unexpected token 2\n", STDERR_FILENO);
+			exit(1);
+		}
+		new_token = new_token->next;
+	}
 }

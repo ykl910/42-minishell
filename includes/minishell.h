@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 15:21:40 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 19:08:21 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ typedef enum
 	TOKEN_REDIRECT_OUT,
 	TOKEN_HERE_DOC,
 	TOKEN_REDIRECT_APPEND,
+	TOKEN_TEXT,
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
-	TOKEN_TEXT,
 }			e_token;
 
 typedef enum e_node_type
@@ -84,6 +84,8 @@ t_token						*create_logical_ops_parantheses(char *av, int *i);
 t_token						*create_pipe_text(char *av, int *i);
 t_token						*create_token(char *av, int *i);
 t_token						*lexer(char *av);
+void						check_lexer(t_token **tokens);
+
 
 // parser
 int							get_precedence(e_token token);

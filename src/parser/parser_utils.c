@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 15:22:35 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 18:20:10 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	get_precedence(e_token token)
 		return (1);
 	else if (token == TOKEN_PIPE)
 		return (2);
-	// else if (token == TOKEN_REDIRECT_IN || token == TOKEN_REDIRECT_OUT
-	// 	|| token == TOKEN_HERE_DOC || token == TOKEN_REDIRECT_APPEND)
-	// 	return (3);
+	else if (token == TOKEN_REDIRECT_IN || token == TOKEN_REDIRECT_OUT
+		|| token == TOKEN_HERE_DOC || token == TOKEN_REDIRECT_APPEND)
+		return (2);
 	else if (token == TOKEN_LPAREN)
 		return (3);
 	else

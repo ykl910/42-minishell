@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:24:18 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 15:34:51 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 18:19:52 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ t_ast_node	*parse_primary(t_token **tokens)
 
 	if (!*tokens)
 		return (NULL);
-	if ((*tokens)->token_type == TOKEN_TEXT)
+	if ((*tokens)->token_type >= TOKEN_REDIRECT_IN
+		&& (*tokens)->token_type <= TOKEN_TEXT)
 	{
 		node = create_node(COMMAND_SIMPLE, NULL, NULL, (*tokens)->value); //ici
 		*tokens = (*tokens)->next;
-		while ((*tokens) && ((*tokens)->token_type == TOKEN_TEXT))
+		while ((*tokens) && ((*tokens)->token_type >= TOKEN_REDIRECT_IN
+		&& (*tokens)->token_type <= TOKEN_TEXT))
 		{
 			node->value = append_args(node->value, (*tokens)->value);  //ici
 			*tokens = (*tokens)->next;

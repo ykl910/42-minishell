@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 15:22:17 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 19:08:32 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	main(int ac, char **envp)
 		if (line)
 			add_history(line);
 		tokens = lexer(line);
+		check_lexer(&tokens);
 		ast = parse_expression(&tokens, 0);
 		print_ast(ast, 0);
 		free(line);

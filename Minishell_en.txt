@@ -33,10 +33,10 @@ v	- Check if the command line is empty (`NULL` or `\n` alone).
 v	- Use a custom function to **split** the line into tokens.
 wip	- Identify **special operators** (`|`, `>`, `<`, `>>`, `<<`, `$` for environment variables, etc.).
 v	- Handle **quotes** (`'` and `"`) to preserve spaces in arguments and prevent unwanted expansion.
-v	- Validate token syntax before proceeding to the next step.
+K	- Validate token syntax before proceeding to the next step.
 	
 	2.2 Handling Environment Variables
-	- Implement expansion of `$VAR` by retrieving environment variables and check if called variables exist; 
+A	- Implement expansion of `$VAR` by retrieving environment variables and check if called variables exist; 
 	otherwise, return an empty string.
 	- Handle special cases like `$?` for the last return code.
 	
@@ -45,6 +45,7 @@ v	- Define the structure (command type, name, fd_in, fd_out, left node, right no
 v	- Validate that the ast works for all kinds of situation (subshell...).
 
 	2.4 Handle wildcards
+A	- Before lexer, create associated tokens.
 
 	2.4 Task Distribution
 	- **Teammate A:**
