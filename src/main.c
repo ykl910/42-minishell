@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 12:47:31 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:22:17 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ const char	*get_command_name(int command_type)
 		return ("PIPE");
 	else if (command_type == COMMAND_SIMPLE)
 		return ("COMMAND");
-	else if (command_type == COMMAND_REDIRECT_IN)
-		return ("REDIRECT_IN");
-	else if (command_type == COMMAND_REDIRECT_OUT)
-		return ("REDIRECT_OUT");
-	else if (command_type == COMMAND_REDIRECT_APPEND)
-		return ("REDIRECT_APPEND");
-	else if (command_type == COMMAND_HERE_DOC)
-		return ("HERE_DOC");
+	// else if (command_type == COMMAND_REDIRECT_IN)
+	// 	return ("REDIRECT_IN");
+	// else if (command_type == COMMAND_REDIRECT_OUT)
+	// 	return ("REDIRECT_OUT");
+	// else if (command_type == COMMAND_REDIRECT_APPEND)
+	// 	return ("REDIRECT_APPEND");
+	// else if (command_type == COMMAND_HERE_DOC)
+	// 	return ("HERE_DOC");
 	else if (command_type == COMMAND_SUBSHELL)
 		return ("SUBSHELL");
 	else

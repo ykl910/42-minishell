@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/06 18:52:59 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 15:25:02 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,30 @@ t_token	*create_redir(char *av, int *i)
 	new_token = NULL;
 	if (av[*i] == '<' && av[*i + 1] == '<')
 	{
-		new_token = init_token(TOKEN_HERE_DOC, "<<");
+		//new_token = init_token(TOKEN_HERE_DOC, "<<");
+		new_token = init_token(TOKEN_TEXT, "<<");
+
 		*i += 2;
 	}
 	else if (av[*i] == '>' && av[*i + 1] == '>')
 	{
-		new_token = init_token(TOKEN_REDIRECT_APPEND, ">>");
+		//new_token = init_token(TOKEN_REDIRECT_APPEND, ">>");
+		new_token = init_token(TOKEN_TEXT, ">>");
+
 		*i += 2;
 	}
 	else if (av[*i] == '<' && av[*i + 1] != '<')
 	{
-		new_token = init_token(TOKEN_REDIRECT_IN, "<");
+		//new_token = init_token(TOKEN_REDIRECT_IN, "<");
+		new_token = init_token(TOKEN_TEXT, "<");
+
 		*i += 1;
 	}
 	else if (av[*i] == '>' && av[*i + 1] != '<')
 	{
-		new_token = init_token(TOKEN_REDIRECT_OUT, ">");
+		//new_token = init_token(TOKEN_REDIRECT_OUT, ">");
+		new_token = init_token(TOKEN_TEXT, ">");
+
 		*i += 1;
 	}
 	return (new_token);

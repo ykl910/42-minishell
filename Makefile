@@ -6,7 +6,7 @@ INCDIR = includes
 
 SRC_MAIN = src/main.c
 SRC_LEXER = src/lexer/lexer.c src/lexer/lexer_utils.c
-SRC_PARSER = src/parser/precedence_climbing.c src/parser/parser_utils.c
+SRC_PARSER = src/parser/precedence_climbing_2.c src/parser/parser_utils.c
 
 SRC = $(SRC_MAIN) $(SRC_LEXER) $(SRC_PARSER)
 OBJ = $(patsubst %.c, $(OBJDIR)/%.o, $(SRC))

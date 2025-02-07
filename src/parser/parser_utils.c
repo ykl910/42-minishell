@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 11:48:04 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 15:22:35 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int	get_precedence(e_token token)
 		return (1);
 	else if (token == TOKEN_PIPE)
 		return (2);
-	else if (token == TOKEN_REDIRECT_IN || token == TOKEN_REDIRECT_OUT
-		|| token == TOKEN_HERE_DOC || token == TOKEN_REDIRECT_APPEND)
-		return (3);
+	// else if (token == TOKEN_REDIRECT_IN || token == TOKEN_REDIRECT_OUT
+	// 	|| token == TOKEN_HERE_DOC || token == TOKEN_REDIRECT_APPEND)
+	// 	return (3);
 	else if (token == TOKEN_LPAREN)
-		return (4);
+		return (3);
 	else
-		return (0);
+		return (-1);
 }
 
 e_command	get_command_type(e_token token_type)
@@ -65,14 +65,14 @@ e_command	get_command_type(e_token token_type)
 		return (COMMAND_OR);
 	else if (token_type == TOKEN_PIPE)
 		return (COMMAND_PIPE);
-	else if (token_type == TOKEN_REDIRECT_IN)
-		return (COMMAND_REDIRECT_IN);
-	else if (token_type == TOKEN_REDIRECT_OUT)
-		return (COMMAND_REDIRECT_OUT);
-	else if (token_type == TOKEN_HERE_DOC)
-		return (COMMAND_HERE_DOC);
-	else if (token_type == TOKEN_REDIRECT_APPEND)
-		return (COMMAND_REDIRECT_APPEND);
+	// else if (token_type == TOKEN_REDIRECT_IN)
+	// 	return (COMMAND_REDIRECT_IN);
+	// else if (token_type == TOKEN_REDIRECT_OUT)
+	// 	return (COMMAND_REDIRECT_OUT);
+	// else if (token_type == TOKEN_HERE_DOC)
+	// 	return (COMMAND_HERE_DOC);
+	// else if (token_type == TOKEN_REDIRECT_APPEND)
+	// 	return (COMMAND_REDIRECT_APPEND);
 	else
 		return (COMMAND_SIMPLE);
 }

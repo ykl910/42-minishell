@@ -30,10 +30,10 @@ v		- Create utility functions for manipulating `envp`.
 	2.1 Splitting Input into Tokens
 v	- Read user input using `readline()`.
 v	- Check if the command line is empty (`NULL` or `\n` alone).
-wip	- Use a custom function to **split** the line into tokens.
+v	- Use a custom function to **split** the line into tokens.
 wip	- Identify **special operators** (`|`, `>`, `<`, `>>`, `<<`, `$` for environment variables, etc.).
 v	- Handle **quotes** (`'` and `"`) to preserve spaces in arguments and prevent unwanted expansion.
-	- Validate token syntax before proceeding to the next step.
+v	- Validate token syntax before proceeding to the next step.
 	
 	2.2 Handling Environment Variables
 	- Implement expansion of `$VAR` by retrieving environment variables and check if called variables exist; 
@@ -41,10 +41,10 @@ v	- Handle **quotes** (`'` and `"`) to preserve spaces in arguments and prevent 
 	- Handle special cases like `$?` for the last return code.
 	
 	2.3 Creating a Abstract Syntax Tree
-	- Define the structure (command type, name, fd_in, fd_out, left node, right node).
-	- Loop through the list of tokens and stop when the first ( || && ()) is found, which will be the root.
-	- The left part of the abovementioned stop is the left node of the root.
-	- 
+v	- Define the structure (command type, name, fd_in, fd_out, left node, right node).
+v	- Validate that the ast works for all kinds of situation (subshell...).
+
+	2.4 Handle wildcards
 
 	2.4 Task Distribution
 	- **Teammate A:**

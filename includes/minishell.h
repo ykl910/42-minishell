@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 12:39:35 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/07 15:21:40 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ typedef enum e_node_type
 	COMMAND_PIPE,
 	COMMAND_AND,
 	COMMAND_OR,
-	COMMAND_REDIRECT_IN,
-	COMMAND_REDIRECT_OUT,
-	COMMAND_HERE_DOC,
-	COMMAND_REDIRECT_APPEND,
+	// COMMAND_REDIRECT_IN,
+	// COMMAND_REDIRECT_OUT,
+	// COMMAND_HERE_DOC,
+	// COMMAND_REDIRECT_APPEND,
 	COMMAND_SUBSHELL,
 }							e_command;
 
@@ -65,14 +65,12 @@ typedef struct s_token
 	t_token					*next;
 }							t_token;
 
-typedef struct s_ast_node	t_ast_node;
-
 typedef struct s_ast_node
 {
 	e_command				node_type;
 	char					**value;
-	t_ast_node				*left;
-	t_ast_node				*right;
+	struct s_ast_node		*left;
+	struct s_ast_node		*right;
 }							t_ast_node;
 
 // lexer
