@@ -1,0 +1,9 @@
+obj/src/lexer/wildcards_utils.o: src/lexer/wildcards_utils.c \
+  includes/minishell.h includes/../libft/includes/libft.h \
+  libft/includes/ft_printf.h
+
+includes/minishell.h:
+
+includes/../libft/includes/libft.h:
+
+libft/includes/ft_printf.h:

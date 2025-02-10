@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/10 11:22:02 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:45:29 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,11 @@ typedef enum e_node_type
 	COMMAND_SUBSHELL,
 }						e_command;
 
-typedef struct _wildcard
+typedef struct s_wildcard
 {
-	char				**files;
-	int					count;
+	char				*file;
+	int					index;
+	struct s_wildcard	*next;
 }						t_wildcards;
 
 typedef struct s_token
@@ -89,6 +90,19 @@ t_token					*create_pipe_text(char *av, int *i);
 t_token					*create_token(char *av, int *i);
 t_token					*lexer(char *av);
 void					check_lexer(t_token **tokens);
+t_wildcards				*wildcard_expension(char *pattern);
+void					free_wc_struct(t_wildcards **head);
+int						create_head_wc(t_wildcards **head, char *file,
+							int index);
+int						create_node_wc(t_wildcards **head, char *file,
+							int index);
+int						wc_struct(t_wildcards **node, char *file, int index);
+int						occurence_count(char *str, char occurence);
+bool					match_prefix(char *file, char *pattern, int p_size);
+bool					match_suffix(char *file, char *pattern, int f_size,
+							int p_size);
+bool					match_subpatterns(char **sub_patterns, char *file,
+							int f_size);
 
 // parser
 int						get_precedence(e_token token);

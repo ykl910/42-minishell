@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/07 19:08:32 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/10 16:46:11 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,19 @@ void	print_ast(t_ast_node *node, int depth)
 		print_ast(node->left, depth + 1);
 	if (node->right)
 		print_ast(node->right, depth + 1);
+}
+
+void	print_wildcard(t_wildcards **head)
+{
+	t_wildcards	*current;
+
+	current = *head;
+	while (current)
+	{
+		if (current->file)
+			ft_printf("%s\n", current->file);
+		current = current->next;
+	}
 }
 
 int	main(int ac, char **envp)
