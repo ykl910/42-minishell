@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/10 11:14:52 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:22:02 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ typedef enum e_node_type
 	// COMMAND_REDIRECT_APPEND,
 	COMMAND_SUBSHELL,
 }						e_command;
+
+typedef struct _wildcard
+{
+	char				**files;
+	int					count;
+}						t_wildcards;
 
 typedef struct s_token
 {
