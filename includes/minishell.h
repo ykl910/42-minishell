@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/10 16:45:29 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:16:23 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -77,6 +78,40 @@ typedef struct s_ast_node
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 }						t_ast_node;
+
+typedef struct s_env
+{
+	char				*name;
+	char				*value;
+	struct s_env		*next;
+}						t_env;
+
+typedef struct s_shell
+{
+	t_env				*shell_env;
+	t_token				*token_lst;
+	t_ast_node			*ast;
+	int					status;
+}						t_shell;
+
+// builtin
+void					builtin_cd(char **cmd, int *status);
+void					builtin_echo(char **cmd, int *status);
+void					builtin_pwd(int *status);
+void					builtin_export(char *line, t_env **env, int *status);
+void					builtin_unset(char *target, t_env **env, int *status);
+void					builtin_env(t_env **env, int *status);
+void					builtin_exit(char **args, int *status);
+char					*get_var_name(char *env_line);
+char					*get_var_value(char *env_line);
+bool					create_head_env_lst(char **name, char **value,
+							t_env **env);
+bool					create_node_env_lst(char **name, char **value,
+							t_env **env);
+bool					is_numerical(char *str);
+
+// env
+void					import_env(t_env **env, char **envp, int *status);
 
 // lexer
 t_token					*init_token(e_token type, char *av);

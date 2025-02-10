@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/10 16:46:11 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:20:10 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ const char	*get_command_name(int command_type)
 	else
 		return ("UNKNOWN");
 }
+
+// DEBUG//
 
 void	print_ast(t_ast_node *node, int depth)
 {
@@ -77,23 +79,50 @@ void	print_wildcard(t_wildcards **head)
 	}
 }
 
-int	main(int ac, char **envp)
+void	print_env(t_env **head)
 {
-	char		*line;
-	t_token		*tokens;
-	t_ast_node	*ast;
+	t_env	*current;
+
+	current = *head;
+	while (current)
+	{
+		if (current->name)
+			ft_printf("%s=", current->name);
+		if (current->value)
+			ft_printf("%s\n", current->value);
+		current = current->next;
+	}
+}
+
+// DEBUG//
+
+void struct_init(t_shell *shell)
+{
+	shell->ast = NULL;
+	shell->shell_env = NULL;
+	shell->token_lst = NULL;
+	shell->status = 0;
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	char	*line;
+	t_shell	shell;
 
 	(void)ac;
-	(void)envp;
+	(void)av;
+	struct_init(&shell);
+	import_env(&shell.shell_env, envp, &shell.status);
+	print_env(&shell.shell_env);
 	while (1)
 	{
 		line = readline("input prompt > ");
 		if (line)
 			add_history(line);
-		tokens = lexer(line);
-		check_lexer(&tokens);
-		ast = parse_expression(&tokens, 0);
-		print_ast(ast, 0);
+		shell.token_lst = lexer(line);
+		check_lexer(&shell.token_lst);
+		shell.ast = parse_expression(&shell.token_lst, 0);
+		print_ast(shell.ast, 0);
 		free(line);
 	}
 	return (0);
