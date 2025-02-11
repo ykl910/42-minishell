@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 15:55:18 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/11 15:58:12 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ bool					is_numerical(char *str);
 // env
 void					import_env(t_env **env, char **envp, int *status);
 void					update_env(t_env **env);
+char					*variable_expension(char *varaible, t_shell *shell);
 
 // lexer
 t_token					*init_token(e_token type, char *av);
