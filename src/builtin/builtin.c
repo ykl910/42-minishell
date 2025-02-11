@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/11 16:00:00 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/11 16:02:35 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,8 @@ void	builtin_cd(char **cmd, t_shell *shell)
 		shell->status = 1;
 		return ;
 	}
-<<<<<<< HEAD
 	update_env(&shell->shell_env);
 	shell->status = 0;
-=======
-	*status = 0;
-	//todo : change env var PWD and OLDPWD
->>>>>>> 983335a (init signal)
 }
 
 void	builtin_echo(char **cmd, int *status)
