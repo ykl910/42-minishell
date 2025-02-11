@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/10 19:20:43 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:51:22 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	builtin_cd(char **cmd, int *status)
 		return ;
 	}
 	*status = 0;
+	//todo : change env var PWD and OLDPWD
 }
 
 void	builtin_echo(char **cmd, int *status)

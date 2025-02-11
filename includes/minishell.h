@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 10:56:45 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/11 15:43:55 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+
+# define SIGINT  2
+# define SIGQUIT 3
+
+extern volatile sig_atomic_t	g_sigint_flag;
 
 typedef enum
 {
@@ -116,7 +121,7 @@ void					import_env(t_env **env, char **envp, int *status);
 // lexer
 t_token					*init_token(e_token type, char *av);
 int						ft_issep(char c);
-int							is_token_separator(char *av, int i);
+int						is_token_separator(char *av, int i);
 int						count_redir_text(char *av, int *i);
 int						count_logical_ops_parantheses(char *av, int *i);
 int						count_input(char *av);
@@ -150,5 +155,9 @@ t_ast_node				*parse_primary(t_token **tokens);
 t_ast_node				*parse_expression(t_token **tokens, int min_precedence);
 
 // exec
+
+// signal
+void					handle_sigint(int sig);
+void					handle_sigquit(int sig);
 
 #endif

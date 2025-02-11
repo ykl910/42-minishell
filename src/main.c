@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 11:05:10 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/11 15:37:59 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,28 +109,34 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_shell	shell;
 	t_token	*token;
-
+	
 	(void)ac;
 	(void)av;
 	struct_init(&shell);
 	import_env(&shell.shell_env, envp, &shell.status);
-	print_env(&shell.shell_env);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigquit);
 	while (1)
 	{
+		g_sigint_flag = 0;
 		line = readline("input prompt > ");
 		if (line)
+		{
 			add_history(line);
-		shell.token_lst = lexer(line);
-		token = shell.token_lst;
-		// while (token)
-		// {
-		// 	printf("type %u - value %s\n", token->token_type, token->value);
-		// 	token = token->next;
-		// }
-		check_lexer(&shell.token_lst);
-		shell.ast = parse_expression(&shell.token_lst, 0);
-		print_ast(shell.ast, 0);
-		free(line);
+			shell.token_lst = lexer(line);
+			token = shell.token_lst;	
+			while (token)
+			{
+				printf("type %u - value %s\n", token->token_type, token->value);
+				token = token->next;
+			}
+			// while (1)
+			// 	printf("f");
+			check_lexer(&shell.token_lst);
+			shell.ast = parse_expression(&shell.token_lst, 0);
+			print_ast(shell.ast, 0);
+			free(line);
+		}
 	}
 	return (0);
 }
