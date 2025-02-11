@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 15:43:55 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/11 15:55:18 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef struct s_shell
 }						t_shell;
 
 // builtin
-void					builtin_cd(char **cmd, int *status);
+void					builtin_cd(char **cmd, t_shell *shell);
 void					builtin_echo(char **cmd, int *status);
 void					builtin_pwd(int *status);
 void					builtin_export(char *line, t_env **env, int *status);
@@ -117,10 +117,12 @@ bool					is_numerical(char *str);
 
 // env
 void					import_env(t_env **env, char **envp, int *status);
+void					update_env(t_env **env);
 
 // lexer
 t_token					*init_token(e_token type, char *av);
 int						ft_issep(char c);
+int						is_token_separator(char *av, int i);
 int						is_token_separator(char *av, int i);
 int						count_redir_text(char *av, int *i);
 int						count_logical_ops_parantheses(char *av, int *i);
