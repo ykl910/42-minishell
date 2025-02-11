@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 16:05:58 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/11 17:02:32 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,28 @@ void	print_wildcard(t_wildcards **head)
 	}
 }
 
-void	print_env(t_env **head)
+void	print_type(e_command type)
 {
-	t_env	*current;
-
-	current = *head;
-	while (current)
-	{
-		if (current->name)
-			ft_printf("%s=", current->name);
-		if (current->value)
-			ft_printf("%s\n", current->value);
-		current = current->next;
-	}
+	if(type == COMMAND_SIMPLE)
+		ft_printf("CMD ");
+	if(type == COMMAND_PIPE)
+		ft_printf("| ");
+	if(type == COMMAND_AND)
+		ft_printf("&& ");
+	if(type == COMMAND_OR)
+		ft_printf("|| ");
+	if(type == COMMAND_SUBSHELL)
+		ft_printf("(..) ");
 }
 
+void	ast_printer(t_ast_node *root)
+{
+	if (!root)
+		return ;
+	mega_printer(root->left);
+	print_type(root->node_type);
+	mega_printer(root->right);
+}
 // DEBUG//
 
 void struct_init(t_shell *shell)
@@ -110,7 +117,7 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_shell	shell;
 	t_token	*token;
-	
+
 	(void)ac;
 	(void)av;
 	struct_init(&shell);
@@ -125,17 +132,14 @@ int	main(int ac, char **av, char **envp)
 		{
 			add_history(line);
 			shell.token_lst = lexer(line);
-			token = shell.token_lst;	
+			token = shell.token_lst;
 			while (token)
 			{
 				printf("type %u - value %s\n", token->token_type, token->value);
 				token = token->next;
 			}
-			// while (1)
-			// 	printf("f");
 			check_lexer(&shell.token_lst);
 			shell.ast = parse_expression(&shell.token_lst, 0);
-			print_ast(shell.ast, 0);
 			free(line);
 		}
 	}
