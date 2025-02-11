@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 12:51:33 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:54:24 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_shell	shell;
 	t_token	*token;
-
 	(void)ac;
 	(void)av;
 	struct_init(&shell);

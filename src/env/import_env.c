@@ -6,13 +6,13 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:37:14 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/11 14:43:52 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:51:24 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_old_path(t_env **env)
+static char	*get_old_path(t_env **env)
 {
 	t_env	*current;
 
@@ -26,8 +26,7 @@ char	*get_old_path(t_env **env)
 	return (NULL);
 }
 
-int	chage_pwd(t_env **env, char *pwd)
-
+static int	chage_pwd(t_env **env, char *pwd)
 {
 	t_env *current;
 
@@ -45,7 +44,7 @@ int	chage_pwd(t_env **env, char *pwd)
 	return (-1);
 }
 
-int	chage_old_pwd(t_env **env, char *old_pwd)
+static int	chage_old_pwd(t_env **env, char *old_pwd)
 {
 	t_env	*current;
 
