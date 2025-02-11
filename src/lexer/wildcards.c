@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:20:41 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/10 16:44:26 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:54:01 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,68 @@ static int	browse_dir(void *dir, char *pattern, t_wildcards **expension)
 	return (0);
 }
 
+static void	create_new_pattern(char *new, char *old)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (old[i])
+	{
+		if (old[i] == '*' && old[i + 1] == '*')
+			i++;
+		else
+		{
+			new[j] = old[i];
+			i++;
+			j++;
+		}
+	}
+}
+
+static char	*remove_duplicates(char *pattern)
+{
+	int		i;
+	int		new_size;
+	char	*new_pattern;
+
+	i = 0;
+	new_size = 0;
+	new_pattern = NULL;
+	while (pattern[i])
+	{
+		if (pattern[i] == '*' && pattern[i + 1] == '*')
+			i++;
+		else
+		{
+			i++;
+			new_size++;
+		}
+	}
+	new_pattern = ft_calloc(new_size + 1, sizeof(char));
+	if (!new_pattern)
+		return (NULL);
+	create_new_pattern(new_pattern, pattern);
+	return (new_pattern);
+}
+
 t_wildcards	*wildcard_expension(char *pattern)
 {
 	void		*dir;
+	char		*new_pattern;
 	t_wildcards	*expension;
 
 	if (!pattern || !*pattern)
+		return (NULL);
+	new_pattern = remove_duplicates(pattern);
+	if (!new_pattern)
 		return (NULL);
 	expension = NULL;
 	dir = opendir(".");
 	if (!dir)
 		return (NULL);
-	if (browse_dir(dir, pattern, &expension) == -1)
+	if (browse_dir(dir, new_pattern, &expension) == -1)
 		return (closedir(dir), NULL);
-	return (closedir(dir), expension);
+	return (free(new_pattern), closedir(dir), expension);
 }

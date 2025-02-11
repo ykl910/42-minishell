@@ -6,13 +6,13 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/10 19:20:43 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:43:13 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_cd(char **cmd, int *status)
+void	builtin_cd(char **cmd, t_shell *shell)
 {
 	char	*home_path;
 
@@ -22,7 +22,7 @@ void	builtin_cd(char **cmd, int *status)
 		home_path = getenv("HOME");
 		if (!home_path)
 		{
-			*status = 1;
+			shell->status = 1;
 			return ;
 		}
 		chdir(home_path);
@@ -30,10 +30,11 @@ void	builtin_cd(char **cmd, int *status)
 	}
 	if (chdir(cmd[1]) == -1)
 	{
-		*status = 1;
+		shell->status = 1;
 		return ;
 	}
-	*status = 0;
+	update_env(&shell->shell_env);
+	shell->status = 0;
 }
 
 void	builtin_echo(char **cmd, int *status)

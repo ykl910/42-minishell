@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 11:05:10 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/11 12:51:33 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	struct_init(&shell);
 	import_env(&shell.shell_env, envp, &shell.status);
-	print_env(&shell.shell_env);
 	while (1)
 	{
 		line = readline("input prompt > ");
