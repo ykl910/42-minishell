@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:33:09 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/07 14:40:48 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/11 15:48:50 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "minishell.h"
 
-char	**create_arg(t_token *token_lst, int *token_index)
-{
-	int		i;
-	char	**args;
+// char	**create_arg(t_token *token_lst, int *token_index)
+// {
+// 	int		i;
+// 	char	**args;
 
-	i = 0;
-	args = NULL;
-	while (token_lst[*token_index + i].token_type == TOKEN_TEXT)
-		i++;
-	args = ft_calloc(i + 1, sizeof(char));
-	if (!args)
-		return (NULL);
-	i = 0;
-	while (token_lst[*token_index].token_type == TOKEN_TEXT)
-	{
-		args[i] = ft_strdup(token_lst[*token_index].value);
-		if (!args[i])
-			return (ft_free_tab((void **)args), NULL);
-		(*token_index)++;
-		i++;
-	}
-	return (args);
+// 	i = 0;
+// 	args = NULL;
+// 	while (token_lst[*token_index + i].token_type == TOKEN_TEXT)
+// 		i++;
+// 	args = ft_calloc(i + 1, sizeof(char));
+// 	if (!args)
+// 		return (NULL);
+// 	i = 0;
+// 	while (token_lst[*token_index].token_type == TOKEN_TEXT)
+// 	{
+// 		args[i] = ft_strdup(token_lst[*token_index].value);
+// 		if (!args[i])
+// 			return (ft_free_tab((void **)args), NULL);
+// 		(*token_index)++;
+// 		i++;
+// 	}
+// 	return (args);
 // }
 
 // t_ast	*parse_cmd(t_token *token_lst, int *token_index)

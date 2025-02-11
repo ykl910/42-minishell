@@ -2,9 +2,9 @@ Minishell
 
 DONE 1. **Project Initialization and Structure**
 
-	1.1 File Creation and Organization 
+	1.1 File Creation and Organization
 	- Create a clear project structure with folders for:
-v		- **src/** (main source code)  
+v		- **src/** (main source code)
 v		- **includes/** (header files)
 v		- **libs/** (libft or other internal libraries)
 v	- Set up a **Makefile** for efficient project compilation.
@@ -31,21 +31,21 @@ v		- Create utility functions for manipulating `envp`.
 v	- Read user input using `readline()`.
 v	- Check if the command line is empty (`NULL` or `\n` alone).
 v	- Use a custom function to **split** the line into tokens.
-wip	- Identify **special operators** (`|`, `>`, `<`, `>>`, `<<`, `$` for environment variables, etc.).
+v	- Identify **special operators** (`|`, `>`, `<`, `>>`, `<<`, `$` for environment variables, etc.).
 v	- Handle **quotes** (`'` and `"`) to preserve spaces in arguments and prevent unwanted expansion.
-K	- Validate token syntax before proceeding to the next step.
-	
+v	- Validate token syntax before proceeding to the next step.
+
 	2.2 Handling Environment Variables
-A	- Implement expansion of `$VAR` by retrieving environment variables and check if called variables exist; 
+v	- Implement expansion of `$VAR` by retrieving environment variables and check if called variables exist;
 	otherwise, return an empty string.
-	- Handle special cases like `$?` for the last return code.
-	
+v	- Handle special cases like `$?` for the last return code.
+
 	2.3 Creating a Abstract Syntax Tree
 v	- Define the structure (command type, name, fd_in, fd_out, left node, right node).
 v	- Validate that the ast works for all kinds of situation (subshell...).
 
 	2.4 Handle wildcards
-A	- Before lexer, create associated tokens.
+v	- Before lexer, create associated tokens.
 
 	2.4 Task Distribution
 	- **Teammate A:**
@@ -101,11 +101,8 @@ A	- Before lexer, create associated tokens.
 
 6. **Handling Signals**
 
-	Task Distribution
-	- **Teammate A:**
-		- Capture signals (`SIGINT`, `SIGQUIT`)
-	- **Teammate B:**
-		- Mask and restore signals
+wip		- Capture signals (`SIGINT`, `SIGQUIT`)
+wip		- Mask and restore signals
 
 
 
