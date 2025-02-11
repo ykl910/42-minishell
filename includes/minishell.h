@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 15:07:45 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:05:38 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -29,6 +31,11 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+
+# define SIGINT  2
+# define SIGQUIT 3
+
+extern volatile sig_atomic_t	g_sigint_flag;
 
 typedef enum
 {
@@ -96,6 +103,7 @@ typedef struct s_shell
 
 // builtin
 void					builtin_cd(char **cmd, t_shell *shell);
+void					builtin_cd(char **cmd, t_shell *shell);
 void					builtin_echo(char **cmd, int *status);
 void					builtin_pwd(int *status);
 void					builtin_export(char *line, t_env **env, int *status);
@@ -112,6 +120,8 @@ bool					is_numerical(char *str);
 
 // env
 void					import_env(t_env **env, char **envp, int *status);
+void					update_env(t_env **env);
+char					*variable_expension(char *varaible, t_shell *shell);
 void					update_env(t_env **env);
 char					*variable_expension(char *varaible, t_shell *shell);
 
@@ -152,5 +162,9 @@ t_ast_node				*parse_primary(t_token **tokens);
 t_ast_node				*parse_expression(t_token **tokens, int min_precedence);
 
 // exec
+
+// signal
+void					handle_sigint(int sig);
+void					handle_sigquit(int sig);
 
 #endif

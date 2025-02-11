@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/11 14:43:13 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:06:15 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	builtin_cd(char **cmd, t_shell *shell)
 void	builtin_cd(char **cmd, t_shell *shell)
 {
 	char	*home_path;
@@ -23,6 +24,7 @@ void	builtin_cd(char **cmd, t_shell *shell)
 		if (!home_path)
 		{
 			shell->status = 1;
+			shell->status = 1;
 			return ;
 		}
 		chdir(home_path);
@@ -31,8 +33,11 @@ void	builtin_cd(char **cmd, t_shell *shell)
 	if (chdir(cmd[1]) == -1)
 	{
 		shell->status = 1;
+		shell->status = 1;
 		return ;
 	}
+	update_env(&shell->shell_env);
+	shell->status = 0;
 	update_env(&shell->shell_env);
 	shell->status = 0;
 }
