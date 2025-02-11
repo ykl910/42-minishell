@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 15:59:48 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/11 20:07:16 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_shell	shell;
 	t_token	*token;
+	char	*expanded_line;
 	
 	(void)ac;
 	(void)av;
@@ -124,18 +125,20 @@ int	main(int ac, char **av, char **envp)
 		if (line)
 		{
 			add_history(line);
-			shell.token_lst = lexer(line);
-			token = shell.token_lst;	
-			while (token)
-			{
-				printf("type %u - value %s\n", token->token_type, token->value);
-				token = token->next;
-			}
+			expanded_line = expand_wc(line);
+			shell.token_lst = lexer(expanded_line);
+			token = shell.token_lst;
+			// while (token)
+			// {
+			// 	printf("type %u - value %s\n", token->token_type, token->value);
+			// 	token = token->next;
+			// }
 			// while (1)
 			// 	printf("f");
 			check_lexer(&shell.token_lst);
 			shell.ast = parse_expression(&shell.token_lst, 0);
 			print_ast(shell.ast, 0);
+			//inorder_traversal(shell.ast);
 			free(line);
 		}
 	}
