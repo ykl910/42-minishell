@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/10 19:20:10 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:55:29 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,12 @@ int	main(int ac, char **av, char **envp)
 		if (line)
 			add_history(line);
 		shell.token_lst = lexer(line);
+		token = tokens;
+		// while (token)
+		// {
+		// 	printf("type %u - value %s\n", token->token_type, token->value);
+		// 	token = token->next;
+		// }
 		check_lexer(&shell.token_lst);
 		shell.ast = parse_expression(&shell.token_lst, 0);
 		print_ast(shell.ast, 0);

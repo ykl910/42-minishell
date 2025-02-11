@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/10 19:16:23 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:56:45 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void					import_env(t_env **env, char **envp, int *status);
 // lexer
 t_token					*init_token(e_token type, char *av);
 int						ft_issep(char c);
+int							is_token_separator(char *av, int i);
 int						count_redir_text(char *av, int *i);
 int						count_logical_ops_parantheses(char *av, int *i);
 int						count_input(char *av);

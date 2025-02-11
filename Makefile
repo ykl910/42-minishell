@@ -7,7 +7,7 @@ INCDIR = includes
 SRC_MAIN = src/main.c
 SRC_ENV = src/env/import_env.c
 SRC_BUILTIN = src/builtin/builtin.c src/builtin/builtin_utils.c
-SRC_LEXER = src/lexer/lexer.c src/lexer/lexer_utils.c src/lexer/wildcards.c src/lexer/wildcards2.c src/lexer/wildcards_utils.c
+SRC_LEXER = src/lexer/lexer.c src/lexer/lexer_utils.c src/lexer/wildcards.c src/lexer/wildcards2.c src/lexer/wildcards_utils.c src/lexer/lexer_errors.c
 SRC_PARSER = src/parser/precedence_climbing_2.c src/parser/parser_utils.c
 
 SRC = $(SRC_MAIN) $(SRC_ENV) $(SRC_BUILTIN) $(SRC_LEXER) $(SRC_PARSER)
