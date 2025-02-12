@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 14:01:59 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:56:02 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	struct_init(t_shell *shell)
 	shell->ast = NULL;
 	shell->shell_env = NULL;
 	shell->token_lst = NULL;
+	shell->prompt_type = SIMPLE_CMD;
 	shell->status = 0;
 }
 
@@ -146,8 +147,16 @@ int	main(int ac, char **av, char **envp)
 			add_history(line);
 			shell.token_lst = lexer(line);
 			check_lexer(&shell.token_lst);
-			shell.ast = parse_expression(&shell.token_lst, 0);
-			ast_printer(shell.ast);
+			check_execution_type(&shell);  //TODO
+			if(shell.prompt_type == SIMPLE_CMD)
+				execute_simple_cmd(&shell, &shell.token_lst); //TODO
+			else if(shell.prompt_type == AST_CMD)
+			{
+				shell.ast = parse_expression(&shell.token_lst, 0);
+				execute_ast(); //WIP
+				free_ast(); //TODO
+			}
+			print_ast(shell.ast, 0);
 			ft_printf("\n");
 			free(line);
 		}

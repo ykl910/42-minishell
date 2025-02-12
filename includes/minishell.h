@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 14:01:39 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:48:07 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@
 # include <unistd.h>
 
 # define SIGINT 2
-# define SIGINT 2
 # define SIGQUIT 3
+# define SIMPLE_CMD 4
+# define AST_CMD 5
 
 extern volatile sig_atomic_t	g_sigint_flag;
 
@@ -50,7 +51,6 @@ typedef enum
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
 }								e_token;
-}								e_token;
 
 typedef enum e_node_type
 {
@@ -64,7 +64,6 @@ typedef enum e_node_type
 	// COMMAND_REDIRECT_APPEND,
 	COMMAND_SUBSHELL,
 }								e_command;
-}								e_command;
 
 typedef struct s_wildcard
 {
@@ -72,17 +71,9 @@ typedef struct s_wildcard
 	int							index;
 	struct s_wildcard			*next;
 }								t_wildcards;
-	char						*file;
-	int							index;
-	struct s_wildcard			*next;
-}								t_wildcards;
 
 typedef struct s_token
 {
-	e_token						token_type;
-	char						*value;
-	struct s_token				*next;
-}								t_token;
 	e_token						token_type;
 	char						*value;
 	struct s_token				*next;
@@ -95,18 +86,9 @@ typedef struct s_ast_node
 	struct s_ast_node			*left;
 	struct s_ast_node			*right;
 }								t_ast_node;
-	e_command					node_type;
-	char						**value;
-	struct s_ast_node			*left;
-	struct s_ast_node			*right;
-}								t_ast_node;
 
 typedef struct s_env
 {
-	char						*name;
-	char						*value;
-	struct s_env				*next;
-}								t_env;
 	char						*name;
 	char						*value;
 	struct s_env				*next;
@@ -117,18 +99,13 @@ typedef struct s_shell
 	t_env						*shell_env;
 	t_token						*token_lst;
 	t_ast_node					*ast;
-	int							status;
-}								t_shell;
-	t_env						*shell_env;
-	t_token						*token_lst;
-	t_ast_node					*ast;
+	int							prompt_type;
 	int							status;
 }								t_shell;
 
 // builtin
 void							builtin_cd(char **cmd, t_shell *shell);
-void							builtin_cd(char **cmd, t_shell *shell);
-void							builtin_echo(char **cmd, int *status);
+void							builtin_echo(char **cmd, t_shell *shell);
 void							builtin_pwd(int *status);
 void							builtin_export(char *line, t_env **env,
 									int *status);
@@ -147,9 +124,6 @@ bool							is_numerical(char *str);
 // env
 void							import_env(t_env **env, char **envp,
 									int *status);
-void							update_env(t_env **env);
-char							*variable_expension(char *varaible,
-									t_shell *shell);
 void							update_env(t_env **env);
 char							*variable_expension(char *varaible,
 									t_shell *shell);
@@ -194,22 +168,12 @@ char							**append_args(char **origin_args,
 t_ast_node						*parse_primary(t_token **tokens);
 t_ast_node						*parse_expression(t_token **tokens,
 									int min_precedence);
-int								get_precedence(e_token token);
-e_command						get_command_type(e_token token_type);
-t_ast_node						*create_node(e_command type, t_ast_node *left,
-									t_ast_node *right, char *value);
-char							**append_args(char **origin_args,
-									char *new_arg);
-t_ast_node						*parse_primary(t_token **tokens);
-t_ast_node						*parse_expression(t_token **tokens,
-									int min_precedence);
 
 // exec
-void							inorder_traversal(t_ast_node *node);
+void							inorder_traversal(t_ast_node *node,
+									t_shell *shell);
 
 // signal
-void							handle_sigint(int sig);
-void							handle_sigquit(int sig);
 void							handle_sigint(int sig);
 void							handle_sigquit(int sig);
 

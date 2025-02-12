@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/12 13:48:21 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:22:39 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	builtin_echo(char **cmd, t_shell *shell)
 	}
 	if (new_line)
 		ft_printf("\n");
-	*status = 0;
+	shell->status = 0;
 }
 
 void	builtin_pwd(int *status)
