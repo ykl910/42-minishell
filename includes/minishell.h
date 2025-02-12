@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/11 20:10:56 by kyang            ###   ########.fr       */
+/*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
+/*   Updated: 2025/02/12 12:04:26 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,8 @@ bool							match_suffix(char *file, char *pattern,
 									int f_size, int p_size);
 bool							match_subpatterns(char **sub_patterns,
 									char *file, int f_size);
-char							*expand_wc(char *line);
+//char							*expand_wc(char *line);
+char *expand_line(char *line, t_shell *shell);
 
 // parser
 int								get_precedence(e_token token);

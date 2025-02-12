@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 20:11:15 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/12 12:04:44 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	main(int ac, char **av, char **envp)
 		if (line)
 		{
 			add_history(line);
-			expanded_line = expand_wc(line);
+			expanded_line = expand_line(line, &shell);
 			shell.token_lst = lexer(expanded_line);
 			token = shell.token_lst;
 			// while (token)

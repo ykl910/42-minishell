@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/11 15:39:35 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/12 10:03:39 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void handle_sigint(int sig)
 
 	g_sigint_flag = 1;
 	write(STDOUT_FILENO, "\n", 1);
-	rl_replace_line("", 0);
+	//rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
