@@ -6,14 +6,14 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 14:07:14 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:49:53 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-/*Revoir la maniere de free si erreur -> retour main et appel fonction free de struct(s)*/
+/*Revoir la maniere de free si erreur
+	-> retour main et appel fonction free de struct(s)*/
 char	**append_args(char **origin_args, char *new_arg)
 {
 	char	**new_args;
@@ -90,6 +90,10 @@ t_ast_node	*create_node(e_command type, t_ast_node *left, t_ast_node *right,
 	node->left = left;
 	node->right = right;
 	node->value = ft_calloc(2, sizeof(char *));
+	node->status = 0;
+	node->infile_fd = -1;
+	node->outfile_fd = -1;
+	node->redirection = false;
 	if (!node->value)
 		return (ft_putstr_fd("malloc error create node\n", STDERR_FILENO),
 			NULL);

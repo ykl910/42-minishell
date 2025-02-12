@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 15:48:07 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:49:33 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ typedef enum
 
 typedef enum e_node_type
 {
-	COMMAND_SIMPLE,
-	COMMAND_PIPE,
-	COMMAND_AND,
-	COMMAND_OR,
+	COMMAND_SIMPLE, // 0
+	COMMAND_PIPE,   // 1
+	COMMAND_AND,    // 2
+	COMMAND_OR,     // 3
 	// COMMAND_REDIRECT_IN,
 	// COMMAND_REDIRECT_OUT,
 	// COMMAND_HERE_DOC,
 	// COMMAND_REDIRECT_APPEND,
-	COMMAND_SUBSHELL,
+	COMMAND_SUBSHELL, // 4
 }								e_command;
 
 typedef struct s_wildcard
@@ -83,6 +83,10 @@ typedef struct s_ast_node
 {
 	e_command					node_type;
 	char						**value;
+	int							status;
+	int							infile_fd;
+	int							outfile_fd;
+	bool						redirection;
 	struct s_ast_node			*left;
 	struct s_ast_node			*right;
 }								t_ast_node;
