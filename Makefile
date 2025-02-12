@@ -8,7 +8,7 @@ SRC_MAIN = src/main.c
 SRC_ENV = src/env/import_env.c src/env/var_expension.c
 SRC_BUILTIN = src/builtin/builtin.c src/builtin/builtin_utils.c
 SRC_LEXER = src/lexer/lexer.c src/lexer/lexer_utils.c src/lexer/wildcards.c src/lexer/wildcards2.c src/lexer/wildcards_utils.c src/lexer/lexer_errors.c src/lexer/expand.c
-SRC_PARSER = src/parser/precedence_climbing_2.c src/parser/parser_utils.c
+SRC_PARSER = src/parser/create_ast.c src/parser/parser_utils.c
 SRC_SIGNAL = src/signal/signal.c
 SRC_EXECUTOR = src/executor/execution.c
 

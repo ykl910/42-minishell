@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/11 16:21:38 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:48:21 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	builtin_cd(char **cmd, t_shell *shell)
 
 }
 
-void	builtin_echo(char **cmd, int *status)
+void	builtin_echo(char **cmd, t_shell *shell)
 {
 	int		i;
 	bool	new_line;

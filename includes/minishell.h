@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 12:04:26 by kyang            ###   ########.fr       */
+/*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
+/*   Updated: 2025/02/12 14:01:39 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
+# include "colors.h"
 # include <curses.h>
 # include <dirent.h>
 # include <errno.h>
@@ -30,6 +31,7 @@
 # include <termios.h>
 # include <unistd.h>
 
+# define SIGINT 2
 # define SIGINT 2
 # define SIGQUIT 3
 
@@ -48,6 +50,7 @@ typedef enum
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
 }								e_token;
+}								e_token;
 
 typedef enum e_node_type
 {
@@ -61,6 +64,7 @@ typedef enum e_node_type
 	// COMMAND_REDIRECT_APPEND,
 	COMMAND_SUBSHELL,
 }								e_command;
+}								e_command;
 
 typedef struct s_wildcard
 {
@@ -68,9 +72,17 @@ typedef struct s_wildcard
 	int							index;
 	struct s_wildcard			*next;
 }								t_wildcards;
+	char						*file;
+	int							index;
+	struct s_wildcard			*next;
+}								t_wildcards;
 
 typedef struct s_token
 {
+	e_token						token_type;
+	char						*value;
+	struct s_token				*next;
+}								t_token;
 	e_token						token_type;
 	char						*value;
 	struct s_token				*next;
@@ -83,9 +95,18 @@ typedef struct s_ast_node
 	struct s_ast_node			*left;
 	struct s_ast_node			*right;
 }								t_ast_node;
+	e_command					node_type;
+	char						**value;
+	struct s_ast_node			*left;
+	struct s_ast_node			*right;
+}								t_ast_node;
 
 typedef struct s_env
 {
+	char						*name;
+	char						*value;
+	struct s_env				*next;
+}								t_env;
 	char						*name;
 	char						*value;
 	struct s_env				*next;
@@ -98,8 +119,14 @@ typedef struct s_shell
 	t_ast_node					*ast;
 	int							status;
 }								t_shell;
+	t_env						*shell_env;
+	t_token						*token_lst;
+	t_ast_node					*ast;
+	int							status;
+}								t_shell;
 
 // builtin
+void							builtin_cd(char **cmd, t_shell *shell);
 void							builtin_cd(char **cmd, t_shell *shell);
 void							builtin_echo(char **cmd, int *status);
 void							builtin_pwd(int *status);
@@ -123,11 +150,13 @@ void							import_env(t_env **env, char **envp,
 void							update_env(t_env **env);
 char							*variable_expension(char *varaible,
 									t_shell *shell);
+void							update_env(t_env **env);
+char							*variable_expension(char *varaible,
+									t_shell *shell);
 
 // lexer
 t_token							*init_token(e_token type, char *av);
 int								ft_issep(char c);
-int								is_token_separator(char *av, int i);
 int								is_token_separator(char *av, int i);
 int								count_redir_text(char *av, int *i);
 int								count_logical_ops_parantheses(char *av, int *i);
@@ -154,10 +183,17 @@ bool							match_suffix(char *file, char *pattern,
 									int f_size, int p_size);
 bool							match_subpatterns(char **sub_patterns,
 									char *file, int f_size);
-//char							*expand_wc(char *line);
-char *expand_line(char *line, t_shell *shell);
 
 // parser
+int								get_precedence(e_token token);
+e_command						get_command_type(e_token token_type);
+t_ast_node						*create_node(e_command type, t_ast_node *left,
+									t_ast_node *right, char *value);
+char							**append_args(char **origin_args,
+									char *new_arg);
+t_ast_node						*parse_primary(t_token **tokens);
+t_ast_node						*parse_expression(t_token **tokens,
+									int min_precedence);
 int								get_precedence(e_token token);
 e_command						get_command_type(e_token token_type);
 t_ast_node						*create_node(e_command type, t_ast_node *left,
@@ -172,6 +208,8 @@ t_ast_node						*parse_expression(t_token **tokens,
 void							inorder_traversal(t_ast_node *node);
 
 // signal
+void							handle_sigint(int sig);
+void							handle_sigquit(int sig);
 void							handle_sigint(int sig);
 void							handle_sigquit(int sig);
 

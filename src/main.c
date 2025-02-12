@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 12:04:44 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/12 14:01:59 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -82,15 +81,15 @@ void	print_wildcard(t_wildcards **head)
 
 void	print_type(e_command type)
 {
-	if(type == COMMAND_SIMPLE)
+	if (type == COMMAND_SIMPLE)
 		ft_printf("CMD ");
-	if(type == COMMAND_PIPE)
+	if (type == COMMAND_PIPE)
 		ft_printf("| ");
-	if(type == COMMAND_AND)
+	if (type == COMMAND_AND)
 		ft_printf("&& ");
-	if(type == COMMAND_OR)
+	if (type == COMMAND_OR)
 		ft_printf("|| ");
-	if(type == COMMAND_SUBSHELL)
+	if (type == COMMAND_SUBSHELL)
 		ft_printf("(..) ");
 }
 
@@ -98,13 +97,23 @@ void	ast_printer(t_ast_node *root)
 {
 	if (!root)
 		return ;
-	mega_printer(root->left);
+	ast_printer(root->left);
 	print_type(root->node_type);
-	mega_printer(root->right);
+	ast_printer(root->right);
 }
 // DEBUG//
 
-void struct_init(t_shell *shell)
+// char *get_prompt(t_shell *shell)
+// {
+// 	char *prompt;
+// 	char *status_value;
+
+// 	status_value = ft_itoa(shell->status);
+// 	prompt = ft_strjoin(NEON_GREEN "minishell" RESET, status_value);
+// 	return (prompt);
+// }
+
+void	struct_init(t_shell *shell)
 {
 	shell->ast = NULL;
 	shell->shell_env = NULL;
@@ -112,40 +121,34 @@ void struct_init(t_shell *shell)
 	shell->status = 0;
 }
 
+void	shell_init(t_shell *shell, char **envp)
+{
+	struct_init(shell);
+	import_env(&shell->shell_env, envp, &shell->status);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_shell	shell;
-	t_token	*token;
-	char	*expanded_line;
-	
+
 	(void)ac;
 	(void)av;
-	struct_init(&shell);
-	import_env(&shell.shell_env, envp, &shell.status);
+	shell_init(&shell, envp);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, handle_sigquit);
 	while (1)
 	{
 		g_sigint_flag = 0;
-		line = readline("input prompt > ");
+		line = readline("minishell> ");
 		if (line)
 		{
 			add_history(line);
-			expanded_line = expand_line(line, &shell);
-			shell.token_lst = lexer(expanded_line);
-			token = shell.token_lst;
-			// while (token)
-			// {
-			// 	printf("type %u - value %s\n", token->token_type, token->value);
-			// 	token = token->next;
-			// }
-			// while (1)
-			// 	printf("f");
+			shell.token_lst = lexer(line);
 			check_lexer(&shell.token_lst);
 			shell.ast = parse_expression(&shell.token_lst, 0);
-			print_ast(shell.ast, 0);
-			//inorder_traversal(shell.ast);
+			ast_printer(shell.ast);
+			ft_printf("\n");
 			free(line);
 		}
 	}
