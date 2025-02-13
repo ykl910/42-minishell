@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/13 12:52:21 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:28:56 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ const char	*get_command_name(int command_type)
 		return ("PIPE");
 	else if (command_type == COMMAND_SIMPLE)
 		return ("COMMAND");
-	// else if (command_type == COMMAND_REDIRECT_IN)
-	// 	return ("REDIRECT_IN");
-	// else if (command_type == COMMAND_REDIRECT_OUT)
-	// 	return ("REDIRECT_OUT");
-	// else if (command_type == COMMAND_REDIRECT_APPEND)
-	// 	return ("REDIRECT_APPEND");
-	// else if (command_type == COMMAND_HERE_DOC)
-	// 	return ("HERE_DOC");
 	else if (command_type == COMMAND_SUBSHELL)
 		return ("SUBSHELL");
 	else
@@ -112,28 +104,6 @@ void	ast_printer(t_ast_node *root)
 // 	prompt = ft_strjoin(NEON_GREEN "minishell" RESET, status_value);
 // 	return (prompt);
 // }
-
-void	struct_init(t_shell *shell)
-{
-	shell->ast = NULL;
-	shell->shell_env = NULL;
-	shell->token_lst = NULL;
-	shell->paths = NULL;
-	shell->prompt_type = AST_CMD;
-	shell->status = 0;
-}
-
-void get_paths(t_shell *shell)
-{
-	//TODO
-}
-
-void	shell_init(t_shell *shell, char **envp)
-{
-	struct_init(shell);
-	import_env(&shell->shell_env, envp, &shell->status);
-	get_paths(shell);
-}
 
 int	main(int ac, char **av, char **envp)
 {

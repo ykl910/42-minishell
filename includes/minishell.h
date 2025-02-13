@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/13 14:55:19 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:25:59 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void							import_env(t_env **env, char **envp,
 void							update_env(t_env **env);
 char							*variable_expension(char *varaible,
 									t_shell *shell);
+void							shell_init(t_shell *shell, char **envp);
 
 // lexer
 t_token							*init_token(e_token type, char *av);

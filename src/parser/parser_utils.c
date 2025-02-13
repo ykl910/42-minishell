@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/13 14:30:43 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:10:25 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,6 @@ e_command	get_command_type(e_token token_type)
 		return (COMMAND_OR);
 	else if (token_type == TOKEN_PIPE)
 		return (COMMAND_PIPE);
-	// else if (token_type == TOKEN_REDIRECT_IN)
-	// 	return (COMMAND_REDIRECT_IN);
-	// else if (token_type == TOKEN_REDIRECT_OUT)
-	// 	return (COMMAND_REDIRECT_OUT);
-	// else if (token_type == TOKEN_HERE_DOC)
-	// 	return (COMMAND_HERE_DOC);
-	// else if (token_type == TOKEN_REDIRECT_APPEND)
-	// 	return (COMMAND_REDIRECT_APPEND);
 	else
 		return (COMMAND_SIMPLE);
 }
