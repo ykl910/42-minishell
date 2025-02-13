@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/13 12:53:50 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:55:19 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct s_ast_node
 {
 	e_command					node_type;
 	char						**value;
+	char **cmd; // TODO dans le parser
+	char						*cmd_abs_path;
 	int							status;
 	int							infile_fd;
 	int							outfile_fd;
@@ -173,6 +175,8 @@ t_ast_node						*parse_expression(t_token **tokens,
 // exec
 void							inorder_traversal(t_ast_node *node,
 									t_shell *shell);
+void							execute_pipe(t_ast_node *left_node,
+									t_ast_node *right_node, t_shell *shell);
 
 // signal
 void							handle_sigint(int sig);
