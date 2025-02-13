@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 16:50:09 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:52:21 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,14 +118,21 @@ void	struct_init(t_shell *shell)
 	shell->ast = NULL;
 	shell->shell_env = NULL;
 	shell->token_lst = NULL;
+	shell->paths = NULL;
 	shell->prompt_type = AST_CMD;
 	shell->status = 0;
+}
+
+void get_paths(t_shell *shell)
+{
+	//TODO
 }
 
 void	shell_init(t_shell *shell, char **envp)
 {
 	struct_init(shell);
 	import_env(&shell->shell_env, envp, &shell->status);
+	get_paths(shell);
 }
 
 int	main(int ac, char **av, char **envp)

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 18:49:33 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:53:50 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,10 @@ typedef enum
 
 typedef enum e_node_type
 {
-	COMMAND_SIMPLE, // 0
-	COMMAND_PIPE,   // 1
-	COMMAND_AND,    // 2
-	COMMAND_OR,     // 3
-	// COMMAND_REDIRECT_IN,
-	// COMMAND_REDIRECT_OUT,
-	// COMMAND_HERE_DOC,
-	// COMMAND_REDIRECT_APPEND,
+	COMMAND_SIMPLE,   // 0
+	COMMAND_PIPE,     // 1
+	COMMAND_AND,      // 2
+	COMMAND_OR,       // 3
 	COMMAND_SUBSHELL, // 4
 }								e_command;
 
@@ -103,6 +99,7 @@ typedef struct s_shell
 	t_env						*shell_env;
 	t_token						*token_lst;
 	t_ast_node					*ast;
+	char						**paths;
 	int							prompt_type;
 	int							status;
 }								t_shell;
