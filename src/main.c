@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 18:45:57 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:03:40 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_shell	shell;
+	t_token *token;
+	char	*new_line;
 	(void)ac;
 	(void)av;
 	shell_init(&shell, envp);
@@ -131,7 +133,9 @@ int	main(int ac, char **av, char **envp)
 		{
 
 			add_history(line);
-			shell.token_lst = lexer(line);
+			new_line = expand_line(line, &shell);
+			printf("%s\n", new_line);
+			shell.token_lst = lexer(new_line);
 			check_lexer(&shell.token_lst);
 			put_command_type(&shell);
 			shell.ast = parse_expression(&shell.token_lst, 0);
