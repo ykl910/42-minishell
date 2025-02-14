@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:24:13 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/13 15:28:02 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/14 11:24:03 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static bool	add_subpath(char **path)
 	return (true);
 }
 
-static void	get_paths(t_shell *shell)
+static void	*get_paths(t_shell *shell)
 {
 	int		i;
 	t_env	*tempenv;
@@ -73,6 +73,7 @@ static void	get_paths(t_shell *shell)
 	if (!add_subpath(paths))
 		return (ft_free_tab((void **)paths), NULL);
 	shell->paths = paths;
+	return (NULL);
 }
 
 void	shell_init(t_shell *shell, char **envp)

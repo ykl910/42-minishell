@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/13 15:28:56 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/14 11:52:59 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_shell	shell;
+	t_token *token;
+	char	*new_line;
 	(void)ac;
 	(void)av;
 	shell_init(&shell, envp);
@@ -122,15 +124,18 @@ int	main(int ac, char **av, char **envp)
 		{
 
 			add_history(line);
-			shell.token_lst = lexer(line);
+			new_line = expand_line(line, &shell);
+			printf("%s\n", new_line);
+			shell.token_lst = lexer(new_line);
 			check_lexer(&shell.token_lst);
+			token = shell.token_lst;
 			//	check_execution_type(&shell);  //TODO
 			//	if(shell.prompt_type == SIMPLE_CMD)
 			//		execute_simple_cmd(&shell, &shell.token_lst); //TODO
 			// else if(shell.prompt_type == AST_CMD)
 			//{
-			shell.ast = parse_expression(&shell.token_lst, 0);
-			inorder_traversal(shell.ast, &shell); // WIP
+			// shell.ast = parse_expression(&shell.token_lst, 0);
+			//inorder_traversal(shell.ast, &shell); // WIP
 			// free_ast(); //TODO
 			//		}
 			// print_ast(shell.ast, 0);

@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/13 15:25:59 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/14 11:39:55 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ bool							match_suffix(char *file, char *pattern,
 									int f_size, int p_size);
 bool							match_subpatterns(char **sub_patterns,
 									char *file, int f_size);
+char *expand_line(char *line, t_shell *shell);
 
 // parser
 int								get_precedence(e_token token);
