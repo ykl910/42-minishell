@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:35:33 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 12:01:52 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/14 18:40:42 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 char *expand_line(char *line, t_shell *shell)
 {
 	int i;
-	int	start;
+	int start;
+	int wc_flag;
+	int var_flag;
 	char quote;
 	char *new_line;
 	char *temp;
+	char *env_temp;
 	char *word;
-	char *wc_pattern;
-	char *var_value;
-	t_wildcards *wc_exp;
 
 	quote = 0;
 	new_line = ft_strdup("");
@@ -32,12 +32,13 @@ char *expand_line(char *line, t_shell *shell)
 		while (line[i] && line[i] <= ' ' && quote == 0)
 			i++;
 		start = i;
-		int wc_flag = 0, var_flag = 0;
+		wc_flag = 0;
+		var_flag = 0;
 		while (line[i] && (quote || line[i] > ' '))
 		{
 			if ((line[i] == '"' || line[i] == '\'') && (quote == 0 || quote == line[i]))
 			{
-				if (quote == 0)
+				if (!quote)
 					quote = line[i];
 				else
 					quote = 0;
@@ -56,38 +57,15 @@ char *expand_line(char *line, t_shell *shell)
 			continue;
 		if (var_flag)
 		{
-			char *var_name = ft_strndup(&line[start], i - start);
-			var_value = variable_expension(var_name, shell);
-			if (var_value)
-				temp = ft_strjoin(new_line, var_value);
-			else
-				temp = ft_strjoin(new_line, var_name);
+			char *segment = ft_strndup(&line[start], i - start);
+			temp = expand_env(segment, shell);
+			free(segment);
+			env_temp = ft_strjoin(new_line, temp);
 			free(new_line);
-			new_line = temp;
-			free(var_name);
-			if (var_value)
-				free(var_value);
+			new_line = env_temp;
 		}
 		else if (wc_flag)
-		{
-			wc_pattern = ft_strndup(&line[start], i - start);
-			wc_exp = wildcard_expension(wc_pattern);
-			while (wc_exp)
-			{
-				temp = ft_strjoin(new_line, wc_exp->file);
-				free(new_line);
-				new_line = temp;
-
-				if (wc_exp->next)
-				{
-					temp = ft_strjoin(new_line, " ");
-					free(new_line);
-					new_line = temp;
-				}
-				wc_exp = wc_exp->next;
-			}
-			free(wc_pattern);
-		}
+			new_line = expand_wc(line, start, i, new_line);
 		else
 		{
 			word = ft_strndup(&line[start], i - start);
