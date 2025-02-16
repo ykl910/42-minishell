@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/13 15:25:59 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/16 14:45:32 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_shell
 }								t_shell;
 
 // builtin
+int								built_in_exec(t_shell *shell, t_ast_node *node);
 void							builtin_cd(char **cmd, t_shell *shell);
 void							builtin_echo(char **cmd, t_shell *shell);
 void							builtin_pwd(int *status);
@@ -176,8 +177,9 @@ t_ast_node						*parse_expression(t_token **tokens,
 // exec
 void							inorder_traversal(t_ast_node *node,
 									t_shell *shell);
-void							execute_pipe(t_ast_node *left_node,
+int							execute_pipe(t_ast_node *left_node,
 									t_ast_node *right_node, t_shell *shell);
+void	pipe_redir_cmd(t_ast_node *node, int *pipex);
 
 // signal
 void							handle_sigint(int sig);

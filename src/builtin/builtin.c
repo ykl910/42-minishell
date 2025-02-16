@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/12 14:22:39 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/16 14:52:05 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,7 @@ void	builtin_export(char *line, t_env **env, int *status)
 		return ;
 	name = get_var_name(line);
 	if (!name)
-	{
-		status = 0;
 		return ;
-	}
 	value = get_var_value(line);
 	if (!*env)
 	{
@@ -182,26 +179,29 @@ void	builtin_exit(char **args, int *status)
 	exit((unsigned char)exit_code);
 }
 
-// void	built_in_exec(t_shell *shell, t_command *cmd)
-// {
-// 	int	name_size;
+int	built_in_exec(t_shell *shell, t_ast_node *node)
+{
+	int	name_size;
 
-// 	name_size = 0;
-// 	if (!cmd->name[0])
-// 		return ;
-// 	name_size = ft_strlen(cmd->name[0]);
-// 	if (!ft_strncmp(cmd->name[0], "cd", name_size))
-// 		builtin_cd(cmd->name, shell->status);
-// 	if (!ft_strncmp(cmd->name[0], "echo", name_size))
-// 		builtin_echo(cmd->name, shell->status);
-// 	if (!ft_strncmp(cmd->name[0], "pwd", name_size))
-// 		builtin_pwd(shell->status);
-// 	if (!ft_strncmp(cmd->name[0], "export", name_size))
-// 		builtin_export(cmd->name[1], shell->env, shell->status);
-// 	if (!ft_strncmp(cmd->name[0], "unset", name_size))
-// 		builtin_unset(cmd->name[1], shell->env, shell->status);
-// 	if (!ft_strncmp(cmd->name[0], "env", name_size))
-// 		builtin_env(shell->env, shell->status);
-// 	if (!ft_strncmp(cmd->name[0], "exit", name_size))
-// 		builtin_exit(cmd->name, shell->status);
-// }
+	name_size = 0;
+	if (!node->cmd)
+		return ;
+	name_size = ft_strlen(node->cmd[0]);
+	if (!ft_strncmp(node->cmd[0], "cd", name_size))
+		return(builtin_cd(node->cmd, shell->status), 0);
+	else if (!ft_strncmp(node->cmd[0], "echo", name_size))
+		return(builtin_echo(node->cmd, shell->status), 0);
+	else if (!ft_strncmp(node->cmd[0], "pwd", name_size))
+		return(builtin_pwd(shell->status), 0);
+	else if (!ft_strncmp(node->cmd[0], "export", name_size))
+		return(builtin_export(node->cmd[1], shell->shell_env, shell->status), 0);
+	else if (!ft_strncmp(node->cmd[0], "unset", name_size))
+		return(builtin_unset(node->cmd[1], shell->shell_env, shell->status), 0);
+	else if (!ft_strncmp(node->cmd[0], "env", name_size))
+		return(builtin_env(shell->shell_env, shell->status), 0);
+	else if (!ft_strncmp(node->cmd[0], "exit", name_size))
+		return(builtin_exit(node->cmd, shell->status), 0);
+	else
+		return (-1);
+}
+
