@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:40:38 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/10 19:19:54 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/16 15:44:29 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,19 @@ char	*get_var_value(char *env_line)
 	return (value);
 }
 
-bool	create_head_env_lst(char **name, char **value, t_env **env)
+bool	create_head_env_lst(char *key, char **name, char **value, t_env **env)
 {
 	*env = malloc(sizeof(t_env));
 	if (!*env)
 		return (false);
 	(*env)->name = *name;
 	(*env)->value = *value;
+	(*env)->key_val = key;
 	(*env)->next = NULL;
 	return (true);
 }
 
-bool	create_node_env_lst(char **name, char **value, t_env **env)
+bool	create_node_env_lst(char *key, char **name, char **value, t_env **env)
 {
 	t_env	*temp;
 	t_env	*new;
@@ -71,6 +72,7 @@ bool	create_node_env_lst(char **name, char **value, t_env **env)
 		return (false);
 	new->name = *name;
 	new->value = *value;
+	new->key_val = key;
 	new->next = NULL;
 	while (temp->next)
 		temp = temp->next;

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/16 14:45:32 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:00:20 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_env
 {
 	char						*name;
 	char						*value;
+	char						*key_val;
 	struct s_env				*next;
 }								t_env;
 
@@ -110,28 +111,26 @@ typedef struct s_shell
 int								built_in_exec(t_shell *shell, t_ast_node *node);
 void							builtin_cd(char **cmd, t_shell *shell);
 void							builtin_echo(char **cmd, t_shell *shell);
-void							builtin_pwd(int *status);
-void							builtin_export(char *line, t_env **env,
-									int *status);
-void							builtin_unset(char *target, t_env **env,
-									int *status);
-void							builtin_env(t_env **env, int *status);
-void							builtin_exit(char **args, int *status);
+void							builtin_pwd(t_shell *shell);
+void							builtin_export(char *line, t_shell *shell);
+void							builtin_unset(char *target, t_shell *shell);
+void							builtin_env(t_shell *shell);
+void							builtin_exit(char **args, t_shell *shell);
 char							*get_var_name(char *env_line);
 char							*get_var_value(char *env_line);
-bool							create_head_env_lst(char **name, char **value,
+bool							create_head_env_lst(char *key, char **name, char **value,
 									t_env **env);
-bool							create_node_env_lst(char **name, char **value,
+bool							create_node_env_lst(char *key, char **name, char **value,
 									t_env **env);
 bool							is_numerical(char *str);
 
 // env
-void							import_env(t_env **env, char **envp,
-									int *status);
+void							import_env(t_shell *shell, char **envp);
 void							update_env(t_env **env);
 char							*variable_expension(char *varaible,
 									t_shell *shell);
 void							shell_init(t_shell *shell, char **envp);
+char							**env_lst_to_array(t_env *env);
 
 // lexer
 t_token							*init_token(e_token type, char *av);
@@ -179,7 +178,7 @@ void							inorder_traversal(t_ast_node *node,
 									t_shell *shell);
 int							execute_pipe(t_ast_node *left_node,
 									t_ast_node *right_node, t_shell *shell);
-void	pipe_redir_cmd(t_ast_node *node, int *pipex);
+void	pipe_redir_cmd(t_ast_node *node);
 
 // signal
 void							handle_sigint(int sig);

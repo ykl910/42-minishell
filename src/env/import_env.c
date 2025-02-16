@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:37:14 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/11 17:46:48 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/16 15:17:46 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ void	update_env(t_env **env)
 		return (free(pwd), free(old_pwd));
 }
 
-void	import_env(t_env **env, char **envp, int *status)
+void	import_env(t_shell *shell, char **envp)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
 	{
-		builtin_export(envp[i], env, status);
+		builtin_export(envp[i], shell);
 		i++;
 	}
 }

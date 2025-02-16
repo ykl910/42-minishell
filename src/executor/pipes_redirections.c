@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   pipes_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:11:22 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/14 13:11:56 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:00:03 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	redirect_here_doc(t_ast_node *node, int *i)
 	*i += 2;
 }
 
-void	pipe_redir_cmd(t_ast_node *node, int *pipex)
+void	pipe_redir_cmd(t_ast_node *node)
 {
 	int	i;
 	int	arg_size;
@@ -75,13 +75,13 @@ void	pipe_redir_cmd(t_ast_node *node, int *pipex)
 	{
 		arg_size = ft_strlen(node->value[i]);
 		if(!ft_strncmp(node->value[i], "<", arg_size) && node->value[i + 1])
-			redirect_infile(node, i);
+			redirect_infile(node, &i);
 		else if(!ft_strncmp(node->value[i], ">", arg_size) && node->value[i + 1])
-			redirect_trunc_outile(node, i);
+			redirect_trunc_outile(node, &i);
 		else if(!ft_strncmp(node->value[i], ">>", arg_size) && node->value[i + 1])
-			redirect_app_outfile(node, i);
+			redirect_app_outfile(node, &i);
 		else if(!ft_strncmp(node->value[i], "<<", arg_size))
-			redirect_here_doc(node, i);
+			redirect_here_doc(node, &i);
 		else
 			i++;
 	}

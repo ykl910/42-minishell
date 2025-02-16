@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/16 14:50:28 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:00:09 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,20 @@ static void	check_cmd(t_ast_node *node, t_shell *shell)
 
 static void	new_process(t_ast_node *node, t_shell *shell)
 {
+	char **temp_env_array;
 
+	temp_env_array = NULL;
 	check_cmd(node, shell);
 	shell->status = node->status;
 	if(node->status == 0)
 	{
 		if(built_in_exec(shell, node) == -1)
-			execve(node->cmd_abs_path, node->cmd, shell->shell_env);
+		{
+			temp_env_array = env_lst_to_array(shell->shell_env);
+			execve(node->cmd_abs_path, node->cmd, temp_env_array);
+		}
 	}
+	ft_free_tab((void **)temp_env_array);
 	free(node->cmd_abs_path);
 	exit(node->status);
 }
@@ -54,7 +60,7 @@ static void	new_process(t_ast_node *node, t_shell *shell)
 static void	second_child_process(t_ast_node *node, t_shell *shell, int *pipex)
 {
 	if(node->node_type == COMMAND_SIMPLE)
-		pipe_redir_cmd(node, pipex);
+		pipe_redir_cmd(node);
 	else
 	{
 		if(dup2(node->outfile_fd, STDIN_FILENO) == -1)
@@ -75,7 +81,7 @@ static void	second_child_process(t_ast_node *node, t_shell *shell, int *pipex)
 static void	first_child_process(t_ast_node *node, t_shell *shell, int *pipex)
 {
 	if(node->node_type == COMMAND_SIMPLE)
-		pipe_redir_cmd(node, pipex);
+		pipe_redir_cmd(node);
 	else
 	{
 		if(dup2(node->outfile_fd, STDIN_FILENO) == -1)
