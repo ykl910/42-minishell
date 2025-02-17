@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 18:36:13 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/17 18:45:57 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,6 @@ void	ast_printer(t_ast_node *root)
 }
 // DEBUG//
 
-// char *get_prompt(t_shell *shell)
-// {
-// 	char *prompt;
-// 	char *status_value;
-
-// 	status_value = ft_itoa(shell->status);
-// 	prompt = ft_strjoin(NEON_GREEN "minishell" RESET, status_value);
-// 	return (prompt);
-// }
-
 void	put_command_type(t_shell *shell)
 {
 	t_token	*current;
@@ -118,7 +108,7 @@ void	put_command_type(t_shell *shell)
 			shell->prompt_type = 0;
 			return ;
 		}
-			
+
 		current = current->next;
 	}
 	shell->prompt_type = 1;
@@ -146,8 +136,6 @@ int	main(int ac, char **av, char **envp)
 			put_command_type(&shell);
 			shell.ast = parse_expression(&shell.token_lst, 0);
 			inorder_traversal(shell.ast, &shell); // WIP
-			// free_ast(); //TODO
-			//		}
 			free(line);
 		}
 	}

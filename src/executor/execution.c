@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 18:33:28 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/17 18:54:51 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 int	execute_command(t_ast_node *node, t_shell *shell)
 {
 	t_ast_node	*current;
-
+	//TODO fork et execute cmd ind child porcess
 	current = node;
 	while (current->left && current->left->node_type == COMMAND_SUBSHELL)
 		current = current->left;
