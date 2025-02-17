@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 19:03:40 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/17 19:07:50 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_shell	shell;
-	t_token *token;
 	char	*new_line;
 	(void)ac;
 	(void)av;
@@ -131,10 +130,8 @@ int	main(int ac, char **av, char **envp)
 		line = readline(CYAN "*  " RESET NEON_GREEN "minishell ~ " RESET);
 		if (line)
 		{
-
 			add_history(line);
 			new_line = expand_line(line, &shell);
-			printf("%s\n", new_line);
 			shell.token_lst = lexer(new_line);
 			check_lexer(&shell.token_lst);
 			put_command_type(&shell);

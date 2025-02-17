@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_exe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/17 18:53:41 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:06:33 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	new_process(t_ast_node *node, t_shell *shell)
 	}
 	ft_free_tab((void **)temp_env_array);
 	free(node->cmd_abs_path);
-	exit(node->status);
+	//exit(node->status);
 }
 
 static void	second_child_process(t_ast_node *node, t_shell *shell, int *pipex)
