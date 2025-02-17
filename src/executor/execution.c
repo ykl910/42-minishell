@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/16 14:54:27 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:33:07 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void	inorder_traversal(t_ast_node *node, t_shell *shell)
 		return ;
 	if (node->node_type == COMMAND_SUBSHELL)
 		execute(node, shell);
-	inorder_traversal(node->left, shell);
+	//inorder_traversal(node->left, shell);
 	if (node->node_type >= COMMAND_PIPE && node->node_type <= COMMAND_OR)
 		execute(node, shell);
-	inorder_traversal(node->right, shell);
+//	inorder_traversal(node->right, shell);
 }
 
 

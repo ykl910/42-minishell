@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/16 16:00:09 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:33:58 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static void	check_cmd(t_ast_node *node, t_shell *shell)
 			else
 			{
 				node->status = 126;
-				ft_putstr_fd("ERROR: Permission denied", STDERR_FILENO);
+				ft_putstr_fd("ERROR: Permission denied\n", STDERR_FILENO);
 			}
 		}
 		free(node->cmd_abs_path);
 		i++;
 	}
 	node->status = 127;
-	ft_putstr_fd("ERROR: Command not found", STDERR_FILENO);
+	ft_putstr_fd("ERROR: Command not found\n", STDERR_FILENO);
 }
 
 static void	new_process(t_ast_node *node, t_shell *shell)

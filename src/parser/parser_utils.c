@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/13 15:10:25 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/17 11:56:14 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ t_ast_node	*create_node(e_command type, t_ast_node *left, t_ast_node *right,
 		char *value)
 {
 	t_ast_node	*node;
-
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 		return (ft_putstr_fd("malloc error create node\n", STDERR_FILENO),
@@ -81,23 +80,24 @@ t_ast_node	*create_node(e_command type, t_ast_node *left, t_ast_node *right,
 	node->node_type = type;
 	node->left = left;
 	node->right = right;
-	node->value = NULL;
+	node->value = ft_calloc(2, sizeof(char *));
+	if (!node->value)
+		return (ft_putstr_fd("malloc error create node\n", STDERR_FILENO),
+			NULL);
 	node->cmd = NULL;
 	node->cmd_abs_path = NULL;
 	node->status = 0;
 	node->infile_fd = -1;
 	node->outfile_fd = -1;
 	node->redirection = false;
-	if (!node->value)
-		return (ft_putstr_fd("malloc error create node\n", STDERR_FILENO),
-			NULL);
 	if (value)
+	{
 		node->value[0] = ft_strdup(value);
-	else
-		node->value[0] = NULL;
+		if (!node->value[0])
+			return (ft_putstr_fd("malloc error value\n", STDERR_FILENO), NULL);
+	}
 	return (node);
 }
-
 
 // char	*put_commnad(t_ast_node *node)
 // {

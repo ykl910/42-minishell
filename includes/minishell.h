@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/16 16:00:20 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:18:53 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ typedef struct s_ast_node
 {
 	e_command					node_type;
 	char						**value;
-	char **cmd; // TODO dans le parser
-	char						*cmd_abs_path;
+	char						**cmd; // TODO dans le parser
+	char						*cmd_abs_path; // todo
 	int							status;
 	int							infile_fd;
 	int							outfile_fd;
