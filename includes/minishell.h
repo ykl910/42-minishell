@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 12:18:53 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:06:12 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ typedef struct s_ast_node
 {
 	e_command					node_type;
 	char						**value;
-	char						**cmd; // TODO dans le parser
-	char						*cmd_abs_path; // todo
+	char **cmd;         // TODO dans le parser
+	char *cmd_abs_path; // todo
 	int							status;
 	int							infile_fd;
 	int							outfile_fd;
@@ -118,10 +118,10 @@ void							builtin_env(t_shell *shell);
 void							builtin_exit(char **args, t_shell *shell);
 char							*get_var_name(char *env_line);
 char							*get_var_value(char *env_line);
-bool							create_head_env_lst(char *key, char **name, char **value,
-									t_env **env);
-bool							create_node_env_lst(char *key, char **name, char **value,
-									t_env **env);
+bool							create_head_env_lst(char *key, char **name,
+									char **value, t_env **env);
+bool							create_node_env_lst(char *key, char **name,
+									char **value, t_env **env);
 bool							is_numerical(char *str);
 
 // env
@@ -176,10 +176,11 @@ t_ast_node						*parse_expression(t_token **tokens,
 // exec
 void							inorder_traversal(t_ast_node *node,
 									t_shell *shell);
-int							execute_pipe(t_ast_node *left_node,
+int								execute_pipe(t_ast_node *left_node,
 									t_ast_node *right_node, t_shell *shell);
-void	pipe_redir_cmd(t_ast_node *node);
-
+void							pipe_redir_cmd(t_ast_node *node);
+void							parse_path(t_ast_node *node, t_shell *shell);
+int								create_cmd(char ***cmd, char *arg);
 // signal
 void							handle_sigint(int sig);
 void							handle_sigquit(int sig);

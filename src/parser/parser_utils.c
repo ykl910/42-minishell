@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 11:56:14 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 13:48:29 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,3 @@ t_ast_node	*create_node(e_command type, t_ast_node *left, t_ast_node *right,
 	return (node);
 }
 
-// char	*put_commnad(t_ast_node *node)
-// {
-// 	int i;
-// 	int j;
-// 	char **arg;
-
-// 	i = 0;
-// 	j = 0;
-// 	arg = NULL;
-// 	while(node->value[i])
-// 	{
-
-// 	}
-// }

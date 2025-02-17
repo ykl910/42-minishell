@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/16 15:42:13 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:41:27 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ void	builtin_echo(char **cmd, t_shell *shell)
 		new_line = false;
 		i = 2;
 	}
-	while (cmd[i])
+	else
+		i++;
+	if(!cmd[i])
+		return ;
+	while(cmd[i])
 	{
 		ft_printf("%s", cmd[i]);
 		if (cmd[i + 1])
@@ -140,7 +144,7 @@ void	builtin_env(t_shell *shell)
 	t_env	*current;
 
 	shell->status = 0;
-	if (shell->shell_env)
+	if (!shell->shell_env)
 		return ;
 	current = shell->shell_env;
 	while (current)
@@ -152,6 +156,8 @@ void	builtin_env(t_shell *shell)
 			ft_printf("%s\n", current->value);
 		current = current->next;
 	}
+	current = current->next;
+	ft_printf("ICI:	%s\n", current->name);
 }
 
 void	builtin_exit(char **args, t_shell *shell)

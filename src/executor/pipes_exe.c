@@ -6,48 +6,23 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/17 12:33:58 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:21:39 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	check_cmd(t_ast_node *node, t_shell *shell)
-{
-	int	i;
-
-	i = 0;
-	while(shell->paths[i])
-	{
-		node->cmd_abs_path = ft_strjoin(shell->paths[i], node->cmd[0]);
-		if(access(node->cmd_abs_path, F_OK) == 0)
-		{
-			if(access(node->cmd_abs_path, X_OK) == 0)
-				node->status = 0;
-			else
-			{
-				node->status = 126;
-				ft_putstr_fd("ERROR: Permission denied\n", STDERR_FILENO);
-			}
-		}
-		free(node->cmd_abs_path);
-		i++;
-	}
-	node->status = 127;
-	ft_putstr_fd("ERROR: Command not found\n", STDERR_FILENO);
-}
 
 static void	new_process(t_ast_node *node, t_shell *shell)
 {
 	char **temp_env_array;
 
 	temp_env_array = NULL;
-	check_cmd(node, shell);
-	shell->status = node->status;
 	if(node->status == 0)
 	{
 		if(built_in_exec(shell, node) == -1)
 		{
+			parse_path(node, shell);
+			shell->status = node->status;
 			temp_env_array = env_lst_to_array(shell->shell_env);
 			execve(node->cmd_abs_path, node->cmd, temp_env_array);
 		}
@@ -80,6 +55,7 @@ static void	second_child_process(t_ast_node *node, t_shell *shell, int *pipex)
 
 static void	first_child_process(t_ast_node *node, t_shell *shell, int *pipex)
 {
+
 	if(node->node_type == COMMAND_SIMPLE)
 		pipe_redir_cmd(node);
 	else

@@ -10,7 +10,7 @@ SRC_BUILTIN = src/builtin/builtin.c src/builtin/builtin_utils.c
 SRC_LEXER = src/lexer/lexer.c src/lexer/lexer_utils.c src/lexer/wildcards.c src/lexer/wildcards2.c src/lexer/wildcards_utils.c src/lexer/lexer_errors.c src/lexer/expand.c
 SRC_PARSER = src/parser/create_ast.c src/parser/parser_utils.c
 SRC_SIGNAL = src/signal/signal.c
-SRC_EXECUTOR = src/executor/execution.c src/executor/pipes_exe.c src/executor/pipes_redirections.c
+SRC_EXECUTOR = src/executor/execution.c src/executor/pipes_exe.c src/executor/pipes_redirections.c src/executor/pipes_utils.c
 
 SRC = $(SRC_MAIN) $(SRC_ENV) $(SRC_BUILTIN) $(SRC_LEXER) $(SRC_PARSER) $(SRC_SIGNAL) $(SRC_EXECUTOR)
 OBJ = $(patsubst %.c, $(OBJDIR)/%.o, $(SRC))
