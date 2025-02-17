@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_exe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/17 16:21:39 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:11:01 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	new_process(t_ast_node *node, t_shell *shell)
+void	new_process(t_ast_node *node, t_shell *shell)
 {
 	char **temp_env_array;
 

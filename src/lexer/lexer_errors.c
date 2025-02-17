@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:56:04 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/10 19:58:20 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/17 18:01:14 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	print_syntax_error(char *token_value)
 	exit(1);
 }
 
+// pipe or and or or before a left parent
 void	check_lexer(t_token **tokens)
 {
 	t_token	*current;
