@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/17 16:41:27 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:32:03 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	builtin_cd(char **cmd, t_shell *shell)
 	}
 	update_env(&shell->shell_env);
 	shell->status = 0;
-
 }
 
 void	builtin_echo(char **cmd, t_shell *shell)
@@ -52,9 +51,9 @@ void	builtin_echo(char **cmd, t_shell *shell)
 	}
 	else
 		i++;
-	if(!cmd[i])
+	if (!cmd[i])
 		return ;
-	while(cmd[i])
+	while (cmd[i])
 	{
 		ft_printf("%s", cmd[i]);
 		if (cmd[i + 1])
@@ -66,19 +65,31 @@ void	builtin_echo(char **cmd, t_shell *shell)
 	shell->status = 0;
 }
 
+
 void	builtin_pwd(t_shell *shell)
 {
-	char	*path;
+	t_env	*current;
+	char	*cwd;
 
-	path = getcwd(NULL, 0);
-	if (!path)
+	cwd = NULL;
+	current = shell->shell_env;
+	while (current)
 	{
-		shell->status = 1;
-		return ;
+		if (!ft_strncmp(current->name, "PWD", ft_strlen(current->name)))
+		{
+			ft_printf("%s\n", current->value);
+			return ;
+		}
+		current = current->next;
 	}
-	ft_printf("%s\n", path);
-	free(path);
-	shell->status = 0;
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		ft_putendl_fd("pwd: error retrieving current dir", STDERR_FILENO);
+	else
+	{
+		ft_printf("%s\n", cwd);
+		free(cwd);
+	}
 }
 
 void	builtin_export(char *line, t_shell *shell)
@@ -92,23 +103,14 @@ void	builtin_export(char *line, t_shell *shell)
 	if (!name)
 		return ;
 	value = get_var_value(line);
-	if (!shell->shell_env)
+	if(put_env_var(line, &name, &value, shell) == -1)
 	{
-		if (!create_head_env_lst(line, &name, &value, &shell->shell_env))
-		{
-			shell->status = 1;
-			return (free(name), free(value));
-		}
+		free(name);
+		free(value);
+		shell->status = 1;
 	}
 	else
-	{
-		if (!create_node_env_lst(line, &name, &value, &shell->shell_env))
-		{
-			shell->status = 1;
-			return (free(name), free(value));
-		}
-	}
-	shell->status = 0;
+		shell->status = 0;
 }
 
 void	builtin_unset(char *target, t_shell *shell)
@@ -156,8 +158,6 @@ void	builtin_env(t_shell *shell)
 			ft_printf("%s\n", current->value);
 		current = current->next;
 	}
-	current = current->next;
-	ft_printf("ICI:	%s\n", current->name);
 }
 
 void	builtin_exit(char **args, t_shell *shell)
@@ -194,20 +194,19 @@ int	built_in_exec(t_shell *shell, t_ast_node *node)
 		return (-1);
 	name_size = ft_strlen(node->cmd[0]);
 	if (!ft_strncmp(node->cmd[0], "cd", name_size))
-		return(builtin_cd(node->cmd, shell), 0);
+		return (builtin_cd(node->cmd, shell), 0);
 	else if (!ft_strncmp(node->cmd[0], "echo", name_size))
-		return(builtin_echo(node->cmd, shell), 0);
+		return (builtin_echo(node->cmd, shell), 0);
 	else if (!ft_strncmp(node->cmd[0], "pwd", name_size))
-		return(builtin_pwd(shell), 0);
+		return (builtin_pwd(shell), 0);
 	else if (!ft_strncmp(node->cmd[0], "export", name_size))
-		return(builtin_export(node->cmd[1], shell), 0);
+		return (builtin_export(node->cmd[1], shell), 0);
 	else if (!ft_strncmp(node->cmd[0], "unset", name_size))
-		return(builtin_unset(node->cmd[1], shell), 0);
+		return (builtin_unset(node->cmd[1], shell), 0);
 	else if (!ft_strncmp(node->cmd[0], "env", name_size))
-		return(builtin_env(shell), 0);
+		return (builtin_env(shell), 0);
 	else if (!ft_strncmp(node->cmd[0], "exit", name_size))
-		return(builtin_exit(node->cmd, shell), 0);
+		return (builtin_exit(node->cmd, shell), 0);
 	else
 		return (-1);
 }
-

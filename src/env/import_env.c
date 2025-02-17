@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:37:14 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/17 16:17:50 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:29:33 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,39 +78,6 @@ void	update_env(t_env **env)
 	if (chage_old_pwd(env, old_pwd) == -1)
 		return (free(pwd), free(old_pwd));
 }
-//////////////////////
-
-void	builtin_exportdd(char *line, t_shell *shell)
-{
-	char	*name;
-	char	*value;
-
-	if (!line)
-		return ;
-	name = get_var_name(line);
-	if (!name)
-		return ;
-	value = get_var_value(line);
-	if (!shell->shell_env)
-	{
-		if (!create_head_env_lst(line, &name, &value, &shell->shell_env))
-		{
-			shell->status = 1;
-			return (free(name), free(value));
-		}
-	}
-	else
-	{
-		if (!create_node_env_lst(line, &name, &value, &shell->shell_env))
-		{
-			shell->status = 1;
-			return (free(name), free(value));
-		}
-	}
-	shell->status = 0;
-}
-
-///////////////////////
 
 void	import_env(t_shell *shell, char **envp)
 {
@@ -119,7 +86,7 @@ void	import_env(t_shell *shell, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		builtin_exportdd(envp[i], shell);
+		builtin_export(envp[i], shell);
 		i++;
 	}
 }

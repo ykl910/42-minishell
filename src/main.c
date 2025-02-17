@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 12:11:44 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:54:20 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,6 @@ int	main(int ac, char **av, char **envp)
 			inorder_traversal(shell.ast, &shell); // WIP
 			// free_ast(); //TODO
 			//		}
-			//print_ast(shell.ast, 0);
-			// ft_printf("\n");
 			free(line);
 		}
 	}

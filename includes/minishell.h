@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 15:06:12 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:18:54 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,12 @@ void							builtin_env(t_shell *shell);
 void							builtin_exit(char **args, t_shell *shell);
 char							*get_var_name(char *env_line);
 char							*get_var_value(char *env_line);
-bool							create_head_env_lst(char *key, char **name,
+int								create_head_env_lst(char *key, char **name,
 									char **value, t_env **env);
-bool							create_node_env_lst(char *key, char **name,
+int								create_node_env_lst(char *key, char **name,
 									char **value, t_env **env);
+int								put_env_var(char *line, char **name,
+									char **value, t_shell *shell);
 bool							is_numerical(char *str);
 
 // env
