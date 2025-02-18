@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/14 11:52:59 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 10:39:40 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,29 @@ void	ast_printer(t_ast_node *root)
 }
 // DEBUG//
 
-// char *get_prompt(t_shell *shell)
-// {
-// 	char *prompt;
-// 	char *status_value;
+void	put_command_type(t_shell *shell)
+{
+	t_token	*current;
 
-// 	status_value = ft_itoa(shell->status);
-// 	prompt = ft_strjoin(NEON_GREEN "minishell" RESET, status_value);
-// 	return (prompt);
-// }
+	current = shell->token_lst;
+	while (current)
+	{
+		if (current->token_type == TOKEN_PIPE || current->token_type == TOKEN_AND || \
+			current->token_type == TOKEN_OR)
+		{
+			shell->prompt_type = 0;
+			return ;
+		}
+
+		current = current->next;
+	}
+	shell->prompt_type = 1;
+}
 
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_shell	shell;
-	t_token *token;
 	char	*new_line;
 	(void)ac;
 	(void)av;
@@ -122,24 +130,13 @@ int	main(int ac, char **av, char **envp)
 		line = readline(CYAN "*  " RESET NEON_GREEN "minishell ~ " RESET);
 		if (line)
 		{
-
 			add_history(line);
 			new_line = expand_line(line, &shell);
-			printf("%s\n", new_line);
 			shell.token_lst = lexer(new_line);
 			check_lexer(&shell.token_lst);
-			token = shell.token_lst;
-			//	check_execution_type(&shell);  //TODO
-			//	if(shell.prompt_type == SIMPLE_CMD)
-			//		execute_simple_cmd(&shell, &shell.token_lst); //TODO
-			// else if(shell.prompt_type == AST_CMD)
-			//{
-			// shell.ast = parse_expression(&shell.token_lst, 0);
-			//inorder_traversal(shell.ast, &shell); // WIP
-			// free_ast(); //TODO
-			//		}
-			// print_ast(shell.ast, 0);
-			// ft_printf("\n");
+			put_command_type(&shell);
+			shell.ast = parse_expression(&shell.token_lst, 0);
+			inorder_traversal(shell.ast, &shell); // WIP
 			free(line);
 		}
 	}

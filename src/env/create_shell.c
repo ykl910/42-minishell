@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:24:13 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/14 11:24:03 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 10:39:33 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,22 @@ static void	*get_paths(t_shell *shell)
 	char	**paths;
 
 	i = 0;
-	if (!(shell->shell_env))
-		return (NULL);
+	if (!shell->shell_env)
+		return ;
 	tempenv = shell->shell_env;
-	while (tempenv && ft_strncmp(tempenv->name, "PATH=", 5))
+	while (tempenv && ft_strncmp(tempenv->name, "PATH", 5))
 		tempenv = tempenv->next;
 	if (!tempenv)
-		return (NULL);
+		return ;
 	temp = ft_strdup(tempenv->value);
 	if (!temp)
-		return (NULL);
+		return ;
 	paths = ft_split(temp, ':');
 	free(temp);
 	if (!paths)
-		return (NULL);
+		return ;
 	if (!add_subpath(paths))
-		return (ft_free_tab((void **)paths), NULL);
+		return (ft_free_tab((void **)paths));
 	shell->paths = paths;
 	return (NULL);
 }
@@ -79,6 +79,6 @@ static void	*get_paths(t_shell *shell)
 void	shell_init(t_shell *shell, char **envp)
 {
 	struct_init(shell);
-	import_env(&shell->shell_env, envp, &shell->status);
+	import_env(shell, envp);
 	get_paths(shell);
 }

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:24:18 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/12 13:58:16 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/17 11:52:29 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 /*Gerer cas de figure si create_node renvoie NULL -> Retour Main et free ?*/
 
+
 t_ast_node	*parse_txt(t_token **tokens)
 {
 	t_ast_node	*node;
-
 	node = create_node(COMMAND_SIMPLE, NULL, NULL, (*tokens)->value);
 	if (!node)
 		return (NULL);
