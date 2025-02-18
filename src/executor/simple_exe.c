@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_exe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 18:03:35 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:08:56 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ int	execute_command(t_ast_node *node, t_shell *shell)
 		if (current->outfile_fd != -1)
 			close(current->outfile_fd);
 	}
+	free_ast_node(node);
 	return (shell->status);
 }

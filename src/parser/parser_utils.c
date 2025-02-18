@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 13:51:42 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:04:21 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_ast_node	*create_node(e_command type, t_ast_node *left, t_ast_node *right,
 	node->infile_fd = -1;
 	node->outfile_fd = -1;
 	node->redirection = false;
+	node->is_here_doc = false;
 	if (value)
 	{
 		node->value[0] = ft_strdup(value);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:11:22 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 18:02:51 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:08:36 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,14 @@ static void	redirect_here_doc(t_ast_node *node, int *i)
 	limiter = ft_strdup(node->value[*i + 1]);
 	if (!limiter)
 		return ;
-	node->infile_fd = open("heredoc.txt", O_CREAT | O_RDONLY, 0644);
+	node->infile_fd = open("heredoc.txt", O_CREAT | O_RDWR, 0644);
 	if (node->infile_fd < 0)
 		handle_open_error(node->infile_fd);
 	put_heredoc(node->infile_fd, limiter);
-	reopen_heredoc(node->infile_fd);
+	reopen_heredoc(&node->infile_fd);
+	free(limiter);
+	if(!node->is_here_doc)
+		node->is_here_doc = true;
 	*i += 2;
 }
 

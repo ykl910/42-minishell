@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:29:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 11:51:48 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:03:39 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	free_ast_node(t_ast_node *node)
 		close(node->infile_fd);
 	if (node->outfile_fd > 0)
 		close(node->outfile_fd);
+	if(node->is_here_doc)
+		unlink("heredoc.txt");
 	free(node);
 	node = NULL;
 }

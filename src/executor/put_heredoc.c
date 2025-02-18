@@ -6,17 +6,17 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:44:03 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 16:06:42 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:55:50 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reopen_heredoc(int infile_fd)
+void	reopen_heredoc(int *infile_fd)
 {
-	open("heredoc.txt", O_RDWR, 0644);
-	if (infile_fd < 0)
-		handle_open_error(infile_fd);
+	*infile_fd = open("heredoc.txt", O_RDWR, 0644);
+	if (*infile_fd < 0)
+		handle_open_error(*infile_fd);
 }
 
 static bool	is_limiter(char *line, char *limiter)
@@ -44,7 +44,6 @@ void	put_heredoc(int infile_fd, char *limiter)
 		if (!line || is_limiter(line, limiter))
 			break ;
 		write(infile_fd, line, ft_strlen(line));
-		write(infile_fd, "\n", 1);
 		free(line);
 		i++;
 	}
