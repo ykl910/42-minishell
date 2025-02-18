@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 17:15:57 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:03:32 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,45 +84,45 @@ void	parse_path(t_ast_node *node, t_shell *shell)
 		check_relative_cmd(node, shell);
 }
 
-
 int	tab_size(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(!*tab || !tab)
+	if (!*tab || !tab)
 		return (i);
-	while(tab[i])
+	while (tab[i])
 		i++;
 	return (i);
 }
 
 int	create_cmd(char ***cmd, char *arg)
 {
-	int	cmd_size;
-	char **temp;
+	int		cmd_size;
+	char	**temp;
 
 	temp = NULL;
-	if(!cmd || !*cmd)
+	if (!cmd || !*cmd)
 		cmd_size = 0;
 	else
 		cmd_size = tab_size(*cmd);
-	if(cmd_size == 0)
+	if (cmd_size == 0)
 	{
 		*cmd = ft_calloc(2, sizeof(char *));
-		if(!*cmd)
-			return(ft_putendl_fd("malloc error create cmd", STDERR_FILENO), -1);
+		if (!*cmd)
+			return (ft_putendl_fd("malloc error create cmd", STDERR_FILENO),
+				-1);
 		*cmd[0] = ft_strdup(arg);
-		if(!(*cmd)[0])
-			return(ft_putendl_fd("dup error create cmd", STDERR_FILENO), -1);
+		if (!(*cmd)[0])
+			return (ft_putendl_fd("dup error create cmd", STDERR_FILENO), -1);
 		return (0);
 	}
 	else
 	{
 		temp = append_args(*cmd, arg);
-		if(!temp)
-			return( -1);
+		if (!temp)
+			return (-1);
 		*cmd = temp;
-		return(0);
+		return (0);
 	}
 }

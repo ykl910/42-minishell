@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 16:30:49 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:00:40 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,9 @@ void							put_heredoc(int infile_fd, char *limiter);
 void							reopen_heredoc(int infile_fd);
 void							handle_open_error(int fd);
 bool							is_urandom(char *str);
-int								execute_command(t_ast_node *node, t_shell *shell);
+int								execute_command(t_ast_node *node,
+									t_shell *shell);
+void							redir_std(t_ast_node **current);
 
 // signal
 void							handle_sigint(int sig);

@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:11:22 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 17:35:26 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:02:51 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	redirect_infile(t_ast_node *node, int *i)
 {
 	if (node->infile_fd > -1)
 		close(node->infile_fd);
-	if(is_urandom(node->value[*i + 1]))
+	if (is_urandom(node->value[*i + 1]))
 		handle_open_error(node->infile_fd);
 	else
 	{
@@ -35,7 +35,7 @@ static void	redirect_trunc_outile(t_ast_node *node, int *i)
 			0644);
 	if (node->outfile_fd < 0)
 		handle_open_error(node->outfile_fd);
-	if(!node->redirection)
+	if (!node->redirection)
 		node->redirection = true;
 	*i += 2;
 }
@@ -48,14 +48,14 @@ static void	redirect_app_outfile(t_ast_node *node, int *i)
 			0644);
 	if (node->outfile_fd < 0)
 		handle_open_error(node->outfile_fd);
-	if(!node->redirection)
+	if (!node->redirection)
 		node->redirection = true;
 	*i += 2;
 }
 
 static void	redirect_here_doc(t_ast_node *node, int *i)
 {
-	char *limiter;
+	char	*limiter;
 
 	limiter = NULL;
 	if (node->infile_fd > -1)
@@ -64,7 +64,7 @@ static void	redirect_here_doc(t_ast_node *node, int *i)
 		unlink("heredoc.txt");
 	}
 	limiter = ft_strdup(node->value[*i + 1]);
-	if(!limiter)
+	if (!limiter)
 		return ;
 	node->infile_fd = open("heredoc.txt", O_CREAT | O_RDONLY, 0644);
 	if (node->infile_fd < 0)
@@ -94,7 +94,7 @@ void	pipe_redir_cmd(t_ast_node *node)
 			redirect_here_doc(node, &i);
 		else
 		{
-			if(create_cmd(&(node->cmd), node->value[i]) == -1)
+			if (create_cmd(&(node->cmd), node->value[i]) == -1)
 				return ;
 			i++;
 		}
