@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:11:22 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 17:19:21 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:35:26 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	pipe_redir_cmd(t_ast_node *node)
 			redirect_trunc_outile(node, &i);
 		else if (!ft_strncmp(node->value[i], ">>", size) && node->value[i + 1])
 			redirect_app_outfile(node, &i);
-		else if (!ft_strncmp(node->value[i], "<<", size && node->value[i + 1]))
+		else if (!ft_strncmp(node->value[i], "<<", size) && node->value[i + 1])
 			redirect_here_doc(node, &i);
 		else
 		{

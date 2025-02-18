@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_exe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 17:06:13 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:39:27 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,34 @@ int	execute_command(t_ast_node *node, t_shell *shell)
 {
 	pid_t		pid;
 	t_ast_node	*current;
-	int			pipex[2];
-
 
 	current = node;
 	while (current->left && current->left->node_type == COMMAND_SUBSHELL)
 		current = current->left;
 	pipe_redir_cmd(current);
 	pid = fork();
-	pipe(pipex);
 	if (pid == 0)
 	{
-		dup2(pipex[1], STDOUT_FILENO);
-		close(pipex[1]);
-		close(pipex[0]);
+        if (current->infile_fd != -1)
+        {
+            dup2(current->infile_fd, STDIN_FILENO);
+            close(current->infile_fd);
+        }
+        if (current->outfile_fd != -1)
+        {
+            dup2(current->outfile_fd, STDOUT_FILENO);
+            close(current->outfile_fd);
+        }
+		dup2(current->infile_fd, STDOUT_FILENO);
 		simple_process(current, shell);
 	}
 	else
 	{
 		waitpid(pid, NULL, 0);
-		dup2(pipex[0], STDOUT_FILENO);
-		close(pipex[1]);
-		close(pipex[0]);
+		if (current->infile_fd != -1)
+	  	    close(current->infile_fd);
+    	if (current->outfile_fd != -1)
+       		close(current->outfile_fd);
 	}
 	return (shell->status);
 }

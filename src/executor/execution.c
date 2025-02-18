@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 16:56:58 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:35:12 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	execute(t_ast_node *node, t_shell *shell)
 		node->status = execute_pipe(node, node->left, node->right, shell);
 	else if (node->node_type == COMMAND_AND)
 	{
-	//	node->status = execute_command(node->left, shell);
-	//	if (shell->status == 0)
-	//		node->status = execute_command(node->right, shell);
+		node->status = execute_command(node->left, shell);
+		if (shell->status == 0)
+			node->status = execute_command(node->right, shell);
 	}
 	else if (node->node_type == COMMAND_OR)
 	{
