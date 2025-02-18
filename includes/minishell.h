@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 10:39:50 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 16:08:06 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ t_token							*create_logical_ops_parantheses(char *av,
 t_token							*create_pipe_text(char *av, int *i);
 t_token							*create_token(char *av, int *i);
 t_token							*lexer(char *av);
-void							check_lexer(t_token **tokens);
+int								check_lexer(t_token **tokens, t_shell *shell);
 t_wildcards						*wildcard_expension(char *pattern);
 void							free_wc_struct(t_wildcards **head);
 int								create_head_wc(t_wildcards **head, char *file,
@@ -174,9 +174,8 @@ t_ast_node						*create_node(e_command type, t_ast_node *left,
 									t_ast_node *right, char *value);
 char							**append_args(char **origin_args,
 									char *new_arg);
-t_ast_node						*parse_primary(t_token **tokens);
 t_ast_node						*parse_expression(t_token **tokens,
-									int min_precedence);
+									int min_precedence, t_shell *shell);
 
 // exec
 void							inorder_traversal(t_ast_node *node,
@@ -187,6 +186,7 @@ void							pipe_redir_cmd(t_ast_node *node);
 void							parse_path(t_ast_node *node, t_shell *shell);
 int								create_cmd(char ***cmd, char *arg);
 void							new_process(t_ast_node *node, t_shell *shell);
+int								execute_command(t_ast_node *node, t_shell *shell);
 
 // signal
 void							handle_sigint(int sig);

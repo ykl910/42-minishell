@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 10:39:40 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 15:41:03 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,13 @@ int	main(int ac, char **av, char **envp)
 			add_history(line);
 			new_line = expand_line(line, &shell);
 			shell.token_lst = lexer(new_line);
-			check_lexer(&shell.token_lst);
-			put_command_type(&shell);
-			shell.ast = parse_expression(&shell.token_lst, 0);
-			inorder_traversal(shell.ast, &shell); // WIP
+			if (!check_lexer(&shell.token_lst, &shell))
+			{
+				put_command_type(&shell);
+				shell.ast = parse_expression(&shell.token_lst, 0, &shell);
+				if (!shell.status)
+					inorder_traversal(shell.ast, &shell); // WIP				
+			}
 			free(line);
 		}
 	}

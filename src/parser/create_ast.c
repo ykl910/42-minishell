@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:24:18 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 11:52:29 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:40:18 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,27 @@ t_ast_node	*parse_txt(t_token **tokens)
 	return (node);
 }
 
-t_ast_node	*parse_subshell(t_token **tokens, t_ast_node *subshell)
+t_ast_node	*parse_subshell(t_token **tokens, t_ast_node *subshell, t_shell *shell)
 {
 	*tokens = (*tokens)->next;
-	subshell = parse_expression(tokens, 0);
+	subshell = parse_expression(tokens, 0, shell);
 	if (!*tokens)
 	{
 		ft_putstr_fd("Syntax Error: Unexpected end of input\n", STDERR_FILENO);
-		exit(2);
+		shell->status = 1;
+		//exit(2);
 	}
 	if ((*tokens)->token_type != TOKEN_RPAREN)
 	{
 		ft_putstr_fd("Syntax Error: Missing ')'\n", STDERR_FILENO);
-		exit(2);
+		shell->status = 1;
+		//exit(2);
 	}
 	*tokens = (*tokens)->next;
 	return (create_node(COMMAND_SUBSHELL, subshell, NULL, NULL));
 }
 
-t_ast_node	*parse_primary(t_token **tokens)
+t_ast_node	*parse_primary(t_token **tokens, t_shell *shell)
 {
 	t_ast_node	*subshell;
 
@@ -62,12 +64,14 @@ t_ast_node	*parse_primary(t_token **tokens)
 		&& (*tokens)->token_type <= TOKEN_TEXT)
 		return (parse_txt(tokens));
 	if ((*tokens)->token_type == TOKEN_LPAREN)
-		return (parse_subshell(tokens, subshell));
+		return (parse_subshell(tokens, subshell, shell));
 	ft_putstr_fd("Syntax Error: Unexpected token\n", STDERR_FILENO);
-	exit(2);
+	shell->status = 1;
+	return (NULL);
+	//exit(2);
 }
 
-t_ast_node	*parse_expression(t_token **tokens, int min_precedence)
+t_ast_node	*parse_expression(t_token **tokens, int min_precedence, t_shell *shell)
 {
 	t_ast_node	*left;
 	t_ast_node	*right;
@@ -76,18 +80,19 @@ t_ast_node	*parse_expression(t_token **tokens, int min_precedence)
 
 	if (!*tokens)
 		return (NULL);
-	left = parse_primary(tokens);
+	left = parse_primary(tokens, shell);
 	if (!left)
 	{
 		ft_putstr_fd("Syntax Error: Missing operand\n", STDERR_FILENO);
-		exit(2);
+		shell->status = 1;
+		//exit(2);
 	}
 	while (*tokens && get_precedence((*tokens)->token_type) >= min_precedence)
 	{
 		op = (*tokens)->token_type;
 		precedence = get_precedence(op);
 		(*tokens) = (*tokens)->next;
-		right = parse_expression(tokens, precedence + 1);
+		right = parse_expression(tokens, precedence + 1, shell);
 		left = create_node(get_command_type(op), left, right, NULL);
 	}
 	return (left);
