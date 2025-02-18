@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:11:22 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 18:08:36 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:02:15 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ static void	redirect_here_doc(t_ast_node *node, int *i)
 	put_heredoc(node->infile_fd, limiter);
 	reopen_heredoc(&node->infile_fd);
 	free(limiter);
-	if(!node->is_here_doc)
-		node->is_here_doc = true;
 	*i += 2;
 }
 

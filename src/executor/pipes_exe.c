@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_exe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 18:03:12 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 19:42:58 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ void	new_process(t_ast_node *node, t_shell *shell)
 		{
 			parse_path(node, shell);
 			shell->status = node->status;
+			if (!node->cmd_abs_path)
+				exit(node->status);
+			shell->status = node->status;
 			temp_env_array = env_lst_to_array(shell->shell_env);
 			execve(node->cmd_abs_path, node->cmd, temp_env_array);
 		}
 	}
-	ft_free_tab((void **)temp_env_array);
-	free(node->cmd_abs_path);
+	shell->status = node->status;
 	exit(node->status);
 }
 
@@ -80,10 +82,21 @@ static void	first_child_process(t_ast_node *node, t_shell *shell, int *pipex)
 	new_process(node, shell);
 }
 
+int	get_return_value(int *status)
+{
+	if (WIFEXITED(*status))
+		return (WEXITSTATUS(*status));
+	else if (WIFSIGNALED(*status))
+		return (128 + WTERMSIG(*status));
+	else
+		return (1);
+}
+
 int	execute_pipe(t_ast_node *pipe_node, t_ast_node *left_node,
 		t_ast_node *right_node, t_shell *shell)
 {
 	int		pipex[2];
+	int		status;
 	pid_t	pid1;
 	pid_t	pid2;
 
@@ -103,8 +116,8 @@ int	execute_pipe(t_ast_node *pipe_node, t_ast_node *left_node,
 	close(pipex[0]);
 	close(pipex[1]);
 	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	waitpid(pid2, &status, 0);
 	free_ast_node(left_node);
 	free_ast_node(right_node);
-	return (right_node->status);
+	return (get_return_value(&status));
 }

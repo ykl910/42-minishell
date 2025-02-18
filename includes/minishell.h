@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 18:08:18 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:02:06 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ typedef struct s_ast_node
 	int							infile_fd;
 	int							outfile_fd;
 	bool						redirection;
-	bool						is_here_doc;
 	struct s_ast_node			*left;
 	struct s_ast_node			*right;
 }								t_ast_node;

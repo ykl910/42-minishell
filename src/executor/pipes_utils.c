@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 18:03:32 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 19:29:42 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	check_relative_cmd(t_ast_node *node, t_shell *shell)
 		i++;
 	}
 	node->status = 127;
+	node->cmd_abs_path = NULL;
 	ft_putstr_fd("ERROR: Command not found\n", STDERR_FILENO);
 }
 
