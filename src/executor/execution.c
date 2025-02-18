@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 16:07:28 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 16:25:09 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@
 
 void	execute(t_ast_node *node, t_shell *shell)
 {
-	// if (node->node_type == COMMAND_SIMPLE)
-	// 	node->status = execute_commad(node, shell);
 	if (node->node_type == COMMAND_PIPE)
 		node->status = execute_pipe(node->left, node->right, shell);
 	else if (node->node_type == COMMAND_AND)

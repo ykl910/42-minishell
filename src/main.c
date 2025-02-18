@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 15:41:03 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 16:26:06 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void	ast_printer(t_ast_node *root)
 	print_type(root->node_type);
 	ast_printer(root->right);
 }
-// DEBUG//
 
 void	put_command_type(t_shell *shell)
 {
@@ -126,6 +125,7 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, handle_sigquit);
 	while (1)
 	{
+		shell.status = 0;
 		g_sigint_flag = 0;
 		line = readline(CYAN "*  " RESET NEON_GREEN "minishell ~ " RESET);
 		if (line)

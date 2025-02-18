@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:56:04 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 15:24:41 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 16:19:48 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ static void	print_syntax_error(char *token_value, int *i)
 {
 	if (token_value == NULL || *token_value == '\0')
 		token_value = "newline";
+	if (*i == 0)
+	{
+		write(2, "bash: syntax error near unexpected token `", 43);
+		write(2, token_value, ft_strlen(token_value));
+		write(2, "'\n", 2);
+	}
 	*i = 1;
-	write(2, "bash: syntax error near unexpected token `", 43);
-	write(2, token_value, ft_strlen(token_value));
-	write(2, "'\n", 2);
 }
 
 static void	check_redirect(t_token **current, int *i)
