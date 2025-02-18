@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 16:26:06 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 16:31:22 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,13 @@ void	put_command_type(t_shell *shell)
 	current = shell->token_lst;
 	while (current)
 	{
-		if (current->token_type == TOKEN_PIPE || current->token_type == TOKEN_AND || \
-			current->token_type == TOKEN_OR)
+		if (current->token_type == TOKEN_PIPE
+			|| current->token_type == TOKEN_AND
+			|| current->token_type == TOKEN_OR)
 		{
 			shell->prompt_type = 0;
 			return ;
 		}
-
 		current = current->next;
 	}
 	shell->prompt_type = 1;
@@ -118,6 +118,7 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_shell	shell;
 	char	*new_line;
+
 	(void)ac;
 	(void)av;
 	shell_init(&shell, envp);
@@ -138,7 +139,7 @@ int	main(int ac, char **av, char **envp)
 				put_command_type(&shell);
 				shell.ast = parse_expression(&shell.token_lst, 0, &shell);
 				if (!shell.status)
-					inorder_traversal(shell.ast, &shell); // WIP				
+					inorder_traversal(shell.ast, &shell); // WIP
 			}
 			free(line);
 		}

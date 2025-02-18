@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_exe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 16:05:50 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 16:32:48 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@ static void	first_child_process(t_ast_node *node, t_shell *shell, int *pipex)
 	new_process(node, shell);
 }
 
-int	execute_pipe(t_ast_node *left_node, t_ast_node *right_node, t_shell *shell)
+int	execute_pipe(t_ast_node *pipe_node, t_ast_node *left_node, t_ast_node *right_node, t_shell *shell)
 {
 	int		pipex[2];
 	pid_t	pid1;
 	pid_t	pid2;
 
+	(void)pipe_node;
 	if (pipe(pipex) < 0)
 		exit(EXIT_FAILURE);
 	pid1 = fork();
@@ -97,5 +98,7 @@ int	execute_pipe(t_ast_node *left_node, t_ast_node *right_node, t_shell *shell)
 	close(pipex[1]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
+	free_ast_node(left_node);
+	free_ast_node(right_node);
 	return(right_node->status);
 }

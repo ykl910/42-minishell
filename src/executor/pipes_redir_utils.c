@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.h                                           :+:      :+:    :+:   */
+/*   pipes_redir_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 17:17:41 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 13:50:13 by alacroix         ###   ########.fr       */
+/*   Created: 2025/02/18 15:30:23 by alacroix          #+#    #+#             */
+/*   Updated: 2025/02/18 15:46:51 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLORS_H
-# define COLORS_H
+#include "minishell.h"
 
-# define RED "\033[1;31m"
-# define GREEN "\033[1;32m"
-# define CYAN "\033[1;36m"
-# define MAGENTA "\033[1;35m"
-# define NEON_GREEN "\033[1;38;5;82m"
-# define RESET "\033[0m"
+void	handle_open_error(int fd)
+{
+	ft_putendl_fd("Error: Permisson denied", STDERR_FILENO);
+	fd = open("/dev/null", O_RDONLY);
+}
 
-#endif
+bool	is_urandom(char *str)
+{
+	if (!ft_strncmp(str, "/dev/urandom", ft_strlen(str)))
+		return (true);
+	return (false);
+}

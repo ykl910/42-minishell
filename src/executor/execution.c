@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 16:25:09 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 16:32:04 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,27 @@
 // }
 
 
+int	execute_command(t_ast_node *node, t_shell *shell)
+{
+	t_ast_node	*current;
+	//TODO fork et execute cmd ind child porcess
+	current = node;
+	while (current->left && current->left->node_type == COMMAND_SUBSHELL)
+		current = current->left;
+	pipe_redir_cmd(current);
+	new_process(current, shell);
+	return (current->status);
+}
+
 void	execute(t_ast_node *node, t_shell *shell)
 {
 	if (node->node_type == COMMAND_PIPE)
-		node->status = execute_pipe(node->left, node->right, shell);
+		node->status = execute_pipe(node, node->left, node->right, shell);
 	else if (node->node_type == COMMAND_AND)
 	{
-		node->status = execute_command(node->left, shell);
-		if (shell->status == 0)
-			node->status = execute_command(node->right, shell);
+	//	node->status = execute_command(node->left, shell);
+	//	if (shell->status == 0)
+	//		node->status = execute_command(node->right, shell);
 	}
 	else if (node->node_type == COMMAND_OR)
 	{

@@ -6,14 +6,12 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/17 13:48:29 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 13:51:42 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Revoir la maniere de free si erreur
-	-> retour main et appel fonction free de struct(s)*/
 char	**append_args(char **origin_args, char *new_arg)
 {
 	char	**new_args;

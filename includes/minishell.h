@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 16:08:06 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/18 16:30:49 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define SIGQUIT 3
 # define SIMPLE_CMD 4
 # define AST_CMD 5
+# define MAX_FILE_SIZE 100000
 
 extern volatile sig_atomic_t	g_sigint_flag;
 
@@ -164,7 +165,8 @@ bool							match_suffix(char *file, char *pattern,
 bool							match_subpatterns(char **sub_patterns,
 									char *file, int f_size);
 char							*expand_env(char *segment, t_shell *shell);
-char							*expand_wc(char *line, int start, int end, char *new_line);
+char							*expand_wc(char *line, int start, int end,
+									char *new_line);
 char							*expand_line(char *line, t_shell *shell);
 
 // parser
@@ -180,16 +182,28 @@ t_ast_node						*parse_expression(t_token **tokens,
 // exec
 void							inorder_traversal(t_ast_node *node,
 									t_shell *shell);
-int								execute_pipe(t_ast_node *left_node,
+int								execute_pipe(t_ast_node *pipe_node,
+									t_ast_node *left_node,
 									t_ast_node *right_node, t_shell *shell);
 void							pipe_redir_cmd(t_ast_node *node);
 void							parse_path(t_ast_node *node, t_shell *shell);
 int								create_cmd(char ***cmd, char *arg);
 void							new_process(t_ast_node *node, t_shell *shell);
+void							put_heredoc(int infile_fd, char *limiter);
+void							reopen_heredoc(int infile_fd);
+void							handle_open_error(int fd);
+bool							is_urandom(char *str);
 int								execute_command(t_ast_node *node, t_shell *shell);
 
 // signal
 void							handle_sigint(int sig);
 void							handle_sigquit(int sig);
+
+// cleanup
+void							free_ast_node(t_ast_node *node);
+void							free_wildcard(t_wildcards *node);
+void							free_env(t_env **node);
+void							free_tokens(t_token **node);
+void							free_shell(t_shell *shell);
 
 #endif
