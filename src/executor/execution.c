@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 16:32:04 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:56:58 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,6 @@
 // 	else if (node->node_type == COMMAND_SUBSHELL)
 // 		ft_printf("SUBSHELL\n"); //excute_subshell(node, shell);
 // }
-
-
-int	execute_command(t_ast_node *node, t_shell *shell)
-{
-	t_ast_node	*current;
-	//TODO fork et execute cmd ind child porcess
-	current = node;
-	while (current->left && current->left->node_type == COMMAND_SUBSHELL)
-		current = current->left;
-	pipe_redir_cmd(current);
-	new_process(current, shell);
-	return (current->status);
-}
 
 void	execute(t_ast_node *node, t_shell *shell)
 {
