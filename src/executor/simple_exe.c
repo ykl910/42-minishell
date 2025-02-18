@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_exe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 18:08:56 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:43:48 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	execute_command(t_ast_node *node, t_shell *shell)
 	t_ast_node	*current;
 
 	current = node;
-	while (current->left && current->left->node_type == COMMAND_SUBSHELL)
+	if (current && current->left && current->node_type == COMMAND_SUBSHELL)
 		current = current->left;
 	pipe_redir_cmd(current);
 	pid = fork();
