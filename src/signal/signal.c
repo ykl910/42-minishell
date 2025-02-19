@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 14:55:27 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/19 11:18:38 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,14 @@ void handle_sigquit(int sig)
 	(void)sig;
 
 	exit(1);
+}
+
+int	get_return_value(int *status)
+{
+	if (WIFEXITED(*status))
+		return (WEXITSTATUS(*status));
+	else if (WIFSIGNALED(*status))
+		return (128 + WTERMSIG(*status));
+	else
+		return (1);
 }

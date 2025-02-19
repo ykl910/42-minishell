@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 19:42:58 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:18:49 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,6 @@ static void	first_child_process(t_ast_node *node, t_shell *shell, int *pipex)
 	close(pipex[0]);
 	close(pipex[1]);
 	new_process(node, shell);
-}
-
-int	get_return_value(int *status)
-{
-	if (WIFEXITED(*status))
-		return (WEXITSTATUS(*status));
-	else if (WIFSIGNALED(*status))
-		return (128 + WTERMSIG(*status));
-	else
-		return (1);
 }
 
 int	execute_pipe(t_ast_node *pipe_node, t_ast_node *left_node,

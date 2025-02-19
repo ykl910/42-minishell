@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 19:02:06 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:19:05 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,7 @@ void							redir_std(t_ast_node **current);
 // signal
 void							handle_sigint(int sig);
 void							handle_sigquit(int sig);
+int								get_return_value(int *status);
 
 // cleanup
 void							free_ast_node(t_ast_node *node);
