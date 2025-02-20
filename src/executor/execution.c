@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/20 11:17:44 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/20 14:12:12 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	executor(t_ast_node *node, t_shell *shell)
 	if(!node)
 		return ;
 	if(node->node_type == COMMAND_PIPE)
-		shell->status = execute_pipe(node, node->left, node->right, shell, -1);
+		shell->status = execute_pipeline(node, shell, STDIN_FILENO);
 	else if(node->node_type == COMMAND_AND)
 	{
 		executor(node->left, shell);
@@ -90,7 +90,7 @@ void	executor(t_ast_node *node, t_shell *shell)
 			executor(node->right, shell);
 	}
 	else if(node->node_type == COMMAND_SUBSHELL)
-		return ;//shell->status = execute_subshell(node, shell);
+		executor(node->left, shell);
 	else
 		shell->status = execute_command(node, shell);
 }
