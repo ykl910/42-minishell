@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 16:31:22 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/20 11:11:22 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		shell.status = 0;
 		g_sigint_flag = 0;
-		line = readline(CYAN "*  " RESET NEON_GREEN "minishell ~ " RESET);
+		line = readline(CYAN "⌬  " RESET NEON_GREEN "minishell $> " RESET);
 		if (line)
 		{
 			add_history(line);
@@ -139,7 +139,7 @@ int	main(int ac, char **av, char **envp)
 				put_command_type(&shell);
 				shell.ast = parse_expression(&shell.token_lst, 0, &shell);
 				if (!shell.status)
-					inorder_traversal(shell.ast, &shell); // WIP
+					executor(shell.ast, &shell); // WIP
 			}
 			free(line);
 		}

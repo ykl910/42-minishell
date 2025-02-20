@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/19 11:19:05 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:21:51 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,9 +182,9 @@ t_ast_node						*parse_expression(t_token **tokens,
 // exec
 void							inorder_traversal(t_ast_node *node,
 									t_shell *shell);
-int								execute_pipe(t_ast_node *pipe_node,
-									t_ast_node *left_node,
-									t_ast_node *right_node, t_shell *shell);
+int								execute_pipe(t_ast_node *current,
+									t_ast_node *left,
+									t_ast_node *right, t_shell *shell, int prev_fd);
 void							pipe_redir_cmd(t_ast_node *node);
 void							parse_path(t_ast_node *node, t_shell *shell);
 int								create_cmd(char ***cmd, char *arg);
@@ -208,5 +208,11 @@ void							free_wildcard(t_wildcards *node);
 void							free_env(t_env **node);
 void							free_tokens(t_token **node);
 void							free_shell(t_shell *shell);
+
+
+
+
+
+void	executor(t_ast_node *node, t_shell *shell);
 
 #endif
