@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/20 11:17:38 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/20 18:47:31 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,20 @@ void	put_command_type(t_shell *shell)
 	shell->prompt_type = 1;
 }
 
+void	print_token(t_token *token)
+{
+	t_token *current;
+	int i = 1;
+
+	current = token;
+	while (current)
+	{
+		printf("%d - %s\n", i, current->value);
+		current = current->next;
+		i++;
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
@@ -133,7 +147,9 @@ int	main(int ac, char **av, char **envp)
 		{
 			add_history(line);
 			new_line = expand_line(line, &shell);
+			//printf("%s\n", new_line);
 			shell.token_lst = lexer(new_line);
+			//print_token(shell.token_lst);
 			free(line);
 			free(new_line);
 			if (!check_lexer(&shell.token_lst, &shell))

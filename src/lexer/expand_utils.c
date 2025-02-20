@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/14 18:30:45 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/20 18:31:34 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,14 @@ char *expand_wc(char *line, int start, int end, char *new_line)
 	char		*wc_pattern;
 	t_wildcards	*wc_exp;
 	char		*temp;
+	int i = 0;
 
+	while (line[i])
+		i++;
+	if (end != i)
+		end--;
 	wc_pattern = ft_strndup(&line[start], end - start);
+	printf("pattern %s\n",wc_pattern);
 	wc_exp = wildcard_expension(wc_pattern);
 	free(wc_pattern);
 	while (wc_exp)

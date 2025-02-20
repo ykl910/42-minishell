@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:35:33 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/14 18:40:42 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/20 18:34:21 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char *expand_line(char *line, t_shell *shell)
 	char *temp;
 	char *env_temp;
 	char *word;
+	int	sep_len;
 
 	quote = 0;
 	new_line = ft_strdup("");
@@ -34,8 +35,12 @@ char *expand_line(char *line, t_shell *shell)
 		start = i;
 		wc_flag = 0;
 		var_flag = 0;
+		sep_len = 0;
 		while (line[i] && (quote || line[i] > ' '))
 		{
+			sep_len = is_token_separator(line, i);
+			if (sep_len && !quote)
+				break;
 			if ((line[i] == '"' || line[i] == '\'') && (quote == 0 || quote == line[i]))
 			{
 				if (!quote)
@@ -50,6 +55,16 @@ char *expand_line(char *line, t_shell *shell)
 			if (line[i] == '$' && quote != '\'')
 				var_flag = 1;
 			i++;
+		}
+		if (sep_len)
+		{
+			temp = ft_strndup(&line[i], sep_len);
+			char *temp2;
+			temp2 = ft_strjoin(new_line, temp);
+			free(temp);
+			free(new_line);
+			new_line = temp2;
+			i += sep_len;
 		}
 		if (var_flag && line[i - 1] == '"')
 			start++;
@@ -66,7 +81,7 @@ char *expand_line(char *line, t_shell *shell)
 		}
 		else if (wc_flag)
 			new_line = expand_wc(line, start, i, new_line);
-		else
+		else if (!sep_len)
 		{
 			word = ft_strndup(&line[start], i - start);
 			temp = ft_strjoin(new_line, word);
