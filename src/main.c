@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/20 11:11:22 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/20 11:17:38 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,16 @@ int	main(int ac, char **av, char **envp)
 			add_history(line);
 			new_line = expand_line(line, &shell);
 			shell.token_lst = lexer(new_line);
+			free(line);
+			free(new_line);
 			if (!check_lexer(&shell.token_lst, &shell))
 			{
 				put_command_type(&shell);
 				shell.ast = parse_expression(&shell.token_lst, 0, &shell);
+				free_tokens(&shell.token_lst);
 				if (!shell.status)
 					executor(shell.ast, &shell); // WIP
 			}
-			free(line);
 		}
 	}
 	return (0);

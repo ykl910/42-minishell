@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:53:37 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/10 17:16:27 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/19 12:16:07 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ t_token	*init_token(e_token type, char *av)
 	token->token_type = type;
 	token->value = ft_strdup(av);
 	if (!token->value)
+	{
+		free(token);
 		return (ft_putstr_fd("init token malloc error", STDERR_FILENO), NULL);
+	}
 	return (token);
 }
 
