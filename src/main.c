@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/20 18:47:31 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/21 16:54:02 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_shell	shell;
-	char	*new_line;
 
 	(void)ac;
 	(void)av;
@@ -146,12 +145,10 @@ int	main(int ac, char **av, char **envp)
 		if (line)
 		{
 			add_history(line);
-			new_line = expand_line(line, &shell);
-			//printf("%s\n", new_line);
-			shell.token_lst = lexer(new_line);
+			shell.token_lst = lexer(line);
+			expand_token(&shell.token_lst, &shell);
 			//print_token(shell.token_lst);
 			free(line);
-			free(new_line);
 			if (!check_lexer(&shell.token_lst, &shell))
 			{
 				put_command_type(&shell);

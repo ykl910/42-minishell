@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/20 18:31:34 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/21 16:33:41 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	expand_variable(char *segment, int *i, t_shell *shell, char **expanded)
 
 	start = *i;
 	(*i)++;
-	while (segment[*i] && segment[*i] != ' ' && segment[*i] != '$' 
-		&& segment[*i] != '\'' && segment[*i] != '"')
+	while (ft_isalnum(segment[*i]) || segment[*i] == '_')
 		(*i)++;
 	var_name = ft_strndup(&segment[start], *i - start);
 	var_value = variable_expension(var_name, shell);
@@ -70,7 +69,7 @@ char *expand_env(char *segment, t_shell *shell)
 	i = 0;
 	while (segment[i])
 	{
-		if (segment[i] == '$' && segment[i + 1] && segment[i + 1] != ' ')
+		if (segment[i] == '$' && segment[i + 1] && segment[i + 1] > ' ')
 			expand_variable(segment, &i, shell, &expanded);
 		else
 		{
@@ -86,33 +85,39 @@ char *expand_env(char *segment, t_shell *shell)
 	return (expanded);
 }
 
-char *expand_wc(char *line, int start, int end, char *new_line)
+void	expand_wc(t_token *token)
 {
 	char		*wc_pattern;
 	t_wildcards	*wc_exp;
 	char		*temp;
-	int i = 0;
+	char		*new_value;
+	t_wildcards	*wc_tmp;
 
-	while (line[i])
-		i++;
-	if (end != i)
-		end--;
-	wc_pattern = ft_strndup(&line[start], end - start);
-	printf("pattern %s\n",wc_pattern);
+	new_value = ft_strdup("");
+	wc_pattern = ft_strdup(token->value);
 	wc_exp = wildcard_expension(wc_pattern);
 	free(wc_pattern);
+	free(token->value);
+	wc_tmp = wc_exp;
 	while (wc_exp)
 	{
-		temp = ft_strjoin(new_line, wc_exp->file);
-		free(new_line);
-		new_line = temp;
-		if (wc_exp->next)
-		{
-			temp = ft_strjoin(new_line, " ");
-			free(new_line);
-			new_line = temp;
-		}
+		temp = ft_strjoin(new_value, wc_exp->file);
+		free(new_value);
+		new_value = temp;
+		temp = ft_strjoin(new_value, " ");
+		free(new_value);
+		new_value = temp;
 		wc_exp = wc_exp->next;
 	}
-	return (new_line);
+	token->value = new_value;
+	free_wildcard(wc_tmp);
+}
+
+void	expand_var(t_token *token, t_shell *shell)
+{
+	char	*temp;
+
+	temp = expand_env(token->value, shell);
+	free(token->value);
+	token->value = temp;
 }
