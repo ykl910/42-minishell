@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/20 18:39:57 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:42:19 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,8 +188,8 @@ void	builtin_exit(char **args, t_shell *shell)
 int	built_in_exec(t_shell *shell, t_ast_node *node)
 {
 	int	name_size;
-
 	name_size = 0;
+
 	if (!node->cmd)
 		return (-1);
 	name_size = ft_strlen(node->cmd[0]);

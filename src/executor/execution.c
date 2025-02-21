@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/20 17:47:10 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:36:29 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,5 @@ void	executor(t_ast_node *node, t_shell *shell)
 	else if(node->node_type == COMMAND_SUBSHELL)
 		executor(node->left, shell);
 	else
-	{
-		if(built_in_exec(shell, node) == -1)
-			shell->status = execute_command(node, shell);
-	}
+		shell->status = execute_command(node, shell);
 }

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:37:14 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/17 18:29:33 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 13:53:41 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	chage_pwd(t_env **env, char *pwd)
 		if (!ft_strncmp(current->name, "PWD", ft_strlen(current->name)))
 		{
 			free(current->value);
-			current->value = pwd;
+			current->value = ft_strdup(pwd);
 			return (0);
 		}
 		current = current->next;
@@ -54,7 +54,7 @@ static int	chage_old_pwd(t_env **env, char *old_pwd)
 		if (!ft_strncmp(current->name, "OLDPWD", ft_strlen(current->name)))
 		{
 			free(current->value);
-			current->value = old_pwd;
+			current->value = ft_strdup(old_pwd);
 			return (0);
 		}
 		current = current->next;
