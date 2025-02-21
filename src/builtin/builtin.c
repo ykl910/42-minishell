@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/17 18:32:03 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:00:40 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,14 +182,14 @@ void	builtin_exit(char **args, t_shell *shell)
 		else
 			return (exit(255));
 	}
-	exit((unsigned char)exit_code);
+	exit(0);
 }
 
 int	built_in_exec(t_shell *shell, t_ast_node *node)
 {
 	int	name_size;
-
 	name_size = 0;
+
 	if (!node->cmd)
 		return (-1);
 	name_size = ft_strlen(node->cmd[0]);

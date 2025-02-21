@@ -6,33 +6,32 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:11:22 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 19:02:15 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 12:38:49 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	redirect_infile(t_ast_node *node, int *i)
+static void	redirect_infile(t_ast_node *node, char **args, int *i)
 {
 	if (node->infile_fd > -1)
 		close(node->infile_fd);
-	if (is_urandom(node->value[*i + 1]))
+	if (is_urandom(args[*i + 1]))
 		handle_open_error(node->infile_fd);
 	else
 	{
-		node->infile_fd = open(node->value[*i + 1], O_RDONLY, 0644);
+		node->infile_fd = open(args[*i + 1], O_RDONLY, 0644);
 		if (node->infile_fd < 0)
 			handle_open_error(node->infile_fd);
 	}
 	*i += 2;
 }
 
-static void	redirect_trunc_outile(t_ast_node *node, int *i)
+static void	redirect_trunc_outile(t_ast_node *node, char **args, int *i)
 {
 	if (node->outfile_fd > -1)
 		close(node->outfile_fd);
-	node->outfile_fd = open(node->value[*i + 1], O_RDWR | O_TRUNC | O_CREAT,
-			0644);
+	node->outfile_fd = open(args[*i + 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (node->outfile_fd < 0)
 		handle_open_error(node->outfile_fd);
 	if (!node->redirection)
@@ -40,12 +39,11 @@ static void	redirect_trunc_outile(t_ast_node *node, int *i)
 	*i += 2;
 }
 
-static void	redirect_app_outfile(t_ast_node *node, int *i)
+static void	redirect_app_outfile(t_ast_node *node, char **args, int *i)
 {
 	if (node->outfile_fd > -1)
 		close(node->outfile_fd);
-	node->outfile_fd = open(node->value[*i + 1], O_RDWR | O_APPEND | O_CREAT,
-			0644);
+	node->outfile_fd = open(args[*i + 1], O_RDWR | O_APPEND | O_CREAT, 0644);
 	if (node->outfile_fd < 0)
 		handle_open_error(node->outfile_fd);
 	if (!node->redirection)
@@ -53,7 +51,7 @@ static void	redirect_app_outfile(t_ast_node *node, int *i)
 	*i += 2;
 }
 
-static void	redirect_here_doc(t_ast_node *node, int *i)
+static void	redirect_here_doc(t_ast_node *node, char **args, int *i)
 {
 	char	*limiter;
 
@@ -63,7 +61,7 @@ static void	redirect_here_doc(t_ast_node *node, int *i)
 		close(node->infile_fd);
 		unlink("heredoc.txt");
 	}
-	limiter = ft_strdup(node->value[*i + 1]);
+	limiter = ft_strdup(args[*i + 1]);
 	if (!limiter)
 		return ;
 	node->infile_fd = open("heredoc.txt", O_CREAT | O_RDWR, 0644);
@@ -75,29 +73,40 @@ static void	redirect_here_doc(t_ast_node *node, int *i)
 	*i += 2;
 }
 
-void	pipe_redir_cmd(t_ast_node *node)
+static bool	is_redir(t_ast_node *node, char **args, int *i, int size)
 {
-	int	i;
-	int	size;
+	if (!ft_strncmp(args[*i], "<", size) && args[*i + 1])
+		return (redirect_infile(node, args, i), true);
+	else if (!ft_strncmp(args[*i], ">", size) && args[*i + 1])
+		return (redirect_trunc_outile(node, args, i), true);
+	else if (!ft_strncmp(args[*i], ">>", size) && args[*i + 1])
+		return (redirect_app_outfile(node, args, i), true);
+	else if (!ft_strncmp(args[*i], "<<", size) && args[*i + 1])
+		return (redirect_here_doc(node, args, i), true);
+	else
+		return (false);
+}
+
+void	cmd_builder(t_ast_node *node)
+{
+	char	**args;
+	int		i;
+	int		size;
 
 	i = 0;
 	size = 0;
-	while (node->value[i])
+	args = quotes_handler(node->value);
+	if (!args)
+		return ;
+	while (args[i])
 	{
-		size = ft_strlen(node->value[i]);
-		if (!ft_strncmp(node->value[i], "<", size) && node->value[i + 1])
-			redirect_infile(node, &i);
-		else if (!ft_strncmp(node->value[i], ">", size) && node->value[i + 1])
-			redirect_trunc_outile(node, &i);
-		else if (!ft_strncmp(node->value[i], ">>", size) && node->value[i + 1])
-			redirect_app_outfile(node, &i);
-		else if (!ft_strncmp(node->value[i], "<<", size) && node->value[i + 1])
-			redirect_here_doc(node, &i);
-		else
+		size = ft_strlen(args[i]);
+		if (!is_redir(node, args, &i, size))
 		{
-			if (create_cmd(&(node->cmd), node->value[i]) == -1)
+			if (create_cmd(&(node->cmd), args[i]) == -1)
 				return ;
 			i++;
 		}
 	}
+	ft_free_tab((void **)args);
 }

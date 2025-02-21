@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:44:03 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 17:55:50 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:57:34 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ static bool	is_limiter(char *line, char *limiter)
 	return (false);
 }
 
+static void prompt(char *str)
+{
+	ft_putstr_fd(str, STDERR_FILENO);
+}
+
 void	put_heredoc(int infile_fd, char *limiter)
 {
 	int		i;
@@ -35,11 +40,11 @@ void	put_heredoc(int infile_fd, char *limiter)
 
 	i = 0;
 	line = NULL;
-	ft_printf(MAGENTA " ==HEREDOC==\n" RESET);
+	prompt(MAGENTA " ==HEREDOC==\n" RESET);
 	while (i < MAX_FILE_SIZE)
 	{
-		ft_printf(MAGENTA "| " RESET);
-		ft_printf(CYAN "line: %d-> " RESET, i);
+		prompt(MAGENTA "| " RESET);
+		prompt(CYAN "-> " RESET);
 		line = get_next_line(STDIN_FILENO);
 		if (!line || is_limiter(line, limiter))
 			break ;
@@ -47,9 +52,9 @@ void	put_heredoc(int infile_fd, char *limiter)
 		free(line);
 		i++;
 	}
-	ft_printf(MAGENTA " ==EOF==\n" RESET);
+	prompt(MAGENTA " ==EOF==\n" RESET);
 	if (i == MAX_FILE_SIZE)
-		ft_printf(RED "MAX_FILE_SIZE reached.\n" RESET);
+		prompt(RED "MAX_FILE_SIZE reached.\n" RESET);
 	if (line)
 		free(line);
 	close(infile_fd);

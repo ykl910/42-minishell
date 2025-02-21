@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 16:54:02 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/21 16:55:16 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	main(int ac, char **av, char **envp)
 				shell.ast = parse_expression(&shell.token_lst, 0, &shell);
 				free_tokens(&shell.token_lst);
 				if (!shell.status)
-					executor(shell.ast, &shell); // WIP
+					executor(shell.ast, &shell);
 			}
 		}
 	}
