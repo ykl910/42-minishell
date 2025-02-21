@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 15:05:45 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:31:10 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	handle_cmd_error(t_ast_node *node, int err_code)
 {
 	node->status = err_code;
 	node->cmd_abs_path = NULL;
-	ft_putstr_fd("ERROR: Command not found\n", STDERR_FILENO);
+	error_msg(RED CMD RESET, node->cmd[0]);
 }
 
 static int	try_access(t_ast_node *node, char **cmd)
@@ -33,12 +33,11 @@ static int	try_access(t_ast_node *node, char **cmd)
 		if (access(node->cmd_abs_path, X_OK) == 0)
 		{
 			node->status = 0;
-			ft_free_tab((void **)cmd);
 			return (1);
 		}
 		node->status = 126;
 		ft_free_tab((void **)cmd);
-		ft_putstr_fd("ERROR: Permission denied\n", STDERR_FILENO);
+		error_msg(RED PERM RESET, cmd[0]);
 		return (1);
 	}
 	return (0);
@@ -72,12 +71,12 @@ static void	check_abs_cmd(t_ast_node *node)
 		else
 		{
 			node->status = 126;
-			ft_putstr_fd("ERROR: Permission denied\n", STDERR_FILENO);
+			error_msg(RED PERM RESET, node->cmd[0]);
 			return ;
 		}
 	}
 	node->status = 127;
-	ft_putstr_fd("ERROR: Command not found\n", STDERR_FILENO);
+	error_msg(RED CMD RESET, node->cmd[0]);
 }
 
 void	parse_path(t_ast_node *node, t_shell *shell)
@@ -88,8 +87,7 @@ void	parse_path(t_ast_node *node, t_shell *shell)
 	{
 		node->cmd_abs_path = ft_strdup(node->cmd[0]);
 		if (!node->cmd_abs_path)
-			return (ft_putendl_fd("malloc error create abs path",
-					STDERR_FILENO));
+			return (error_msg(MEM, "parse_path"));
 		check_abs_cmd(node);
 	}
 	else
@@ -122,11 +120,11 @@ int	create_cmd(char ***cmd, char *arg)
 	{
 		*cmd = ft_calloc(2, sizeof(char *));
 		if (!*cmd)
-			return (ft_putendl_fd("malloc error create cmd", STDERR_FILENO),
+			return (error_msg(MEM, "create cmd(1)"),
 				-1);
 		*cmd[0] = ft_strdup(arg);
 		if (!(*cmd)[0])
-			return (ft_putendl_fd("dup error create cmd", STDERR_FILENO), -1);
+			return (error_msg(MEM, "create_cmd(2)"), -1);
 		return (0);
 	}
 	temp = append_args(*cmd, arg);

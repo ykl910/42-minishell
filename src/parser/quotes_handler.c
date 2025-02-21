@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:00:52 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 14:57:22 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:23:20 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*remove_quotes(char *str)
 	quote = 0;
 	res = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	if (!res)
-		return (NULL);
+		return (error_msg(MEM, "remove_quotes"), NULL);
 	while (str[i])
 	{
 		if (!skip_toggle_quote(str[i], &quote))
@@ -50,29 +50,17 @@ static char	*remove_quotes(char *str)
 	return (res);
 }
 
-static size_t	tab_size(char **tab) // a rajouter a la libft
-{
-	size_t i;
-
-	i = 0;
-	if (!*tab || !tab)
-		return (i);
-	while (tab[i])
-		i++;
-	return (i);
-}
-
 char	**quotes_handler(char **args)
 {
-	size_t	i;
-	size_t	count;
+	int		i;
+	int		count;
 	char	**parsed;
 
 	i = 0;
 	count = tab_size(args);
 	parsed = ft_calloc(count + 1, sizeof(char *));
 	if (!parsed)
-		return (NULL);
+		return (error_msg(MEM, "quotes_handler"), NULL);
 	while (i < count)
 	{
 		parsed[i] = remove_quotes(args[i]);

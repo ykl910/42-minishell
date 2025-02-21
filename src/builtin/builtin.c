@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 15:00:40 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:32:28 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,25 @@
 void	builtin_cd(char **cmd, t_shell *shell)
 {
 	char	*home_path;
+	int		arg_size;
 
+	arg_size = tab_size(cmd);
 	home_path = NULL;
-	if (!cmd[1])
+	if (arg_size == 1)
 	{
 		home_path = getenv("HOME");
 		if (!home_path)
 		{
 			shell->status = 1;
+			error_msg(RED DF RESET, "you are lost ...");
 			return ;
 		}
 		chdir(home_path);
-		free(home_path);
 	}
-	if (chdir(cmd[1]) == -1)
+	if (arg_size > 1 && chdir(cmd[1]) == -1)
 	{
 		shell->status = 1;
+		error_msg(RED DF RESET, cmd[1]);
 		return ;
 	}
 	update_env(&shell->shell_env);
@@ -65,7 +68,6 @@ void	builtin_echo(char **cmd, t_shell *shell)
 	shell->status = 0;
 }
 
-
 void	builtin_pwd(t_shell *shell)
 {
 	t_env	*current;
@@ -84,7 +86,7 @@ void	builtin_pwd(t_shell *shell)
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		ft_putendl_fd("pwd: error retrieving current dir", STDERR_FILENO);
+		error_msg(RED DF RESET, "you are lost ...");
 	else
 	{
 		ft_printf("%s\n", cwd);
@@ -103,7 +105,7 @@ void	builtin_export(char *line, t_shell *shell)
 	if (!name)
 		return ;
 	value = get_var_value(line);
-	if(put_env_var(line, &name, &value, shell) == -1)
+	if (put_env_var(line, &name, &value, shell) == -1)
 	{
 		free(name);
 		free(value);
@@ -188,8 +190,8 @@ void	builtin_exit(char **args, t_shell *shell)
 int	built_in_exec(t_shell *shell, t_ast_node *node)
 {
 	int	name_size;
-	name_size = 0;
 
+	name_size = 0;
 	if (!node->cmd)
 		return (-1);
 	name_size = ft_strlen(node->cmd[0]);
