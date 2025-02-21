@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/18 19:29:42 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 12:39:30 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,57 @@ static bool	is_abs_path(t_ast_node *node)
 	return (false);
 }
 
+static void	handle_cmd_error(t_ast_node *node, int err_code)
+{
+	node->status = err_code;
+	node->cmd_abs_path = NULL;
+	ft_putstr_fd("ERROR: Command not found\n", STDERR_FILENO);
+}
+
+static int	try_access(t_ast_node *node, char **cmd)
+{
+	if (access(node->cmd_abs_path, F_OK) == 0)
+	{
+		if (access(node->cmd_abs_path, X_OK) == 0)
+		{
+			node->status = 0;
+			ft_free_tab((void **)cmd);
+			return (1);
+		}
+		node->status = 126;
+		ft_free_tab((void **)cmd);
+		ft_putstr_fd("ERROR: Permission denied\n", STDERR_FILENO);
+		return (1);
+	}
+	return (0);
+}
+
 static void	check_relative_cmd(t_ast_node *node, t_shell *shell)
 {
-	int	i;
+	int		i;
+	char	**cmd;
 
 	i = 0;
+	cmd = quotes_handler(node->cmd);
+	if (!cmd)
+	{
+		cmd = ft_calloc(2, sizeof(char *));
+		if (!cmd)
+			return (handle_cmd_error(node, 1));
+		cmd[0] = ft_strdup(node->cmd[0]);
+		if (!cmd[0])
+			return (handle_cmd_error(node, 1));
+	}
 	while (shell->paths[i])
 	{
-		node->cmd_abs_path = ft_strjoin(shell->paths[i], node->cmd[0]);
-		if (access(node->cmd_abs_path, F_OK) == 0)
-		{
-			if (access(node->cmd_abs_path, X_OK) == 0)
-			{
-				node->status = 0;
-				return ;
-			}
-			else
-			{
-				node->status = 126;
-				ft_putstr_fd("ERROR: Permission denied\n", STDERR_FILENO);
-				return ;
-			}
-		}
+		node->cmd_abs_path = ft_strjoin(shell->paths[i], cmd[0]);
+		if (try_access(node, cmd))
+			return ;
 		free(node->cmd_abs_path);
 		i++;
 	}
-	node->status = 127;
-	node->cmd_abs_path = NULL;
-	ft_putstr_fd("ERROR: Command not found\n", STDERR_FILENO);
+	ft_free_tab((void **)cmd);
+	handle_cmd_error(node, 127);
 }
 
 static void	check_abs_cmd(t_ast_node *node)
@@ -118,12 +141,9 @@ int	create_cmd(char ***cmd, char *arg)
 			return (ft_putendl_fd("dup error create cmd", STDERR_FILENO), -1);
 		return (0);
 	}
-	else
-	{
-		temp = append_args(*cmd, arg);
-		if (!temp)
-			return (-1);
-		*cmd = temp;
-		return (0);
-	}
+	temp = append_args(*cmd, arg);
+	if (!temp)
+		return (-1);
+	*cmd = temp;
+	return (0);
 }
