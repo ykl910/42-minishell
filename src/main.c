@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 16:55:16 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/21 16:57:00 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		shell.status = 0;
 		g_sigint_flag = 0;
-		line = readline(CYAN "⌬  " RESET NEON_GREEN "minishell $> " RESET);
+		line = readline(CYAN "⌬  " RESET NEON_GREEN "Minishell ❯ " RESET);
 		if (line)
 		{
 			add_history(line);
@@ -161,3 +161,4 @@ int	main(int ac, char **av, char **envp)
 	}
 	return (0);
 }
+

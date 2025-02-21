@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 16:55:21 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/21 16:56:43 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/includes/libft.h"
 # include "colors.h"
+# include "errors.h"
 # include <curses.h>
 # include <dirent.h>
 # include <errno.h>
@@ -107,6 +108,11 @@ typedef struct s_shell
 	int							prompt_type;
 	int							status;
 }								t_shell;
+
+void							error_msg(char *msg, char *context);
+
+int	tab_size(char **tab); // a rajouter a la libft
+
 
 // builtin
 int								built_in_exec(t_shell *shell, t_ast_node *node);

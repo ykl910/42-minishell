@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:24:18 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 15:40:18 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/21 16:29:01 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ t_ast_node	*parse_subshell(t_token **tokens, t_ast_node *subshell, t_shell *shel
 	subshell = parse_expression(tokens, 0, shell);
 	if (!*tokens)
 	{
-		ft_putstr_fd("Syntax Error: Unexpected end of input\n", STDERR_FILENO);
+		error_msg(RED SYN_INP RESET, NULL);
 		shell->status = 1;
 		//exit(2);
 	}
 	if ((*tokens)->token_type != TOKEN_RPAREN)
 	{
-		ft_putstr_fd("Syntax Error: Missing ')'\n", STDERR_FILENO);
+		error_msg(RED SYN_RPA RESET, NULL);
 		shell->status = 1;
 		//exit(2);
 	}
@@ -65,7 +65,7 @@ t_ast_node	*parse_primary(t_token **tokens, t_shell *shell)
 		return (parse_txt(tokens));
 	if ((*tokens)->token_type == TOKEN_LPAREN)
 		return (parse_subshell(tokens, subshell, shell));
-	ft_putstr_fd("Syntax Error: Unexpected token\n", STDERR_FILENO);
+	error_msg(RED SYN_TOK RESET, NULL);
 	shell->status = 1;
 	return (NULL);
 	//exit(2);
@@ -83,7 +83,7 @@ t_ast_node	*parse_expression(t_token **tokens, int min_precedence, t_shell *shel
 	left = parse_primary(tokens, shell);
 	if (!left)
 	{
-		ft_putstr_fd("Syntax Error: Missing operand\n", STDERR_FILENO);
+		error_msg(RED SYN_OPE RESET, NULL);
 		shell->status = 1;
 		//exit(2);
 	}
