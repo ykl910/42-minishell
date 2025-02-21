@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 14:43:25 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:01:13 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,20 @@ void	simple_process(t_ast_node *node, t_shell *shell)
 	exit(node->status);
 }
 
+void	child_process(t_ast_node *node, t_shell *shell)
+{
+	redir_std(&node);
+	simple_process(node, shell);
+}
+
+void	parent_process(t_ast_node *node)
+{
+	if (node->infile_fd != -1)
+		close(node->infile_fd);
+	if (node->outfile_fd != -1)
+		close(node->outfile_fd);
+}
+
 int	execute_command(t_ast_node *node, t_shell *shell)
 {
 	pid_t		pid;
@@ -37,21 +51,13 @@ int	execute_command(t_ast_node *node, t_shell *shell)
 	if (current && current->left && current->node_type == COMMAND_SUBSHELL)
 		current = current->left;
 	cmd_builder(current);
-	if(built_in_exec(shell, current) == 0)
+	if (built_in_exec(shell, current) == 0)
 		return (shell->status);
 	pid = fork();
 	if (pid == 0)
-	{
-		redir_std(&current);
-		simple_process(current, shell);
-	}
+		child_process(current, shell);
 	else
-	{
-		if (current->infile_fd != -1)
-			close(current->infile_fd);
-		if (current->outfile_fd != -1)
-			close(current->outfile_fd);
-	}
+		parent_process(node);
 	waitpid(pid, &status, 0);
 	free_ast_node(node);
 	return (get_return_value(&status));

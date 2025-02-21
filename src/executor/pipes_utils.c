@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 12:39:30 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:05:45 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,17 @@ static int	try_access(t_ast_node *node, char **cmd)
 
 static void	check_relative_cmd(t_ast_node *node, t_shell *shell)
 {
-	int		i;
-	char	**cmd;
+	int	i;
 
 	i = 0;
-	cmd = quotes_handler(node->cmd);
-	if (!cmd)
-	{
-		cmd = ft_calloc(2, sizeof(char *));
-		if (!cmd)
-			return (handle_cmd_error(node, 1));
-		cmd[0] = ft_strdup(node->cmd[0]);
-		if (!cmd[0])
-			return (handle_cmd_error(node, 1));
-	}
 	while (shell->paths[i])
 	{
-		node->cmd_abs_path = ft_strjoin(shell->paths[i], cmd[0]);
-		if (try_access(node, cmd))
+		node->cmd_abs_path = ft_strjoin(shell->paths[i], node->cmd[0]);
+		if (try_access(node, node->cmd))
 			return ;
 		free(node->cmd_abs_path);
 		i++;
 	}
-	ft_free_tab((void **)cmd);
 	handle_cmd_error(node, 127);
 }
 

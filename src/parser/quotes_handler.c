@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:00:52 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 12:04:06 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:57:22 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static int	skip_toggle_quote(char c, char *quote)
 	{
 		if (*quote == 0)
 			*quote = c;
-		else
-			quote = 0;
+		else if (*quote == c)
+			*quote = 0;
 		return (1);
 	}
 	return (0);
