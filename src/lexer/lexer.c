@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/19 12:04:27 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/21 18:15:02 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*create_redir(char *av, int *i)
 		new_token = init_token(TOKEN_REDIRECT_IN, "<");
 		*i += 1;
 	}
-	else if (av[*i] == '>' && av[*i + 1] != '<')
+	else if (av[*i] == '>' && av[*i + 1] != '>')
 	{
 		new_token = init_token(TOKEN_REDIRECT_OUT, ">");
 		*i += 1;

@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 16:56:43 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/21 18:17:13 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,11 +187,6 @@ t_ast_node						*parse_expression(t_token **tokens,
 char							**quotes_handler(char **args);
 
 // exec
-void							inorder_traversal(t_ast_node *node,
-									t_shell *shell);
-int								execute_pipe(t_ast_node *current,
-									t_ast_node *left, t_ast_node *right,
-									t_shell *shell);
 void							cmd_builder(t_ast_node *node);
 void							parse_path(t_ast_node *node, t_shell *shell);
 int								create_cmd(char ***cmd, char *arg);
