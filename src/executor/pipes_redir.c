@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:11:22 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 14:11:30 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:42:35 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	redirect_infile(t_ast_node *node, char **args, int *i)
 		if (node->infile_fd < 0)
 			handle_open_error(&node->infile_fd, args[*i + 1]);
 	}
+	if (!node->redir_in)
+		node->redir_in = true;
 	*i += 2;
 }
 
@@ -34,8 +36,8 @@ static void	redirect_trunc_outile(t_ast_node *node, char **args, int *i)
 	node->outfile_fd = open(args[*i + 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (node->outfile_fd < 0)
 		handle_open_error(&node->outfile_fd, args[*i + 1]);
-	if (!node->redirection)
-		node->redirection = true;
+	if (!node->redir_out)
+		node->redir_out = true;
 	*i += 2;
 }
 
@@ -46,8 +48,8 @@ static void	redirect_app_outfile(t_ast_node *node, char **args, int *i)
 	node->outfile_fd = open(args[*i + 1], O_RDWR | O_APPEND | O_CREAT, 0644);
 	if (node->outfile_fd < 0)
 		handle_open_error(&node->outfile_fd, args[*i + 1]);
-	if (!node->redirection)
-		node->redirection = true;
+	if (!node->redir_out)
+		node->redir_out = true;
 	*i += 2;
 }
 
@@ -70,12 +72,14 @@ static void	redirect_here_doc(t_ast_node *node, char **args, int *i)
 	put_heredoc(node->infile_fd, limiter);
 	reopen_heredoc(&node->infile_fd, args[*i + 1]);
 	free(limiter);
+	if (!node->redir_in)
+		node->redir_in = true;
 	*i += 2;
 }
 
 static bool	is_redir(t_ast_node *node, char **args, int *i)
 {
-	size_t size;
+	size_t	size;
 
 	size = ft_strlen(args[*i]);
 	if (!ft_strncmp(args[*i], "<", size) && args[*i + 1])

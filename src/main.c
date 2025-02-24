@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 16:22:56 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:24:13 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ int	main(int ac, char **av, char **envp)
 					if (!shell.status)
 						executor(shell.ast, &shell);
 				}
-				free_tokens(&shell.token_lst);
+				free_tokens(&head);
 			}
 			shell.prev_status = shell.status;
 		}

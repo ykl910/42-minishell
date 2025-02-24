@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 12:36:53 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:43:59 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ void	new_process(t_ast_node *node, t_shell *shell)
 	char	**temp_env_array;
 
 	temp_env_array = NULL;
+	if (node->redir_in && node->infile_fd == -1)
+		exit(1);
+	if (node->redir_out && node->outfile_fd == -1)
+		exit(1);
 	if (node->status == 0)
 	{
 		if (built_in_exec(shell, node) == -1)
@@ -33,7 +37,7 @@ void	new_process(t_ast_node *node, t_shell *shell)
 	exit(node->status);
 }
 
-int execute_pipeline(t_ast_node *node, t_shell *shell, int input_fd)
+int	execute_pipeline(t_ast_node *node, t_shell *shell, int input_fd)
 {
 	int		pipe_fd[2];
 	pid_t	pid;

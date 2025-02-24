@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 15:28:48 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:41:25 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,12 @@ void	simple_process(t_ast_node *node, t_shell *shell)
 void	child_process(t_ast_node *node, t_shell *shell)
 {
 	redir_std(&node);
-	simple_process(node, shell);
+	if(node->redir_in && node->infile_fd == -1)
+		exit(1);
+	else if(node->redir_out && node->outfile_fd == -1)
+		exit (1);
+	else
+		simple_process(node, shell);
 }
 
 void	parent_process(t_ast_node *node)
