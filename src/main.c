@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 16:24:13 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:16:06 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,10 @@ char	*get_prompt(int status)
 	char	*prompt;
 	size_t	prompt_size;
 
-	left = ft_strjoin(CYAN "⌬  " RESET, NEON_GREEN "Minishell ⌈" RESET);
+	left = ft_strjoin(CYAN "⌬  " RESET, NEON_GREEN "Minishell⌈" RESET);
 	if (!left)
 		return (error_msg(MEM, "prompt(1)"), NULL);
-	right = NEON_GREEN "⌋ ❯ " RESET;
+	right = NEON_GREEN "⌋ $❯ " RESET;
 	num = ft_itoa(status);
 	if (!num)
 		return (error_msg(MEM, "prompt(2)"), free(left), NULL);
@@ -185,10 +185,10 @@ int	main(int ac, char **av, char **envp)
 				expand_token(&shell.token_lst, &shell);
 				free(line);
 				shell.status = check_lexer(&shell.token_lst, &shell);
+				head = shell.token_lst;
 				if (shell.status == 0)
 				{
 					put_command_type(&shell);
-					head = shell.token_lst;
 					shell.ast = parse_expression(&shell.token_lst, 0, &shell);
 					if (!shell.status)
 						executor(shell.ast, &shell);

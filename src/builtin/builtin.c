@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 16:32:28 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:25:31 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,14 +167,14 @@ void	builtin_exit(char **args, t_shell *shell)
 	long	exit_code;
 
 	exit_code = 0;
-	ft_printf("exit\n");
+	ft_printf("exit \n");
 	if (args[1])
 	{
 		if (is_numerical(args[1]))
 		{
 			exit_code = ft_atol(args[1]);
 			if (INT_MIN > exit_code || exit_code > INT_MAX)
-				return (exit(255));
+				return (error_msg(RED EXIT RESET, args[1]), exit(255));
 			else if (args[2])
 			{
 				shell->status = 1;
@@ -182,32 +182,42 @@ void	builtin_exit(char **args, t_shell *shell)
 			}
 		}
 		else
-			return (exit(255));
+			return (error_msg(RED EXIT RESET, args[1]), exit(255));
 	}
 	exit(0);
 }
 
+bool is_cmd(char *prompt, char *cmd)
+{
+	int	prompt_size;
+	int cmd_size;
+
+	prompt_size = ft_strlen(prompt);
+	cmd_size = ft_strlen(cmd);
+	if(prompt_size != cmd_size)
+		return(false);
+	if(!ft_strncmp(prompt, cmd, prompt_size))
+		return(true);
+	return (false);
+}
+
 int	built_in_exec(t_shell *shell, t_ast_node *node)
 {
-	int	name_size;
-
-	name_size = 0;
 	if (!node->cmd)
 		return (-1);
-	name_size = ft_strlen(node->cmd[0]);
-	if (!ft_strncmp(node->cmd[0], "cd", name_size))
+	if (is_cmd(node->cmd[0], "cd"))
 		return (builtin_cd(node->cmd, shell), 0);
-	else if (!ft_strncmp(node->cmd[0], "echo", name_size))
+	else if (is_cmd(node->cmd[0], "echo"))
 		return (builtin_echo(node->cmd, shell), 0);
-	else if (!ft_strncmp(node->cmd[0], "pwd", name_size))
+	else if (is_cmd(node->cmd[0], "pwd"))
 		return (builtin_pwd(shell), 0);
-	else if (!ft_strncmp(node->cmd[0], "export", name_size))
+	else if (is_cmd(node->cmd[0], "export"))
 		return (builtin_export(node->cmd[1], shell), 0);
-	else if (!ft_strncmp(node->cmd[0], "unset", name_size))
+	else if (is_cmd(node->cmd[0], "unset"))
 		return (builtin_unset(node->cmd[1], shell), 0);
-	else if (!ft_strncmp(node->cmd[0], "env", name_size))
+	else if (is_cmd(node->cmd[0], "env"))
 		return (builtin_env(shell), 0);
-	else if (!ft_strncmp(node->cmd[0], "exit", name_size))
+	else if (is_cmd(node->cmd[0], "exit"))
 		return (builtin_exit(node->cmd, shell), 0);
 	else
 		return (-1);
