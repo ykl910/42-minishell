@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 14:10:07 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:30:16 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ void							handle_sigquit(int sig);
 int								get_return_value(int *status);
 
 // cleanup
-void							free_ast_node(t_ast_node *node);
+void							free_ast(t_ast_node *node);
 void							free_wildcard(t_wildcards *node);
 void							free_env(t_env **node);
 void							free_tokens(t_token **node);

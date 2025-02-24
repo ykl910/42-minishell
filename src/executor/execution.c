@@ -6,32 +6,43 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 14:36:29 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:25:04 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	executor(t_ast_node *node, t_shell *shell)
+static void	ast_traversal(t_ast_node *current, t_shell *shell)
 {
-	if(!node)
+	if (!current)
 		return ;
-	if(node->node_type == COMMAND_PIPE)
-		shell->status = execute_pipeline(node, shell, STDIN_FILENO);
-	else if(node->node_type == COMMAND_AND)
+	if (current->node_type == COMMAND_PIPE)
+		shell->status = execute_pipeline(current, shell, STDIN_FILENO);
+	else if (current->node_type == COMMAND_AND)
 	{
-		executor(node->left, shell);
-		if(shell->status == 0)
-			executor(node->right, shell);
+		executor(current->left, shell);
+		if (shell->status == 0)
+			executor(current->right, shell);
 	}
-	else if(node->node_type == COMMAND_OR)
+	else if (current->node_type == COMMAND_OR)
 	{
-		executor(node->left, shell);
-		if(shell->status != 0)
-			executor(node->right, shell);
+		executor(current->left, shell);
+		if (shell->status != 0)
+			executor(current->right, shell);
 	}
-	else if(node->node_type == COMMAND_SUBSHELL)
-		executor(node->left, shell);
+	else if (current->node_type == COMMAND_SUBSHELL)
+		executor(current->left, shell);
 	else
-		shell->status = execute_command(node, shell);
+		shell->status = execute_command(current, shell);
+}
+
+void	executor(t_ast_node *head_node, t_shell *shell)
+{
+	t_ast_node	*current;
+
+	if (!head_node)
+		return ;
+	current = head_node;
+	ast_traversal(current, shell);
+	free_ast(head_node);
 }

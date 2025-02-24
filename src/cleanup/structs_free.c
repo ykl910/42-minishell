@@ -6,14 +6,18 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:29:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 14:59:57 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:30:09 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_ast_node(t_ast_node *node)
+void	free_ast(t_ast_node *node)
 {
+	if (!node)
+		return ;
+	free_ast(node->left);
+	free_ast(node->right);
 	if (node->value)
 		ft_free_tab((void **)node->value);
 	if (node->cmd)

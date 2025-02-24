@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 13:34:38 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:28:48 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,5 @@ int	execute_command(t_ast_node *node, t_shell *shell)
 	else
 		parent_process(current);
 	waitpid(pid, &status, 0);
-	free_ast_node(node);
 	return (get_return_value(&status));
 }
