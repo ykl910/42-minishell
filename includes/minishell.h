@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 18:17:13 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/23 11:38:08 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ char							*expand_env(char *segment, t_shell *shell);
 void							expand_var(t_token *token, t_shell *shell);
 void							expand_wc(t_token *token);
 void							expand_token(t_token **token, t_shell *shell);
+int								check_unclosed(char *av);
 
 // parser
 int								get_precedence(e_token token);
