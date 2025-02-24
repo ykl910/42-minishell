@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:04:34 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 19:44:32 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,9 +164,9 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	shell_init(&shell, envp);
-	ft_signals();
 	while (1)
 	{
+		signals();
 		prompt = get_prompt(shell.prev_status);
 		line = readline(prompt);
 		if (!line)

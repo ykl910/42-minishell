@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:09:13 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 19:25:10 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,11 @@ void					redir_std(t_ast_node **current);
 void					handle_sigint(int sig);
 // void							handle_sigquit(int sig);
 int						get_return_value(int *status);
-void					proc_handle_sigint(int sig);
+void					process_handle_sigint(int sig);
+void					process_handle_sigquit(int sig);
 void					input_eof(char **line);
+void					signals(void);
+void					process_signals(void);
 
 // cleanup
 void					free_ast(t_ast_node *node);

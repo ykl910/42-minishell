@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:05:39 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 19:47:10 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,19 @@ void	input_eof(char **line)
 	exit(EXIT_SUCCESS);
 }
 
-void	proc_handle_sigint(int sig)
+void	process_handle_sigint(int sig)
 {
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	process_handle_sigquit(int sig)
+{
+	(void)sig;
+	ft_printf("Quit\n");
 }
 
 void	handle_sigint(int sig)
@@ -49,8 +55,14 @@ int	get_return_value(int *status)
 		return (1);
 }
 
-void	ft_signals(void)
+void	signals(void)
 {
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	process_signals(void)
+{
+	signal(SIGINT, process_handle_sigint);
+	signal(SIGQUIT, process_handle_sigquit);
 }

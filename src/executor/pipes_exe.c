@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 18:42:53 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 19:35:15 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ void	new_process(t_ast_node *node, t_shell *shell)
 	exit(node->status);
 }
 
-void	pipe_foker(int *pipe_fd, t_ast_node *node, t_shell *shell, int input_fd)
+void	pipe_forker(int *pipe_fd, t_ast_node *node, t_shell *shell,
+		int input_fd)
 {
 	pid_t	pid;
 
 	if (pipe(pipe_fd) == -1)
 		exit(EXIT_FAILURE);
+	process_signals();
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);
@@ -67,8 +69,8 @@ int	cmd_forker(t_ast_node *node, t_shell *shell, int input_fd)
 
 	cmd_builder(node);
 	redir_std(&node);
+	process_signals();
 	pid = fork();
-	signal(SIGINT, proc_handle_sigint);
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
@@ -96,7 +98,7 @@ int	execute_pipeline(t_ast_node *node, t_shell *shell, int input_fd)
 		return (node->status);
 	if (node->node_type == COMMAND_PIPE)
 	{
-		pipe_foker(pipe_fd, node, shell, input_fd);
+		pipe_forker(pipe_fd, node, shell, input_fd);
 		return (execute_pipeline(node->right, shell, pipe_fd[0]));
 	}
 	else
