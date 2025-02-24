@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 17:27:45 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:40:20 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ t_token							*create_logical_ops_parantheses(char *av,
 t_token							*create_pipe_text(char *av, int *i);
 t_token							*create_token(char *av, int *i);
 t_token							*lexer(char *av);
-int								check_lexer(t_token **tokens, t_shell *shell);
+int								check_lexer(t_token **tokens);
 t_wildcards						*wildcard_expension(char *pattern);
 void							free_wc_struct(t_wildcards **head);
 int								create_head_wc(t_wildcards **head, char *file,

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 18:16:06 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:40:35 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ int	main(int ac, char **av, char **envp)
 				shell.token_lst = lexer(line);
 				expand_token(&shell.token_lst, &shell);
 				free(line);
-				shell.status = check_lexer(&shell.token_lst, &shell);
+				shell.status = check_lexer(&shell.token_lst);
 				head = shell.token_lst;
 				if (shell.status == 0)
 				{
