@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:53:37 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/20 17:26:30 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 14:30:48 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*init_token(e_token type, char *av)
 {
 	t_token	*token;
 
-	token = ft_calloc(1, (sizeof(t_token)));
+	token = malloc((sizeof(t_token)));
 	if (!token)
 		return (NULL);
 	token->token_type = type;

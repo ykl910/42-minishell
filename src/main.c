@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 12:42:15 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:44:13 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,18 +142,18 @@ char	*get_prompt(int status)
 	right_part = NEON_GREEN "⌋ ❯ " RESET;
 	number = ft_itoa(status);
 	if (!number)
-		return ("minishell ❯ ");
+		return (free(left_part), "minishell ❯ ");
 	prompt_size = ft_strlen(left_part) + ft_strlen(right_part)
 		+ ft_strlen(number) + ft_strlen(MAGENTA) + ft_strlen(RESET) + 1;
 	prompt = ft_calloc(prompt_size, sizeof(char));
 	if (!prompt)
-		return ("minishell ❯ ");
+		return (free(left_part), free(number), "minishell ❯ ");
 	ft_strlcat(prompt, left_part, prompt_size);
 	ft_strlcat(prompt, MAGENTA, prompt_size);
 	ft_strlcat(prompt, number, prompt_size);
 	ft_strlcat(prompt, RESET, prompt_size);
 	ft_strlcat(prompt, right_part, prompt_size);
-	return (prompt);
+	return (free(left_part), free(number), prompt);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -180,20 +180,20 @@ int	main(int ac, char **av, char **envp)
 			{
 				shell.token_lst = lexer(line);
 				expand_token(&shell.token_lst, &shell);
-				//	print_token(shell.token_lst);
 				free(line);
 				shell.status = check_lexer(&shell.token_lst, &shell);
 				if (shell.status == 0)
 				{
 					put_command_type(&shell);
 					shell.ast = parse_expression(&shell.token_lst, 0, &shell);
-					free_tokens(&shell.token_lst);
 					if (!shell.status)
 						executor(shell.ast, &shell);
 				}
+			free_tokens(&shell.token_lst);
 			}
 			shell.prev_status = shell.status;
 		}
+		free(prompt);
 	}
 	return (0);
 }
