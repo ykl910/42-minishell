@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_redir_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:30:23 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/20 14:37:43 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 14:09:56 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_open_error(int fd)
+void	handle_open_error(int *fd, char *file)
 {
-	ft_putendl_fd("Error: Permisson denied", STDERR_FILENO);
-	fd = open("/dev/null", O_RDONLY);
+	error_msg(RED PERM RESET, file);
+	*fd = open("/dev/null", O_RDWR);
 }
 
 bool	is_urandom(char *str)

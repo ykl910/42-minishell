@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 11:48:09 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:10:07 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,8 +193,8 @@ void							parse_path(t_ast_node *node, t_shell *shell);
 int								create_cmd(char ***cmd, char *arg);
 void							new_process(t_ast_node *node, t_shell *shell);
 void							put_heredoc(int infile_fd, char *limiter);
-void							reopen_heredoc(int *infile_fd);
-void							handle_open_error(int fd);
+void							reopen_heredoc(int *infile_fd, char *file);
+void							handle_open_error(int *fd, char *file);
 bool							is_urandom(char *str);
 int								execute_command(t_ast_node *node,
 									t_shell *shell);
