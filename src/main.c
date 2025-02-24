@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 14:44:13 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:15:36 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,12 +161,13 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	char	*prompt;
 	t_shell	shell;
+	t_token	*head;
 
 	(void)ac;
 	(void)av;
 	shell_init(&shell, envp);
 	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		g_sigint_flag = 0;
@@ -185,11 +186,12 @@ int	main(int ac, char **av, char **envp)
 				if (shell.status == 0)
 				{
 					put_command_type(&shell);
+					head = shell.token_lst;
 					shell.ast = parse_expression(&shell.token_lst, 0, &shell);
 					if (!shell.status)
 						executor(shell.ast, &shell);
 				}
-			free_tokens(&shell.token_lst);
+			free_tokens(&head);
 			}
 			shell.prev_status = shell.status;
 		}
