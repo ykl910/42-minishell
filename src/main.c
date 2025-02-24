@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 16:15:36 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 16:22:56 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,28 +132,30 @@ void	print_token(t_token *token)
 
 char	*get_prompt(int status)
 {
-	char	*left_part;
-	char	*right_part;
-	char	*number;
+	char	*left;
+	char	*right;
+	char	*num;
 	char	*prompt;
 	size_t	prompt_size;
 
-	left_part = ft_strjoin(CYAN "⌬  " RESET, NEON_GREEN "Minishell ⌈" RESET);
-	right_part = NEON_GREEN "⌋ ❯ " RESET;
-	number = ft_itoa(status);
-	if (!number)
-		return (free(left_part), "minishell ❯ ");
-	prompt_size = ft_strlen(left_part) + ft_strlen(right_part)
-		+ ft_strlen(number) + ft_strlen(MAGENTA) + ft_strlen(RESET) + 1;
+	left = ft_strjoin(CYAN "⌬  " RESET, NEON_GREEN "Minishell ⌈" RESET);
+	if (!left)
+		return (error_msg(MEM, "prompt(1)"), NULL);
+	right = NEON_GREEN "⌋ ❯ " RESET;
+	num = ft_itoa(status);
+	if (!num)
+		return (error_msg(MEM, "prompt(2)"), free(left), NULL);
+	prompt_size = ft_strlen(left) + ft_strlen(right) + ft_strlen(num)
+		+ ft_strlen(MAGENTA) + ft_strlen(RESET) + 1;
 	prompt = ft_calloc(prompt_size, sizeof(char));
 	if (!prompt)
-		return (free(left_part), free(number), "minishell ❯ ");
-	ft_strlcat(prompt, left_part, prompt_size);
+		return (error_msg(MEM, "prompt(3)"), free(left), free(num), NULL);
+	ft_strlcat(prompt, left, prompt_size);
 	ft_strlcat(prompt, MAGENTA, prompt_size);
-	ft_strlcat(prompt, number, prompt_size);
+	ft_strlcat(prompt, num, prompt_size);
 	ft_strlcat(prompt, RESET, prompt_size);
-	ft_strlcat(prompt, right_part, prompt_size);
-	return (free(left_part), free(number), prompt);
+	ft_strlcat(prompt, right, prompt_size);
+	return (free(left), free(num), prompt);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -191,7 +193,7 @@ int	main(int ac, char **av, char **envp)
 					if (!shell.status)
 						executor(shell.ast, &shell);
 				}
-			free_tokens(&head);
+				free_tokens(&shell.token_lst);
 			}
 			shell.prev_status = shell.status;
 		}
