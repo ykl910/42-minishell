@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/19 11:18:38 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:39:19 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,37 @@
 
 volatile sig_atomic_t	g_sigint_flag = 0;
 
+void	ft_input_eof(char **line)
+{
+	if (*line != NULL)
+		free (*line);
+	ft_putendl_fd("exit", 2);
+	rl_clear_history();
+	exit(EXIT_SUCCESS);
+}
+
+
+void	proc_handle_sigint(int sig)
+{
+	(void)sig;
+
+	write(STDOUT_FILENO, "\n", 1);
+	
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+
 void handle_sigint(int sig)
 {
 	(void)sig;
 
-	g_sigint_flag = 1;
 	write(STDOUT_FILENO, "\n", 1);
-	rl_replace_line("", 0);
+	
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
-}
-
-void handle_sigquit(int sig)
-{
-	(void)sig;
-
-	exit(1);
 }
 
 int	get_return_value(int *status)
@@ -40,4 +55,10 @@ int	get_return_value(int *status)
 		return (128 + WTERMSIG(*status));
 	else
 		return (1);
+}
+
+void	ft_signals(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }

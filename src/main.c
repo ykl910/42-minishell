@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 18:40:35 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:43:42 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	shell_init(&shell, envp);
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	ft_signals();
 	while (1)
 	{
 		g_sigint_flag = 0;
@@ -177,6 +176,8 @@ int	main(int ac, char **av, char **envp)
 		line = readline(prompt);
 		if (line)
 		{
+			if (line == NULL)
+				ft_input_eof(&line);
 			add_history(line);
 			shell.status = check_unclosed(line);
 			if (!shell.status)

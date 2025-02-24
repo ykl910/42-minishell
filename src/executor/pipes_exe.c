@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_exe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 17:52:21 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:42:53 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	cmd_forker(t_ast_node *node, t_shell *shell, int input_fd)
 	cmd_builder(node);
 	redir_std(&node);
 	pid = fork();
+	signal(SIGINT, proc_handle_sigint);
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
