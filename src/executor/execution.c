@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 17:29:52 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:06:06 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	ast_traversal(t_ast_node *current, t_shell *shell)
 		shell->status = execute_command(current, shell);
 }
 
-void reset_fds(t_shell *shell)
+void	reset_fds(t_shell *shell)
 {
 	dup2(shell->true_stdin, STDIN_FILENO);
 	dup2(shell->true_stdout, STDOUT_FILENO);

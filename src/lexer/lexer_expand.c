@@ -6,11 +6,11 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 10:20:31 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 16:52:36 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 19:06:59 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static void	expand_text(t_token *token, int *wc_flag, int *var_flag)
 {
@@ -21,15 +21,15 @@ static void	expand_text(t_token *token, int *wc_flag, int *var_flag)
 	quote = 0;
 	while (token->value[i] && (quote || token->value[i] > ' '))
 	{
-		if ((token->value[i] == '"' || token->value[i] == '\'') && \
-		(quote == 0 || quote == token->value[i]))
+		if ((token->value[i] == '"' || token->value[i] == '\'') && (quote == 0
+				|| quote == token->value[i]))
 		{
 			if (!quote)
 				quote = token->value[i];
 			else
 				quote = 0;
 			i++;
-			continue;
+			continue ;
 		}
 		if (token->value[i] == '*' && quote == 0)
 			*wc_flag = 1;
@@ -50,7 +50,7 @@ static void	single_expand(t_token **current)
 	temp = ft_split((*current)->value, ' ');
 	free((*current)->value);
 	(*current)->value = ft_strdup(temp[0]);
-	last_new = (*current);   
+	last_new = (*current);
 	next_token = (*current)->next;
 	i = 1;
 	while (temp[i])
@@ -65,7 +65,7 @@ static void	single_expand(t_token **current)
 	ft_free_tab((void **)temp);
 }
 
-static void final_expansion(t_token **token)
+static void	final_expansion(t_token **token)
 {
 	t_token	*current;
 
@@ -82,8 +82,8 @@ static void final_expansion(t_token **token)
 void	expand_token(t_token **token, t_shell *shell)
 {
 	t_token	*current;
-	int wc_flag;
-	int var_flag;
+	int		wc_flag;
+	int		var_flag;
 
 	current = *token;
 	while (current)

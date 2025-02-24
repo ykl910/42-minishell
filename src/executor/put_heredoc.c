@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:44:03 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 14:10:52 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:06:24 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static bool	is_limiter(char *line, char *limiter)
 	return (false);
 }
 
-static void prompt(char *str)
+static void	prompt(char *str)
 {
 	ft_putstr_fd(str, STDERR_FILENO);
 }

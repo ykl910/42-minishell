@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:53:37 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 14:30:48 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:07:09 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,12 @@ int	ft_issep(char c)
 
 int	is_token_separator(char *av, int i)
 {
-	if ((av[i] == '&' && av[i + 1] && av[i + 1] == '&') ||
-		(av[i] == '|' && av[i + 1] && av[i + 1] == '|') ||
-		(av[i] == '>' && av[i + 1] && av[i + 1] == '>') ||
-		(av[i] == '<' && av[i + 1] && av[i + 1] == '<'))
+	if ((av[i] == '&' && av[i + 1] && av[i + 1] == '&') || (av[i] == '|' && av[i
+			+ 1] && av[i + 1] == '|') || (av[i] == '>' && av[i + 1] && av[i
+			+ 1] == '>') || (av[i] == '<' && av[i + 1] && av[i + 1] == '<'))
 		return (2);
-	else if (av[i] == '>' || av[i] == '<' || av[i] == '|' ||
-		av[i] == '(' || av[i] == ')' || av[i] <= ' ')
+	else if (av[i] == '>' || av[i] == '<' || av[i] == '|' || av[i] == '('
+		|| av[i] == ')' || av[i] <= ' ')
 		return (1);
 	return (0);
 }

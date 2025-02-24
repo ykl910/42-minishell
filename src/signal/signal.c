@@ -6,42 +6,34 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 18:39:19 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 19:05:39 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_sigint_flag = 0;
-
-void	ft_input_eof(char **line)
+void	input_eof(char **line)
 {
 	if (*line != NULL)
-		free (*line);
+		free(*line);
 	ft_putendl_fd("exit", 2);
 	rl_clear_history();
 	exit(EXIT_SUCCESS);
 }
 
-
 void	proc_handle_sigint(int sig)
 {
 	(void)sig;
-
 	write(STDOUT_FILENO, "\n", 1);
-	
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	(void)sig;
-
 	write(STDOUT_FILENO, "\n", 1);
-	
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

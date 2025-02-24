@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 18:43:42 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 19:04:34 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ const char	*get_command_name(int command_type)
 	else
 		return ("UNKNOWN");
 }
-
-// DEBUG//
 
 void	print_ast(t_ast_node *node, int depth)
 {
@@ -128,8 +126,6 @@ void	print_token(t_token *token)
 	}
 }
 
-////////////
-
 char	*get_prompt(int status)
 {
 	char	*left;
@@ -171,13 +167,12 @@ int	main(int ac, char **av, char **envp)
 	ft_signals();
 	while (1)
 	{
-		g_sigint_flag = 0;
 		prompt = get_prompt(shell.prev_status);
 		line = readline(prompt);
-		if (line)
+		if (!line)
+			input_eof(&line);
+		else
 		{
-			if (line == NULL)
-				ft_input_eof(&line);
 			add_history(line);
 			shell.status = check_unclosed(line);
 			if (!shell.status)

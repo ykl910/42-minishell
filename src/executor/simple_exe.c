@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_exe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 17:16:22 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:06:28 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	simple_process(t_ast_node *node, t_shell *shell)
 
 void	child_process(t_ast_node *node, t_shell *shell)
 {
-	if(node->redir_in && node->infile_fd == -1)
+	if (node->redir_in && node->infile_fd == -1)
 		exit(1);
-	else if(node->redir_out && node->outfile_fd == -1)
-		exit (1);
+	else if (node->redir_out && node->outfile_fd == -1)
+		exit(1);
 	else
 		simple_process(node, shell);
 }

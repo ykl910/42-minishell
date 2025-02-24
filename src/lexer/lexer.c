@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 18:15:02 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 19:07:16 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_token	*create_pipe_text(char *av, int *i)
 		{
 			sep_len = is_token_separator(av, *i);
 			if (sep_len && !quote)
-				break;
+				break ;
 			if (!quote && (av[*i] == '\'' || av[*i] == '"'))
 				quote = av[*i];
 			else if (quote && av[*i] == quote)
@@ -101,7 +101,8 @@ t_token	*create_pipe_text(char *av, int *i)
 		{
 			temp = ft_strndup(av + start, *i - start);
 			if (!temp)
-				return (ft_putstr_fd("create token malloc error", STDERR_FILENO), NULL);
+				return (ft_putstr_fd("create token malloc error",
+						STDERR_FILENO), NULL);
 			new_token = init_token(TOKEN_TEXT, temp);
 			if (temp)
 				free(temp);

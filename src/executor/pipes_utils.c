@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 16:31:10 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:06:21 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,7 @@ int	create_cmd(char ***cmd, char *arg)
 	{
 		*cmd = ft_calloc(2, sizeof(char *));
 		if (!*cmd)
-			return (error_msg(MEM, "create cmd(1)"),
-				-1);
+			return (error_msg(MEM, "create cmd(1)"), -1);
 		*cmd[0] = ft_strdup(arg);
 		if (!(*cmd)[0])
 			return (error_msg(MEM, "create_cmd(2)"), -1);

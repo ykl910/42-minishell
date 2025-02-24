@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   import_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:37:14 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 13:53:41 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:05:57 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*get_old_path(t_env **env)
 
 static int	chage_pwd(t_env **env, char *pwd)
 {
-	t_env *current;
+	t_env	*current;
 
 	current = *env;
 	while (current)
