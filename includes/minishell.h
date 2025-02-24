@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/23 11:38:08 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 11:48:09 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,12 @@ typedef struct s_shell
 	char						**paths;
 	int							prompt_type;
 	int							status;
+	int							prev_status;
 }								t_shell;
 
 void							error_msg(char *msg, char *context);
 
 int	tab_size(char **tab); // a rajouter a la libft
-
 
 // builtin
 int								built_in_exec(t_shell *shell, t_ast_node *node);

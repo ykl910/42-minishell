@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/21 16:33:41 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 11:39:26 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ft_strjoin_char(char *s, char c)
+char	*ft_strjoin_char(char *s, char c)
 {
-	int len;
-	char *new_str;
-	int i;
+	int		len;
+	char	*new_str;
+	int		i;
 
 	if (!s)
 		return (NULL);
@@ -37,14 +37,14 @@ char *ft_strjoin_char(char *s, char c)
 
 void	expand_variable(char *segment, int *i, t_shell *shell, char **expanded)
 {
-	int start;
-	char *var_name;
-	char *var_value;
-	char *temp;
+	int		start;
+	char	*var_name;
+	char	*var_value;
+	char	*temp;
 
 	start = *i;
 	(*i)++;
-	while (ft_isalnum(segment[*i]) || segment[*i] == '_')
+	while (ft_isalnum(segment[*i]) || segment[*i] == '_' || segment[*i] == '?')
 		(*i)++;
 	var_name = ft_strndup(&segment[start], *i - start);
 	var_value = variable_expension(var_name, shell);
@@ -59,11 +59,11 @@ void	expand_variable(char *segment, int *i, t_shell *shell, char **expanded)
 		free(var_value);
 }
 
-char *expand_env(char *segment, t_shell *shell)
+char	*expand_env(char *segment, t_shell *shell)
 {
-	int i;
-	char *expanded;
-	char *temp;
+	int		i;
+	char	*expanded;
+	char	*temp;
 
 	expanded = ft_strdup("");
 	i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/23 11:37:41 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 12:42:15 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,10 @@ void	put_command_type(t_shell *shell)
 
 void	print_token(t_token *token)
 {
-	t_token *current;
-	int i = 1;
+	t_token	*current;
+	int		i;
 
+	i = 1;
 	current = token;
 	while (current)
 	{
@@ -127,9 +128,38 @@ void	print_token(t_token *token)
 	}
 }
 
+////////////
+
+char	*get_prompt(int status)
+{
+	char	*left_part;
+	char	*right_part;
+	char	*number;
+	char	*prompt;
+	size_t	prompt_size;
+
+	left_part = ft_strjoin(CYAN "⌬  " RESET, NEON_GREEN "Minishell ⌈" RESET);
+	right_part = NEON_GREEN "⌋ ❯ " RESET;
+	number = ft_itoa(status);
+	if (!number)
+		return ("minishell ❯ ");
+	prompt_size = ft_strlen(left_part) + ft_strlen(right_part)
+		+ ft_strlen(number) + ft_strlen(MAGENTA) + ft_strlen(RESET) + 1;
+	prompt = ft_calloc(prompt_size, sizeof(char));
+	if (!prompt)
+		return ("minishell ❯ ");
+	ft_strlcat(prompt, left_part, prompt_size);
+	ft_strlcat(prompt, MAGENTA, prompt_size);
+	ft_strlcat(prompt, number, prompt_size);
+	ft_strlcat(prompt, RESET, prompt_size);
+	ft_strlcat(prompt, right_part, prompt_size);
+	return (prompt);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
+	char	*prompt;
 	t_shell	shell;
 
 	(void)ac;
@@ -139,9 +169,9 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, handle_sigquit);
 	while (1)
 	{
-		shell.status = 0;
 		g_sigint_flag = 0;
-		line = readline(CYAN "⌬  " RESET NEON_GREEN "Minishell ❯ " RESET);
+		prompt = get_prompt(shell.prev_status);
+		line = readline(prompt);
 		if (line)
 		{
 			add_history(line);
@@ -150,21 +180,20 @@ int	main(int ac, char **av, char **envp)
 			{
 				shell.token_lst = lexer(line);
 				expand_token(&shell.token_lst, &shell);
-				print_token(shell.token_lst);
+				//	print_token(shell.token_lst);
 				free(line);
 				shell.status = check_lexer(&shell.token_lst, &shell);
-				// if (!shell.status)
-				// {
-				// 	put_command_type(&shell);
-				// 	shell.ast = parse_expression(&shell.token_lst, 0, &shell);
-				// 	free_tokens(&shell.token_lst);
-				// 	if (!shell.status)
-				// 		executor(shell.ast, &shell);
-				// }
+				if (shell.status == 0)
+				{
+					put_command_type(&shell);
+					shell.ast = parse_expression(&shell.token_lst, 0, &shell);
+					free_tokens(&shell.token_lst);
+					if (!shell.status)
+						executor(shell.ast, &shell);
+				}
 			}
-
+			shell.prev_status = shell.status;
 		}
 	}
 	return (0);
 }
-

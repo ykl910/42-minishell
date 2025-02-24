@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_shell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:24:13 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/18 10:48:31 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/24 11:48:25 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	struct_init(t_shell *shell)
 	shell->paths = NULL;
 	shell->prompt_type = AST_CMD;
 	shell->status = 0;
+	shell->prev_status = 0;
 }
 
 static char	*str_fusion(char *buffer, char *line)
