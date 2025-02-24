@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 16:39:51 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:27:45 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ typedef struct s_shell
 	int							prompt_type;
 	int							status;
 	int							prev_status;
+	int							true_stdin;
+	int							true_stdout;
 }								t_shell;
 
 void							error_msg(char *msg, char *context);

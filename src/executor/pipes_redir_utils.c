@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:30:23 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 16:34:34 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:10:22 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	handle_open_error(int *fd, char *file)
 {
 	error_msg(RED PERM RESET, file);
 	*fd = -1;
-	//open("/dev/null", O_RDWR);
 }
 
 bool	is_urandom(char *str)

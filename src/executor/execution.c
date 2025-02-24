@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 15:25:04 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:29:52 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ static void	ast_traversal(t_ast_node *current, t_shell *shell)
 		shell->status = execute_command(current, shell);
 }
 
+void reset_fds(t_shell *shell)
+{
+	dup2(shell->true_stdin, STDIN_FILENO);
+	dup2(shell->true_stdout, STDOUT_FILENO);
+}
+
 void	executor(t_ast_node *head_node, t_shell *shell)
 {
 	t_ast_node	*current;
@@ -44,5 +50,6 @@ void	executor(t_ast_node *head_node, t_shell *shell)
 		return ;
 	current = head_node;
 	ast_traversal(current, shell);
+	reset_fds(shell);
 	free_ast(head_node);
 }

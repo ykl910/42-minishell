@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:24:13 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 11:48:25 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:28:53 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	struct_init(t_shell *shell)
 	shell->prompt_type = AST_CMD;
 	shell->status = 0;
 	shell->prev_status = 0;
+	shell->true_stdin = dup(STDIN_FILENO);
+	shell->true_stdout = dup(STDOUT_FILENO);
 }
 
 static char	*str_fusion(char *buffer, char *line)

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 16:41:25 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:16:22 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	simple_process(t_ast_node *node, t_shell *shell)
 
 void	child_process(t_ast_node *node, t_shell *shell)
 {
-	redir_std(&node);
 	if(node->redir_in && node->infile_fd == -1)
 		exit(1);
 	else if(node->redir_out && node->outfile_fd == -1)
@@ -56,6 +55,7 @@ int	execute_command(t_ast_node *node, t_shell *shell)
 	if (current && current->left && current->node_type == COMMAND_SUBSHELL)
 		current = current->left;
 	cmd_builder(current);
+	redir_std(&node);
 	if (built_in_exec(shell, current) == 0)
 		return (shell->status);
 	pid = fork();

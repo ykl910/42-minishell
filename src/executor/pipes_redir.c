@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:11:22 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 16:42:35 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:04:51 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	redirect_trunc_outile(t_ast_node *node, char **args, int *i)
 {
 	if (node->outfile_fd > -1)
 		close(node->outfile_fd);
-	node->outfile_fd = open(args[*i + 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
+	node->outfile_fd = open(args[*i + 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (node->outfile_fd < 0)
 		handle_open_error(&node->outfile_fd, args[*i + 1]);
 	if (!node->redir_out)
@@ -45,7 +45,7 @@ static void	redirect_app_outfile(t_ast_node *node, char **args, int *i)
 {
 	if (node->outfile_fd > -1)
 		close(node->outfile_fd);
-	node->outfile_fd = open(args[*i + 1], O_RDWR | O_APPEND | O_CREAT, 0644);
+	node->outfile_fd = open(args[*i + 1], O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (node->outfile_fd < 0)
 		handle_open_error(&node->outfile_fd, args[*i + 1]);
 	if (!node->redir_out)
