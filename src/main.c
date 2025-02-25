@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 10:05:49 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 13:27:39 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,6 @@ void	ast_printer(t_ast_node *root)
 	ast_printer(root->right);
 }
 
-void	put_command_type(t_shell *shell)
-{
-	t_token	*current;
-
-	current = shell->token_lst;
-	while (current)
-	{
-		if (current->token_type == TOKEN_PIPE
-			|| current->token_type == TOKEN_AND
-			|| current->token_type == TOKEN_OR)
-		{
-			shell->prompt_type = 0;
-			return ;
-		}
-		current = current->next;
-	}
-	shell->prompt_type = 1;
-}
-
 void	print_token(t_token *token)
 {
 	t_token	*current;
@@ -157,7 +138,6 @@ char	*get_prompt(int status)
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
-	char	*prompt;
 	t_shell	shell;
 	t_token	*head;
 
@@ -167,10 +147,10 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		signals();
-		prompt = get_prompt(shell.prev_status);
-		line = readline(prompt);
+		shell.prompt = get_prompt(shell.prev_status);
+		line = readline(shell.prompt);
 		if (!line)
-			input_eof(&line);
+			input_eof(&line, &shell);
 		else
 		{
 			process_signals();
@@ -185,7 +165,6 @@ int	main(int ac, char **av, char **envp)
 				head = shell.token_lst;
 				if (shell.status == 0)
 				{
-					put_command_type(&shell);
 					shell.ast = parse_expression(&shell.token_lst, 0, &shell);
 					if (!shell.status)
 						executor(shell.ast, &shell);
@@ -194,7 +173,8 @@ int	main(int ac, char **av, char **envp)
 			}
 			shell.prev_status = shell.status;
 		}
-		free(prompt);
+		free(shell.prompt);
+
 	}
 	return (0);
 }

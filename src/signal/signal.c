@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 10:56:28 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 12:54:56 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 //extern int g_signal;
 
-void	input_eof(char **line)
+void	input_eof(char **line, t_shell *shell)
 {
-	if (*line != NULL)
+	if (*line)
 		free(*line);
+	free_shell(shell);
 	ft_putendl_fd("exit", 2);
 	rl_clear_history();
 	exit(EXIT_SUCCESS);
@@ -26,7 +27,7 @@ void	input_eof(char **line)
 void	process_handle_sigint(int sig)
 {
 	(void)sig;
-	
+
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
 }

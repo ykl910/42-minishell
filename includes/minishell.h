@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 10:55:51 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 12:24:31 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,9 @@
 
 # define SIGINT 2
 # define SIGQUIT 3
-# define SIMPLE_CMD 4
-# define AST_CMD 5
 # define MAX_FILE_SIZE 100000
 
-extern int g_signal;
+extern int				g_signal;
 
 typedef enum
 {
@@ -106,7 +104,7 @@ typedef struct s_shell
 	t_token				*token_lst;
 	t_ast_node			*ast;
 	char				**paths;
-	int					prompt_type;
+	char				*prompt;
 	int					status;
 	int					prev_status;
 	int					true_stdin;
@@ -128,11 +126,11 @@ void					builtin_env(t_shell *shell);
 void					builtin_exit(char **args, t_shell *shell);
 char					*get_var_name(char *env_line);
 char					*get_var_value(char *env_line);
-int						create_head_env_lst(char *key, char **name,
-							char **value, t_env **env);
-int						create_node_env_lst(char *key, char **name,
-							char **value, t_env **env);
-int						put_env_var(char *line, char **name, char **value,
+int						create_head_env_lst(char *key, char *name, char *value,
+							t_env **env);
+int						create_node_env_lst(char *key, char *name, char *value,
+							t_env **env);
+int						put_env_var(char *line, char *name, char *value,
 							t_shell *shell);
 bool					is_numerical(char *str);
 
@@ -203,7 +201,7 @@ void					handle_sigint(int sig);
 int						get_return_value(int *status);
 void					process_handle_sigint(int sig);
 void					process_handle_sigquit(int sig);
-void					input_eof(char **line);
+void					input_eof(char **line, t_shell *shell);
 void					signals(void);
 void					process_signals(void);
 
@@ -217,6 +215,6 @@ void					free_shell(t_shell *shell);
 int						execute_pipeline(t_ast_node *node, t_shell *shell,
 							int input_fd);
 void					executor(t_ast_node *node, t_shell *shell);
-void					ft_signals(void);
+void					signals(void);
 
 #endif

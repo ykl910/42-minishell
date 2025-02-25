@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:29:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 15:30:09 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:28:57 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	free_env(t_env **node)
 {
 	t_env	*current;
 	t_env	*next;
-
 	if (!*node || !node)
 		return ;
 	current = *node;
@@ -102,6 +101,8 @@ void	free_shell(t_shell *shell)
 		free_tokens(&shell->token_lst);
 	if (shell->paths)
 		ft_free_tab((void **)shell->paths);
-	free(shell);
-	shell = NULL;
+	if(shell->ast)
+		free_ast(shell->ast);
+	if(shell->prompt)
+		free(shell->prompt);
 }

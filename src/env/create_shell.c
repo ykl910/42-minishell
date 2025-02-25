@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:24:13 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 17:28:53 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:23:51 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	struct_init(t_shell *shell)
 	shell->shell_env = NULL;
 	shell->token_lst = NULL;
 	shell->paths = NULL;
-	shell->prompt_type = AST_CMD;
+	shell->prompt = NULL;
 	shell->status = 0;
 	shell->prev_status = 0;
 	shell->true_stdin = dup(STDIN_FILENO);

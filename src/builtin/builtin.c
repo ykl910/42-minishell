@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 18:25:31 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:32:44 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,20 @@ void	builtin_export(char *line, t_shell *shell)
 	if (!name)
 		return ;
 	value = get_var_value(line);
-	if (put_env_var(line, &name, &value, shell) == -1)
+	if(!value)
+		value = ft_calloc (1, sizeof(char));
+	if(!value)
 	{
-		free(name);
-		free(value);
-		shell->status = 1;
+		error_msg(MEM, "builtin_export for env_var =");
+		error_msg(line, NULL);
+		return ;
 	}
+	if (put_env_var(line, name, value, shell) == -1)
+		shell->status = 1;
 	else
 		shell->status = 0;
+	free(name);
+	free(value);
 }
 
 void	builtin_unset(char *target, t_shell *shell)
@@ -140,7 +146,9 @@ void	builtin_unset(char *target, t_shell *shell)
 	if (!current)
 		return ;
 	prev->next = current->next;
-	free(current);
+	free(current->key_val);
+	free(current->name);
+	free(current->value);
 }
 
 void	builtin_env(t_shell *shell)
@@ -184,6 +192,7 @@ void	builtin_exit(char **args, t_shell *shell)
 		else
 			return (error_msg(RED EXIT RESET, args[1]), exit(255));
 	}
+	free_shell(shell);
 	exit(0);
 }
 
