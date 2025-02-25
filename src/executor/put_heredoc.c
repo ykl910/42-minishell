@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:44:03 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/25 13:32:48 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 15:51:07 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	reopen_heredoc(int *infile_fd, char *file)
 {
-	*infile_fd = open("heredoc.txt", O_RDWR, 0644);
+	*infile_fd = open("/tmp/hdoc", O_RDWR, 0644);
 	if (*infile_fd < 0)
 		handle_open_error(infile_fd, file);
 }
@@ -49,7 +49,7 @@ void	put_heredoc(int infile_fd, char *limiter)
 		prompt(CYAN "-> " RESET);
 		line = get_next_line(STDIN_FILENO);
 		if (!line || is_limiter(line, limiter))
-			break ;			
+			break ;
 		write(infile_fd, line, ft_strlen(line));
 		free(line);
 		i++;

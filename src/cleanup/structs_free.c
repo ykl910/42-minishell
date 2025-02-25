@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:29:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/25 14:35:09 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 15:49:20 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	free_ast(t_ast_node *node)
 		close(node->infile_fd);
 	if (node->outfile_fd > 0)
 		close(node->outfile_fd);
-	unlink("heredoc.txt");
 	free(node);
 	node = NULL;
 }

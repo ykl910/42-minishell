@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/25 12:32:44 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:00:02 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ void	builtin_exit(char **args, t_shell *shell)
 	long	exit_code;
 
 	exit_code = 0;
-	ft_printf("exit \n");
+	ft_printf("exit\n");
 	if (args[1])
 	{
 		if (is_numerical(args[1]))
@@ -193,6 +193,7 @@ void	builtin_exit(char **args, t_shell *shell)
 			return (error_msg(RED EXIT RESET, args[1]), exit(255));
 	}
 	free_shell(shell);
+	rl_clear_history();
 	exit(0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:11:22 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 17:04:51 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:58:37 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,11 @@ static void	redirect_here_doc(t_ast_node *node, char **args, int *i)
 	if (node->infile_fd > -1)
 	{
 		close(node->infile_fd);
-		unlink("heredoc.txt");
 	}
 	limiter = ft_strdup(args[*i + 1]);
 	if (!limiter)
 		return ;
-	node->infile_fd = open("heredoc.txt", O_CREAT | O_RDWR, 0644);
+	node->infile_fd = open("/tmp/hdoc", O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (node->infile_fd < 0)
 		handle_open_error(&node->infile_fd, args[*i + 1]);
 	put_heredoc(node->infile_fd, limiter);
@@ -114,5 +113,6 @@ void	cmd_builder(t_ast_node *node)
 			i++;
 		}
 	}
+	unlink("/tmp/hdoc");
 	ft_free_tab((void **)args);
 }
