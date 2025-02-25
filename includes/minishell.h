@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 12:24:31 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:28:50 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ void					free_shell(t_shell *shell);
 
 int						execute_pipeline(t_ast_node *node, t_shell *shell,
 							int input_fd);
-void					executor(t_ast_node *node, t_shell *shell);
+void					executor(t_ast_node **head_node, t_shell *shell);
 void					signals(void);
 
 #endif

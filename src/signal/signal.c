@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 12:54:56 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:36:43 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//extern int g_signal;
 
 void	input_eof(char **line, t_shell *shell)
 {
@@ -27,7 +25,6 @@ void	input_eof(char **line, t_shell *shell)
 void	process_handle_sigint(int sig)
 {
 	(void)sig;
-
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
 }
@@ -47,15 +44,15 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
-void	heredoc_handle_sigint(int sig)
-{
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	g_signal = 1;
-}
+// void	heredoc_handle_sigint(int sig)
+// {
+// 	(void)sig;
+// 	write(STDOUT_FILENO, "\n", 1);
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// 	g_signal = 1;
+// }
 
 int	get_return_value(int *status)
 {
@@ -79,8 +76,8 @@ void	process_signals(void)
 	signal(SIGQUIT, process_handle_sigquit);
 }
 
-void	heredoc_signals(void)
-{
-	signal(SIGINT, process_handle_sigint);
-	signal(SIGQUIT, process_handle_sigquit);
-}
+// void	heredoc_signals(void)
+// {
+// 	signal(SIGINT, process_handle_sigint);
+// 	signal(SIGQUIT, process_handle_sigquit);
+// }

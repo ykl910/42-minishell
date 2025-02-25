@@ -6,13 +6,13 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:44:03 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/25 11:01:51 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 13:32:48 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_signal = 0;
+//int g_signal = 0;
 
 void	reopen_heredoc(int *infile_fd, char *file)
 {
@@ -45,16 +45,11 @@ void	put_heredoc(int infile_fd, char *limiter)
 	prompt(MAGENTA " ==HEREDOC==\n" RESET);
 	while (i < MAX_FILE_SIZE)
 	{
-		signals();
 		prompt(MAGENTA "| " RESET);
 		prompt(CYAN "-> " RESET);
 		line = get_next_line(STDIN_FILENO);
-		if (!line || is_limiter(line, limiter) || g_signal == 1)
-		{
-			//printf("go");
-			break ;
-		}
-			
+		if (!line || is_limiter(line, limiter))
+			break ;			
 		write(infile_fd, line, ft_strlen(line));
 		free(line);
 		i++;
