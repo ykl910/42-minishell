@@ -97,10 +97,8 @@ void	cmd_builder(t_ast_node *node)
 {
 	char	**args;
 	int		i;
-	int		size;
 
 	i = 0;
-	size = 0;
 	args = quotes_handler(node->value);
 	if (!args)
 		return ;

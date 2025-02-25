@@ -53,12 +53,10 @@ static bool	add_subpath(char **path)
 
 static void	get_paths(t_shell *shell)
 {
-	int		i;
 	t_env	*tempenv;
 	char	*temp;
 	char	**paths;
 
-	i = 0;
 	if (!shell->shell_env)
 		return ;
 	tempenv = shell->shell_env;

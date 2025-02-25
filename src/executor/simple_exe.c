@@ -15,12 +15,17 @@
 void	simple_process(t_ast_node *node, t_shell *shell)
 {
 	char	**temp_env_array;
+	int		exit_status;
 
 	temp_env_array = NULL;
 	parse_path(node, shell);
 	shell->status = node->status;
 	if (!node->cmd_abs_path)
-		exit(node->status);
+	{
+		exit_status = node->status;
+		free_shell(shell);
+		exit(exit_status);
+	}
 	shell->status = node->status;
 	temp_env_array = env_lst_to_array(shell->shell_env);
 	execve(node->cmd_abs_path, node->cmd, temp_env_array);
