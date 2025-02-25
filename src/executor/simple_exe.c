@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:33:48 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 10:06:04 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	execute_command(t_ast_node *node, t_shell *shell)
 	redir_std(&node);
 	if (built_in_exec(shell, current) == 0)
 		return (shell->status);
-	process_signals();
+	//process_signals();
 	pid = fork();
 	if (pid == 0)
 		child_process(current, shell);

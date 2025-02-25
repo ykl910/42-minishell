@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 19:35:15 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 10:26:05 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	pipe_forker(int *pipe_fd, t_ast_node *node, t_shell *shell,
 
 	if (pipe(pipe_fd) == -1)
 		exit(EXIT_FAILURE);
-	process_signals();
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);
@@ -69,7 +68,6 @@ int	cmd_forker(t_ast_node *node, t_shell *shell, int input_fd)
 
 	cmd_builder(node);
 	redir_std(&node);
-	process_signals();
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);

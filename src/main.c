@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:44:32 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 10:05:49 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ int	main(int ac, char **av, char **envp)
 			input_eof(&line);
 		else
 		{
+			process_signals();
 			add_history(line);
 			shell.status = check_unclosed(line);
 			if (!shell.status)

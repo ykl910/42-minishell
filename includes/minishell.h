@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:25:10 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/25 10:55:51 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define SIMPLE_CMD 4
 # define AST_CMD 5
 # define MAX_FILE_SIZE 100000
+
+extern int g_signal;
 
 typedef enum
 {
