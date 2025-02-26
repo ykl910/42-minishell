@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/25 10:26:05 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 12:33:34 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,18 @@
 void	new_process(t_ast_node *node, t_shell *shell)
 {
 	char	**temp_env_array;
-	int		exit_status;
 
 	temp_env_array = NULL;
 	if (node->redir_in && node->infile_fd == -1)
-		exit(1);
+	{
+		node->status = 1;
+		free_exit(&node->status, shell);
+	}		
 	if (node->redir_out && node->outfile_fd == -1)
-		exit(1);
+	{
+		node->status = 1;
+		free_exit(&node->status, shell);
+	}	
 	if (node->status == 0)
 	{
 		if (built_in_exec(shell, node) == -1)
@@ -29,17 +34,13 @@ void	new_process(t_ast_node *node, t_shell *shell)
 			parse_path(node, shell);
 			shell->status = node->status;
 			if (!node->cmd_abs_path)
-			{
-				exit_status = node->status;
-				free_shell(shell);
-				exit(exit_status);
-			}
+				free_exit(&node->status, shell);
 			shell->status = node->status;
 			temp_env_array = env_lst_to_array(shell->shell_env);
 			execve(node->cmd_abs_path, node->cmd, temp_env_array);
 		}
 	}
-	exit(node->status);
+	free_exit(&node->status, shell);
 }
 
 void	pipe_forker(int *pipe_fd, t_ast_node *node, t_shell *shell,
@@ -48,18 +49,27 @@ void	pipe_forker(int *pipe_fd, t_ast_node *node, t_shell *shell,
 	pid_t	pid;
 
 	if (pipe(pipe_fd) == -1)
-		exit(EXIT_FAILURE);
+	{
+		node->status = 1;
+		free_exit(&node->status, shell);
+	}
 	pid = fork();
 	if (pid == -1)
-		exit(EXIT_FAILURE);
+	{
+		node->status = 1;
+		free_exit(&node->status, shell);
+	}	
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-			exit(EXIT_FAILURE);
+		{
+			node->status = 1;
+			free_exit(&node->status, shell);
+		}
 		close(pipe_fd[1]);
 		execute_pipeline(node->left, shell, input_fd);
-		exit(EXIT_FAILURE);
+		free_exit(&node->left->status, shell);	
 	}
 	close(pipe_fd[1]);
 	if (input_fd != STDIN_FILENO)
@@ -81,11 +91,16 @@ int	cmd_forker(t_ast_node *node, t_shell *shell, int input_fd)
 		if (input_fd != STDIN_FILENO)
 		{
 			if (dup2(input_fd, STDIN_FILENO) == -1)
-				exit(EXIT_FAILURE);
-			close(input_fd);
+			{
+				node->status = 1;
+				free_exit(&node->status, shell);
+			}
 		}
 		new_process(node, shell);
-		exit(EXIT_FAILURE);
+		{
+			node->status = 1;
+			free_exit(&node->status, shell);
+		}	
 	}
 	if (input_fd != STDIN_FILENO)
 		close(input_fd);

@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 13:30:58 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 12:33:50 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,30 @@
 void	simple_process(t_ast_node *node, t_shell *shell)
 {
 	char	**temp_env_array;
-	int		exit_status;
 
 	temp_env_array = NULL;
 	parse_path(node, shell);
 	shell->status = node->status;
 	if (!node->cmd_abs_path)
-	{
-		exit_status = node->status;
-		free_shell(shell);
-		exit(exit_status);
-	}
+		free_exit(&node->status, shell);
 	shell->status = node->status;
 	temp_env_array = env_lst_to_array(shell->shell_env);
 	execve(node->cmd_abs_path, node->cmd, temp_env_array);
-	exit(node->status);
+	free_exit(&node->status, shell);
 }
 
 void	child_process(t_ast_node *node, t_shell *shell)
 {
 	if (node->redir_in && node->infile_fd == -1)
-		exit(1);
+	{
+		node->status = 1;
+		free_exit(&node->status, shell);
+	}
 	else if (node->redir_out && node->outfile_fd == -1)
-		exit(1);
+	{
+		node->status = 1;
+		free_exit(&node->status, shell);
+	}
 	else
 		simple_process(node, shell);
 }

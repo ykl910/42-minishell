@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 10:20:31 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:06:59 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 10:31:46 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,52 @@ static void	single_expand(t_token **current)
 	t_token	*next_token;
 
 	temp = ft_split((*current)->value, ' ');
-	free((*current)->value);
-	(*current)->value = ft_strdup(temp[0]);
+	free((*current)->value);         // Free the original value
+	(*current)->value = ft_strdup(temp[0]);  // Duplicate the first word
+	free(temp[0]);
 	last_new = (*current);
 	next_token = (*current)->next;
 	i = 1;
 	while (temp[i])
 	{
 		new_token = init_token(TOKEN_TEXT, temp[i]);
+		free(temp[i]);
 		last_new->next = new_token;
 		last_new = new_token;
 		i++;
 	}
 	last_new->next = next_token;
+	free(temp); 
+	//ft_free_tab((void **)temp);
 	(*current) = next_token;
-	ft_free_tab((void **)temp);
 }
+
+// static void	single_expand(t_token **current)
+// {
+// 	char	**temp;
+// 	int		i;
+// 	t_token	*last_new;
+// 	t_token	*new_token;
+// 	t_token	*next_token;
+
+// 	temp = ft_split((*current)->value, ' ');
+// 	free((*current)->value);
+// 	(*current)->value = ft_strdup(temp[0]);
+// 	free(temp[0]);
+// 	last_new = (*current);
+// 	next_token = (*current)->next;
+// 	i = 1;
+// 	while (temp[i])
+// 	{
+// 		new_token = init_token(TOKEN_TEXT, temp[i]);
+// 		last_new->next = new_token;
+// 		last_new = new_token;
+// 		i++;
+// 	}
+// 	last_new->next = next_token;
+// 	(*current) = next_token;
+// 	ft_free_tab((void **)temp);
+// }
 
 static void	final_expansion(t_token **token)
 {

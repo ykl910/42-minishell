@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 14:28:50 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 11:42:16 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ void					free_wildcard(t_wildcards *node);
 void					free_env(t_env **node);
 void					free_tokens(t_token **node);
 void					free_shell(t_shell *shell);
+void					free_exit(int *exit_status, t_shell *shell);
 
 int						execute_pipeline(t_ast_node *node, t_shell *shell,
 							int input_fd);
