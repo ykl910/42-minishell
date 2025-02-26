@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:56:04 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 18:40:09 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:52:10 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static int	check_current(t_token **current, t_token **last)
 		if ((*current)->next && (*current)->next->token_type == TOKEN_LPAREN
 			&& ((*current)->token_type != TOKEN_PIPE
 				&& (*current)->token_type != TOKEN_AND
-				&& (*current)->token_type != TOKEN_OR))
+				&& (*current)->token_type != TOKEN_OR
+				&& (*current)->token_type != TOKEN_LPAREN))
 			return (error_msg(TOK, (*current)->next->next->value), 1);
 		*last = *current;
 		(*current) = (*current)->next;

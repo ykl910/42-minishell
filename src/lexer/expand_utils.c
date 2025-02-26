@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 14:54:28 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 16:56:21 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	expand_wc(t_token *token)
 	wc_pattern = ft_strdup(token->value);
 	wc_exp = wildcard_expension(wc_pattern);
 	free(wc_pattern);
+	if (!wc_exp)
+		return ;
 	free(token->value);
 	wc_tmp = wc_exp;
 	while (wc_exp)
