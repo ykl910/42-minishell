@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   main_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 14:36:43 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 14:50:02 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,6 @@ void	input_eof(char **line, t_shell *shell)
 	exit(EXIT_SUCCESS);
 }
 
-void	process_handle_sigint(int sig)
-{
-	(void)sig;
-	rl_on_new_line();
-	write(STDOUT_FILENO, "\n", 1);
-}
-
-void	process_handle_sigquit(int sig)
-{
-	(void)sig;
-	ft_printf("Quit\n");
-}
-
 void	handle_sigint(int sig)
 {
 	(void)sig;
@@ -43,16 +30,6 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-
-// void	heredoc_handle_sigint(int sig)
-// {
-// 	(void)sig;
-// 	write(STDOUT_FILENO, "\n", 1);
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// 	g_signal = 1;
-// }
 
 int	get_return_value(int *status)
 {
@@ -69,15 +46,3 @@ void	signals(void)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }
-
-void	process_signals(void)
-{
-	signal(SIGINT, process_handle_sigint);
-	signal(SIGQUIT, process_handle_sigquit);
-}
-
-// void	heredoc_signals(void)
-// {
-// 	signal(SIGINT, process_handle_sigint);
-// 	signal(SIGQUIT, process_handle_sigquit);
-// }

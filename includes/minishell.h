@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 14:03:34 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:55:22 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define SIGQUIT 3
 # define MAX_FILE_SIZE 100000
 
-extern int				g_signal;
+// extern int				g_signal;
 
 typedef enum e_token_type
 {
@@ -111,7 +111,7 @@ typedef struct s_shell
 	int					true_stdout;
 }						t_shell;
 
-//error
+// error
 void					error_msg(char *msg, char *context);
 
 // builtin
@@ -130,7 +130,6 @@ int						put_env_var(char *line, char *name, char *value,
 bool					is_numerical(char *str);
 bool					is_cmd(char *prompt, char *cmd);
 
-
 // env
 void					import_env(t_shell *shell, char **envp);
 void					update_env(t_env **env);
@@ -142,12 +141,8 @@ char					**env_lst_to_array(t_env *env);
 t_token					*init_token(e_token type, char *av);
 int						ft_issep(char c);
 int						is_token_separator(char *av, int i);
-int						count_redir_text(char *av, int *i);
-int						count_logical_ops_parantheses(char *av, int *i);
 int						count_input(char *av);
-t_token					*create_redir(char *av, int *i);
-t_token					*create_logical_ops_parantheses(char *av, int *i);
-t_token					*create_pipe_text(char *av, int *i);
+int						check_unclosed(char *av);
 t_token					*create_token(char *av, int *i);
 t_token					*lexer(char *av);
 int						check_lexer(t_token **tokens);
@@ -164,11 +159,9 @@ bool					match_suffix(char *file, char *pattern, int f_size,
 							int p_size);
 bool					match_subpatterns(char **sub_patterns, char *file,
 							int f_size);
-char					*expand_env(char *segment, t_shell *shell);
 void					expand_var(t_token *token, t_shell *shell);
 void					expand_wc(t_token *token);
 void					expand_token(t_token **token, t_shell *shell);
-int						check_unclosed(char *av);
 
 // parser
 int						get_precedence(e_token token);
@@ -191,10 +184,12 @@ void					handle_open_error(int *fd, char *file);
 bool					is_urandom(char *str);
 int						execute_command(t_ast_node *node, t_shell *shell);
 void					redir_std(t_ast_node **current);
+int						execute_pipeline(t_ast_node *node, t_shell *shell,
+							int input_fd);
+void					executor(t_ast_node **head_node, t_shell *shell);
 
 // signal
 void					handle_sigint(int sig);
-// void							handle_sigquit(int sig);
 int						get_return_value(int *status);
 void					process_handle_sigint(int sig);
 void					process_handle_sigquit(int sig);
@@ -209,10 +204,5 @@ void					free_env(t_env **node);
 void					free_tokens(t_token **node);
 void					free_shell(t_shell *shell);
 void					free_exit(int *exit_status, t_shell *shell);
-
-int						execute_pipeline(t_ast_node *node, t_shell *shell,
-							int input_fd);
-void					executor(t_ast_node **head_node, t_shell *shell);
-void					signals(void);
 
 #endif

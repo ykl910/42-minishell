@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:29:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 12:46:22 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:28:35 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	free_env(t_env **node)
 {
 	t_env	*current;
 	t_env	*next;
+
 	if (!*node || !node)
 		return ;
 	current = *node;
@@ -104,22 +105,4 @@ void	free_shell(t_shell *shell)
 		free_ast(shell->ast);
 	if (shell->prompt)
 		free(shell->prompt);
-}
-
-void	free_exit(int *exit_status, t_shell *shell)
-{
-	int	status;
-
-	status = *exit_status;
-	if (shell->shell_env)
-		free_env(&shell->shell_env);
-	if (shell->token_lst)
-		free_tokens(&shell->token_lst);
-	if (shell->paths)
-		ft_free_tab((void **)shell->paths);
-	if (shell->ast)
-		free_ast(shell->ast);
-	if (shell->prompt)
-		free(shell->prompt);
-	exit(status);
 }

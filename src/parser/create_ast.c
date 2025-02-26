@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:24:18 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:07:29 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 14:32:07 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*Gerer cas de figure si create_node renvoie NULL -> Retour Main et free ?*/
 
-t_ast_node	*parse_txt(t_token **tokens)
+static t_ast_node	*parse_txt(t_token **tokens)
 {
 	t_ast_node	*node;
 
@@ -33,7 +33,7 @@ t_ast_node	*parse_txt(t_token **tokens)
 	return (node);
 }
 
-t_ast_node	*parse_subshell(t_token **tokens, t_ast_node *subshell,
+static t_ast_node	*parse_subshell(t_token **tokens, t_ast_node *subshell,
 		t_shell *shell)
 {
 	*tokens = (*tokens)->next;
@@ -52,7 +52,7 @@ t_ast_node	*parse_subshell(t_token **tokens, t_ast_node *subshell,
 	return (create_node(COMMAND_SUBSHELL, subshell, NULL, NULL));
 }
 
-t_ast_node	*parse_primary(t_token **tokens, t_shell *shell)
+static t_ast_node	*parse_primary(t_token **tokens, t_shell *shell)
 {
 	t_ast_node	*subshell;
 
@@ -83,7 +83,6 @@ t_ast_node	*parse_expression(t_token **tokens, int min_precedence,
 	if (!left)
 	{
 		error_msg(RED SYN_OPE RESET, NULL);
-		// exit(2);
 	}
 	while (*tokens && get_precedence((*tokens)->token_type) >= min_precedence)
 	{

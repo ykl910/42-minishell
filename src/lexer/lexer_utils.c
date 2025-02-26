@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:53:37 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:07:09 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 14:36:16 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,7 @@ t_token	*init_token(e_token type, char *av)
 	return (token);
 }
 
-int	ft_issep(char c)
-{
-	if (c <= ' ' || c == '>' || c == '<' || c == '|' || c == '&' || c == '('
-		|| c == ')')
-		return (1);
-	return (0);
-}
-
-int	is_token_separator(char *av, int i)
-{
-	if ((av[i] == '&' && av[i + 1] && av[i + 1] == '&') || (av[i] == '|' && av[i
-			+ 1] && av[i + 1] == '|') || (av[i] == '>' && av[i + 1] && av[i
-			+ 1] == '>') || (av[i] == '<' && av[i + 1] && av[i + 1] == '<'))
-		return (2);
-	else if (av[i] == '>' || av[i] == '<' || av[i] == '|' || av[i] == '('
-		|| av[i] == ')' || av[i] <= ' ')
-		return (1);
-	return (0);
-}
-
-int	count_redir_text(char *av, int *i)
+static int	count_redir_text(char *av, int *i)
 {
 	int	c;
 
@@ -73,7 +53,7 @@ int	count_redir_text(char *av, int *i)
 	return (c);
 }
 
-int	count_logical_ops_parantheses(char *av, int *i)
+static int	count_logical_ops_parantheses(char *av, int *i)
 {
 	int	c;
 

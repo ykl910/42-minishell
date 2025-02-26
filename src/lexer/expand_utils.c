@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 11:39:26 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:54:28 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ char	*ft_strjoin_char(char *s, char c)
 	return (new_str);
 }
 
-void	expand_variable(char *segment, int *i, t_shell *shell, char **expanded)
+static void	expand_variable(char *segment, int *i, t_shell *shell,
+		char **expanded)
 {
 	int		start;
 	char	*var_name;
@@ -59,7 +60,7 @@ void	expand_variable(char *segment, int *i, t_shell *shell, char **expanded)
 		free(var_value);
 }
 
-char	*expand_env(char *segment, t_shell *shell)
+static char	*expand_env(char *segment, t_shell *shell)
 {
 	int		i;
 	char	*expanded;
