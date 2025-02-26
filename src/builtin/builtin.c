@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 17:50:28 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:57:35 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	builtin_export(char *line, t_shell *shell)
 	if (!name)
 		return ;
 	value = get_var_value(line);
+	builtin_unset(name, shell);
 	if (!value)
 		value = ft_calloc(1, sizeof(char));
 	if (!value)
@@ -119,6 +120,8 @@ void	builtin_export(char *line, t_shell *shell)
 		shell->status = 0;
 	free(name);
 	free(value);
+	if(is_path(line))
+		get_paths(shell);
 }
 
 void	builtin_unset(char *target, t_shell *shell)
@@ -153,7 +156,7 @@ void	builtin_unset(char *target, t_shell *shell)
 	free(current->name);
 	free(current->value);
 	free(current);
-	if(is_unset_path(target))
+	if(is_path(target))
 	{
 		ft_free_tab((void **)shell->paths);
 		shell->paths = NULL;

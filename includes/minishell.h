@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 16:55:46 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:55:48 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int						put_env_var(char *line, char *name, char *value,
 							t_shell *shell);
 bool					is_numerical(char *str);
 bool					is_cmd(char *prompt, char *cmd);
-bool					is_unset_path(char *target);
+bool					is_path(char *target);
 
 // env
 void					import_env(t_shell *shell, char **envp);

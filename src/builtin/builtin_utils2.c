@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:23 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 16:55:33 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:55:40 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	is_numerical(char *str)
 	return (true);
 }
 
-bool	is_unset_path(char *target)
+bool	is_path(char *target)
 {
 	size_t	target_size;
 
