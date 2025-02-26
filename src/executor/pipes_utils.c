@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 16:51:51 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:05:17 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ static void	check_relative_cmd(t_ast_node *node, t_shell *shell)
 	int	i;
 
 	i = 0;
+	if(!shell->paths)
+	{
+		handle_cmd_error(node, 127);
+		return ;
+	}
 	while (shell->paths[i])
 	{
 		node->cmd_abs_path = ft_strjoin(shell->paths[i], node->cmd[0]);
