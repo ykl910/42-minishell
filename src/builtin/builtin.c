@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 17:57:35 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:11:28 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,10 @@ void	builtin_export(char *line, t_shell *shell)
 		shell->status = 1;
 	else
 		shell->status = 0;
+	if(is_path(name))
+		get_paths(shell);
 	free(name);
 	free(value);
-	if(is_path(line))
-		get_paths(shell);
 }
 
 void	builtin_unset(char *target, t_shell *shell)

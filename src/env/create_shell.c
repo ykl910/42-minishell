@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:24:13 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 16:37:53 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:11:37 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,4 @@ void	shell_init(t_shell *shell, char **envp)
 {
 	struct_init(shell);
 	import_env(shell, envp);
-	get_paths(shell);
 }
