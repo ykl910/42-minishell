@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:23 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 14:02:24 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:55:33 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,16 @@ bool	is_numerical(char *str)
 		i++;
 	}
 	return (true);
+}
+
+bool	is_unset_path(char *target)
+{
+	size_t	target_size;
+
+	target_size = ft_strlen(target);
+	if (target_size != 4)
+		return (false);
+	if (!ft_strncmp(target, "PATH", target_size))
+		return (true);
+	return (false);
 }

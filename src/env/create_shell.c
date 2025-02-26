@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:24:13 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 12:23:51 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:37:53 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static bool	add_subpath(char **path)
 	return (true);
 }
 
-static void	get_paths(t_shell *shell)
+void	get_paths(t_shell *shell)
 {
 	t_env	*tempenv;
 	char	*temp;

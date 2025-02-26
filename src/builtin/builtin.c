@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 14:02:12 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:57:27 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,11 @@ void	builtin_unset(char *target, t_shell *shell)
 	if (!current)
 		return ;
 	prev->next = current->next;
-	free(current->key_val);
-	free(current->name);
-	free(current->value);
+	if(is_unset_path(target))
+	{
+		ft_free_tab((void **)shell->paths);
+		shell->paths = NULL;
+	}
 }
 
 void	builtin_env(t_shell *shell)

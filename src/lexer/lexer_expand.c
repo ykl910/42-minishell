@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 10:20:31 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 14:23:46 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 15:24:33 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	single_expand(t_token **current)
 	t_token	*new_token;
 	t_token	*next_token;
 
+	if(!(*current)->value)
+		return ;
 	temp = ft_split((*current)->value, ' ');
 	free((*current)->value);
 	(*current)->value = ft_strdup(temp[0]);

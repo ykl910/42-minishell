@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 16:56:21 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 16:59:14 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,15 @@ void	expand_wc(t_token *token)
 	char		*new_value;
 	t_wildcards	*wc_tmp;
 
-	new_value = ft_strdup("");
+	new_value = NULL;
 	wc_pattern = ft_strdup(token->value);
 	wc_exp = wildcard_expension(wc_pattern);
 	free(wc_pattern);
-	if (!wc_exp)
+	if(!wc_exp)
 		return ;
 	free(token->value);
 	wc_tmp = wc_exp;
+	new_value = ft_calloc(1, sizeof(char));
 	while (wc_exp)
 	{
 		temp = ft_strjoin(new_value, wc_exp->file);

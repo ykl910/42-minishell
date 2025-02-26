@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 14:55:22 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 16:55:46 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int						put_env_var(char *line, char *name, char *value,
 							t_shell *shell);
 bool					is_numerical(char *str);
 bool					is_cmd(char *prompt, char *cmd);
+bool					is_unset_path(char *target);
 
 // env
 void					import_env(t_shell *shell, char **envp);
@@ -136,6 +137,7 @@ void					update_env(t_env **env);
 char					*variable_expension(char *varaible, t_shell *shell);
 void					shell_init(t_shell *shell, char **envp);
 char					**env_lst_to_array(t_env *env);
+void					get_paths(t_shell *shell);
 
 // lexer
 t_token					*init_token(e_token type, char *av);
