@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 16:59:14 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:23:49 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ void	expand_wc(t_token *token)
 	wc_exp = wildcard_expension(wc_pattern);
 	free(wc_pattern);
 	if(!wc_exp)
+	{
+		error_msg(RED WC RESET, token->value);
 		return ;
+	}
 	free(token->value);
 	wc_tmp = wc_exp;
 	new_value = ft_calloc(1, sizeof(char));

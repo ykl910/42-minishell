@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 16:43:31 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 18:45:01 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	run_shell(char *line, t_shell *shell)
 			free_tokens(&head);
 			if (!(*shell).status)
 				executor(&(*shell).ast, &(*shell));
-		}			
+		}
 	}
 	(*shell).prev_status = (*shell).status;
 }

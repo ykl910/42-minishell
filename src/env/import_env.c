@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   import_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:37:14 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 19:05:57 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 18:58:13 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ static int	chage_pwd(t_env **env, char *pwd)
 		{
 			free(current->value);
 			current->value = ft_strdup(pwd);
+			if (!current->value)
+				return (-1);
 			return (0);
 		}
 		current = current->next;
 	}
-	return (-1);
+	return (0);
 }
 
 static int	chage_old_pwd(t_env **env, char *old_pwd)
@@ -55,11 +57,13 @@ static int	chage_old_pwd(t_env **env, char *old_pwd)
 		{
 			free(current->value);
 			current->value = ft_strdup(old_pwd);
+			if (!current->value)
+				return (-1);
 			return (0);
 		}
 		current = current->next;
 	}
-	return (-1);
+	return (0);
 }
 
 void	update_env(t_env **env)
@@ -74,9 +78,11 @@ void	update_env(t_env **env)
 	if (!old_pwd)
 		return (free(pwd));
 	if (chage_pwd(env, pwd) == -1)
-		return (free(pwd), free(old_pwd));
+		return (error_msg(MEM, "change_pwd"), free(pwd), free(old_pwd));
 	if (chage_old_pwd(env, old_pwd) == -1)
-		return (free(pwd), free(old_pwd));
+		return (error_msg(MEM, "change_old_pwd"), free(pwd), free(old_pwd));
+	free(pwd);
+	free(old_pwd);
 }
 
 void	import_env(t_shell *shell, char **envp)

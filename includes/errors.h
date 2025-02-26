@@ -6,13 +6,14 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:23:42 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 17:58:12 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:21:13 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERRORS_H
 # define ERRORS_H
 
+# define WC "ERROR: No matches found: "
 # define EXIT "ERROR: Numeric argument required: "
 # define MEM "ERROR: Malloc failed at function: "
 # define CMD "ERROR: Command not found: "
