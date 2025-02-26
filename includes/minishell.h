@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 11:42:16 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 12:57:09 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 
 extern int				g_signal;
 
-typedef enum
+typedef enum e_token_type
 {
 	TOKEN_PIPE,
 	TOKEN_REDIRECT_IN,
@@ -54,11 +54,11 @@ typedef enum
 
 typedef enum e_node_type
 {
-	COMMAND_SIMPLE,   // 0
-	COMMAND_PIPE,     // 1
-	COMMAND_AND,      // 2
-	COMMAND_OR,       // 3
-	COMMAND_SUBSHELL, // 4
+	COMMAND_SIMPLE,
+	COMMAND_PIPE,
+	COMMAND_AND,
+	COMMAND_OR,
+	COMMAND_SUBSHELL,
 }						e_command;
 
 typedef struct s_wildcard
@@ -113,7 +113,7 @@ typedef struct s_shell
 
 void					error_msg(char *msg, char *context);
 
-int	tab_size(char **tab); // a rajouter a la libft
+int						tab_size(char **tab);
 
 // builtin
 int						built_in_exec(t_shell *shell, t_ast_node *node);

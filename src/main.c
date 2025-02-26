@@ -6,106 +6,11 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 12:44:59 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:27:36 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-const char	*get_command_name(int command_type)
-{
-	if (command_type == COMMAND_AND)
-		return ("AND");
-	else if (command_type == COMMAND_OR)
-		return ("OR");
-	else if (command_type == COMMAND_PIPE)
-		return ("PIPE");
-	else if (command_type == COMMAND_SIMPLE)
-		return ("COMMAND");
-	else if (command_type == COMMAND_SUBSHELL)
-		return ("SUBSHELL");
-	else
-		return ("UNKNOWN");
-}
-
-void	print_ast(t_ast_node *node, int depth)
-{
-	int	i;
-
-	i = 0;
-	if (!node)
-		return ;
-	while (++i < depth)
-		printf("  ");
-	if (node->value)
-	{
-		i = 0;
-		printf("%s:", get_command_name(node->node_type));
-		while (node->value[i])
-		{
-			printf("%s ", node->value[i]);
-			i++;
-		}
-		printf("\n");
-	}
-	else
-		printf("%s\n", get_command_name(node->node_type));
-	if (node->left)
-		print_ast(node->left, depth + 1);
-	if (node->right)
-		print_ast(node->right, depth + 1);
-}
-
-void	print_wildcard(t_wildcards **head)
-{
-	t_wildcards	*current;
-
-	current = *head;
-	while (current)
-	{
-		if (current->file)
-			ft_printf("%s\n", current->file);
-		current = current->next;
-	}
-}
-
-void	print_type(e_command type)
-{
-	if (type == COMMAND_SIMPLE)
-		ft_printf("CMD ");
-	if (type == COMMAND_PIPE)
-		ft_printf("| ");
-	if (type == COMMAND_AND)
-		ft_printf("&& ");
-	if (type == COMMAND_OR)
-		ft_printf("|| ");
-	if (type == COMMAND_SUBSHELL)
-		ft_printf("(..) ");
-}
-
-void	ast_printer(t_ast_node *root)
-{
-	if (!root)
-		return ;
-	ast_printer(root->left);
-	print_type(root->node_type);
-	ast_printer(root->right);
-}
-
-void	print_token(t_token *token)
-{
-	t_token	*current;
-	int		i;
-
-	i = 1;
-	current = token;
-	while (current)
-	{
-		printf("%d - %s\n", i, current->value);
-		current = current->next;
-		i++;
-	}
-}
 
 char	*get_prompt(int status)
 {

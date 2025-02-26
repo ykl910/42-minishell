@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/25 15:00:02 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:19:56 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	builtin_cd(char **cmd, t_shell *shell)
 	char	*home_path;
 	int		arg_size;
 
-	arg_size = tab_size(cmd);
+	arg_size = ft_tabsize((void **)cmd);
 	home_path = NULL;
 	if (arg_size == 1)
 	{

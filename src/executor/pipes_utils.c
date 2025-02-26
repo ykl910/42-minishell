@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 11:31:02 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 13:08:39 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,17 @@ void	parse_path(t_ast_node *node, t_shell *shell)
 		check_relative_cmd(node, shell);
 }
 
-int	tab_size(char **tab)
-{
-	int	i;
+// int	tab_size(char **tab)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!*tab || !tab)
-		return (i);
-	while (tab[i])
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	if (!*tab || !tab)
+// 		return (i);
+// 	while (tab[i])
+// 		i++;
+// 	return (i);
+// }
 
 int	create_cmd(char ***cmd, char *arg)
 {
@@ -115,7 +115,7 @@ int	create_cmd(char ***cmd, char *arg)
 	if (!cmd || !*cmd)
 		cmd_size = 0;
 	else
-		cmd_size = tab_size(*cmd);
+		cmd_size = ft_tabsize((void **)*cmd);
 	if (cmd_size == 0)
 	{
 		*cmd = ft_calloc(2, sizeof(char *));

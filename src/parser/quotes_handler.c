@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:00:52 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/21 16:23:20 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:20:21 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**quotes_handler(char **args)
 	char	**parsed;
 
 	i = 0;
-	count = tab_size(args);
+	count = ft_tabsize((void **)args);
 	parsed = ft_calloc(count + 1, sizeof(char *));
 	if (!parsed)
 		return (error_msg(MEM, "quotes_handler"), NULL);
