@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 17:05:17 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:34:47 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	check_relative_cmd(t_ast_node *node, t_shell *shell)
 	int	i;
 
 	i = 0;
-	if(!shell->paths)
+	if (!shell->paths)
 	{
 		handle_cmd_error(node, 127);
 		return ;
@@ -86,7 +86,6 @@ static void	check_abs_cmd(t_ast_node *node)
 
 void	parse_path(t_ast_node *node, t_shell *shell)
 {
-
 	if (!node->cmd)
 		return ;
 	if (is_abs_path(node))
@@ -104,8 +103,8 @@ int	create_cmd(char ***cmd, char *arg)
 {
 	int		cmd_size;
 	char	**temp;
-	temp = NULL;
 
+	temp = NULL;
 	if (!cmd || !*cmd)
 		cmd_size = 0;
 	else

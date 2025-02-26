@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 12:33:34 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 19:34:59 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	new_process(t_ast_node *node, t_shell *shell)
 	{
 		node->status = 1;
 		free_exit(&node->status, shell);
-	}		
+	}
 	if (node->redir_out && node->outfile_fd == -1)
 	{
 		node->status = 1;
 		free_exit(&node->status, shell);
-	}	
+	}
 	if (node->status == 0)
 	{
 		if (built_in_exec(shell, node) == -1)
@@ -58,7 +58,7 @@ void	pipe_forker(int *pipe_fd, t_ast_node *node, t_shell *shell,
 	{
 		node->status = 1;
 		free_exit(&node->status, shell);
-	}	
+	}
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
@@ -69,7 +69,7 @@ void	pipe_forker(int *pipe_fd, t_ast_node *node, t_shell *shell,
 		}
 		close(pipe_fd[1]);
 		execute_pipeline(node->left, shell, input_fd);
-		free_exit(&node->left->status, shell);	
+		free_exit(&node->left->status, shell);
 	}
 	close(pipe_fd[1]);
 	if (input_fd != STDIN_FILENO)
@@ -100,7 +100,7 @@ int	cmd_forker(t_ast_node *node, t_shell *shell, int input_fd)
 		{
 			node->status = 1;
 			free_exit(&node->status, shell);
-		}	
+		}
 	}
 	if (input_fd != STDIN_FILENO)
 		close(input_fd);

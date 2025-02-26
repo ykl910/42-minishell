@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 18:23:49 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:35:28 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	expand_wc(t_token *token)
 	wc_pattern = ft_strdup(token->value);
 	wc_exp = wildcard_expension(wc_pattern);
 	free(wc_pattern);
-	if(!wc_exp)
+	if (!wc_exp)
 	{
 		error_msg(RED WC RESET, token->value);
 		return ;
