@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:20:41 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/11 12:54:01 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:48:41 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ static int	browse_dir(void *dir, char *pattern, t_wildcards **expension)
 	index = 0;
 	pattern_size = ft_strlen(pattern);
 	curr_dir = NULL;
-	while ((curr_dir = readdir(dir)) != NULL)
+	while (1)
 	{
+		curr_dir = readdir(dir);
+		if (!curr_dir)
+			break ;
 		if (match_pattern(curr_dir->d_name, pattern, pattern_size))
 		{
 			if (wc_struct(expension, ft_strdup(curr_dir->d_name), index) == -1)

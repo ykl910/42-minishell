@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:40:38 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/25 12:09:36 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:02:56 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_var_value(char *env_line)
 	return (value);
 }
 
-int	create_head_env_lst(char *key, char *name, char *value, t_env **env)
+static int	create_head_env_lst(char *key, char *name, char *value, t_env **env)
 {
 	*env = malloc(sizeof(t_env));
 	if (!*env)
@@ -61,7 +61,7 @@ int	create_head_env_lst(char *key, char *name, char *value, t_env **env)
 	return (0);
 }
 
-int	create_node_env_lst(char *key, char *name, char *value, t_env **env)
+static int	create_node_env_lst(char *key, char *name, char *value, t_env **env)
 {
 	t_env	*temp;
 	t_env	*new;
@@ -86,22 +86,4 @@ int	put_env_var(char *line, char *name, char *value, t_shell *shell)
 		return (create_head_env_lst(line, name, value, &shell->shell_env));
 	else
 		return (create_node_env_lst(line, name, value, &shell->shell_env));
-}
-
-bool	is_numerical(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	if (!str[i])
-		return (false);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (false);
-		i++;
-	}
-	return (true);
 }

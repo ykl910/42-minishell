@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/24 19:07:16 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/26 13:56:25 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ t_token	*create_pipe_text(char *av, int *i)
 		{
 			temp = ft_strndup(av + start, *i - start);
 			if (!temp)
-				return (ft_putstr_fd("create token malloc error",
-						STDERR_FILENO), NULL);
+				return (error_msg(MEM, "create_pipe_text") , NULL);
 			new_token = init_token(TOKEN_TEXT, temp);
 			if (temp)
 				free(temp);

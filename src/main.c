@@ -6,13 +6,13 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 13:27:36 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:37:23 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_prompt(int status)
+static char	*get_prompt(int status)
 {
 	char	*left;
 	char	*right;
@@ -40,11 +40,36 @@ char	*get_prompt(int status)
 	return (free(left), free(num), prompt);
 }
 
+static void	run_shell(char *line, t_shell *shell)
+{
+	t_token	*head;
+
+	head = NULL;
+	process_signals();
+	add_history(line);
+	(*shell).status = check_unclosed(line);
+	if (!(*shell).status)
+	{
+		(*shell).token_lst = lexer(line);
+		expand_token(&(*shell).token_lst, &(*shell));
+		free(line);
+		(*shell).status = check_lexer(&(*shell).token_lst);
+		head = (*shell).token_lst;
+		if ((*shell).status == 0)
+		{
+			(*shell).ast = parse_expression(&(*shell).token_lst, 0, &(*shell));
+			free_tokens(&head);
+			if (!(*shell).status)
+				executor(&(*shell).ast, &(*shell));
+		}
+	}
+	(*shell).prev_status = (*shell).status;
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
 	t_shell	shell;
-	t_token	*head;
 
 	(void)ac;
 	(void)av;
@@ -57,27 +82,7 @@ int	main(int ac, char **av, char **envp)
 		if (!line)
 			input_eof(&line, &shell);
 		else
-		{
-			process_signals();
-			add_history(line);
-			shell.status = check_unclosed(line);
-			if (!shell.status)
-			{
-				shell.token_lst = lexer(line);
-				expand_token(&shell.token_lst, &shell);
-				free(line);
-				shell.status = check_lexer(&shell.token_lst);
-				head = shell.token_lst;
-				if (shell.status == 0)
-				{
-					shell.ast = parse_expression(&shell.token_lst, 0, &shell);
-					free_tokens(&head);
-					if (!shell.status)
-						executor(&shell.ast, &shell);
-				}
-			}
-			shell.prev_status = shell.status;
-		}
+			run_shell(line, &shell);
 		free(shell.prompt);
 	}
 	return (0);

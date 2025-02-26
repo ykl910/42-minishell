@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 13:19:56 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:02:12 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void	builtin_export(char *line, t_shell *shell)
 	if (!name)
 		return ;
 	value = get_var_value(line);
-	if(!value)
-		value = ft_calloc (1, sizeof(char));
-	if(!value)
+	if (!value)
+		value = ft_calloc(1, sizeof(char));
+	if (!value)
 	{
 		error_msg(MEM, "builtin_export for env_var =");
 		error_msg(line, NULL);
@@ -195,20 +195,6 @@ void	builtin_exit(char **args, t_shell *shell)
 	free_shell(shell);
 	rl_clear_history();
 	exit(0);
-}
-
-bool is_cmd(char *prompt, char *cmd)
-{
-	int	prompt_size;
-	int cmd_size;
-
-	prompt_size = ft_strlen(prompt);
-	cmd_size = ft_strlen(cmd);
-	if(prompt_size != cmd_size)
-		return(false);
-	if(!ft_strncmp(prompt, cmd, prompt_size))
-		return(true);
-	return (false);
 }
 
 int	built_in_exec(t_shell *shell, t_ast_node *node)

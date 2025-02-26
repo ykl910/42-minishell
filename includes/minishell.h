@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 12:57:09 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:03:34 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,8 @@ typedef struct s_shell
 	int					true_stdout;
 }						t_shell;
 
+//error
 void					error_msg(char *msg, char *context);
-
-int						tab_size(char **tab);
 
 // builtin
 int						built_in_exec(t_shell *shell, t_ast_node *node);
@@ -126,13 +125,11 @@ void					builtin_env(t_shell *shell);
 void					builtin_exit(char **args, t_shell *shell);
 char					*get_var_name(char *env_line);
 char					*get_var_value(char *env_line);
-int						create_head_env_lst(char *key, char *name, char *value,
-							t_env **env);
-int						create_node_env_lst(char *key, char *name, char *value,
-							t_env **env);
 int						put_env_var(char *line, char *name, char *value,
 							t_shell *shell);
 bool					is_numerical(char *str);
+bool					is_cmd(char *prompt, char *cmd);
+
 
 // env
 void					import_env(t_shell *shell, char **envp);
