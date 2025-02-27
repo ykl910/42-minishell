@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 19:34:47 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/27 18:15:29 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static void	check_relative_cmd(t_ast_node *node, t_shell *shell)
 	while (shell->paths[i])
 	{
 		node->cmd_abs_path = ft_strjoin(shell->paths[i], node->cmd[0]);
+		if (!node->cmd_abs_path)
+			return (error_msg(MEM, "check_relative_cmd"));
 		if (try_access(node, node->cmd))
 			return ;
 		free(node->cmd_abs_path);

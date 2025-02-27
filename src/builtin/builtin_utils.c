@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:40:38 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 14:02:56 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:23:36 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,14 @@ static int	create_head_env_lst(char *key, char *name, char *value, t_env **env)
 	if (!*env)
 		return (error_msg(MEM, "create_head_env_lst"), -1);
 	(*env)->name = ft_strdup(name);
+	if (!(*env)->name)
+		return (error_msg(MEM, "create_head_env_lst"), -1);
 	(*env)->value = ft_strdup(value);
+	if (!(*env)->value)
+		return (error_msg(MEM, "create_head_env_lst"), -1);
 	(*env)->key_val = ft_strdup(key);
+	if (!(*env)->key_val)
+		return (error_msg(MEM, "create_head_env_lst"), -1);
 	(*env)->next = NULL;
 	return (0);
 }
@@ -71,8 +77,14 @@ static int	create_node_env_lst(char *key, char *name, char *value, t_env **env)
 	if (!new)
 		return (error_msg(MEM, "create_node_env_lst"), -1);
 	new->name = ft_strdup(name);
+	if (!new->name)
+		return (error_msg(MEM, "create_node_env_lst"), -1);
 	new->value = ft_strdup(value);
+	if (!new->value)
+		return (error_msg(MEM, "create_node_env_lst"), -1);
 	new->key_val = ft_strdup(key);
+	if (!new->key_val)
+		return (error_msg(MEM, "create_node_env_lst"), -1);
 	new->next = NULL;
 	while (temp->next)
 		temp = temp->next;

@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/27 17:07:11 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/27 18:11:20 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static void	expand_variable(char *segment, int *i, t_shell *shell,
 	while (ft_isalnum(segment[*i]) || segment[*i] == '_' || segment[*i] == '?')
 		(*i)++;
 	var_name = ft_strndup(&segment[start], *i - start);
+	if (!var_name)
+		return (error_msg(MEM, "expand_variable"));
 	var_value = variable_expension(var_name, shell);
 	if (var_value)
 		temp = ft_strjoin(*expanded, var_value);

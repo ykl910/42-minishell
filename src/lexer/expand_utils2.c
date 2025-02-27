@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/27 17:08:29 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/27 18:17:17 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,20 @@ static char	*join_expanded_wildcards(t_wildcards *wc_exp)
 	char	*temp;
 
 	new_value = ft_calloc(1, sizeof(char));
+	if (!new_value)
+		return (error_msg(MEM, "join_expanded_wildcards"), NULL);
 	while (wc_exp)
 	{
 		if (is_not_hidden_file(wc_exp->file))
 		{
 			temp = ft_strjoin(new_value, wc_exp->file);
+			if (!temp)
+				return (error_msg(MEM, "join_expanded_wildcards"), NULL);
 			free(new_value);
 			new_value = temp;
 			temp = ft_strjoin(new_value, " ");
+			if (!temp)
+				return (error_msg(MEM, "join_expanded_wildcards"), NULL);
 			free(new_value);
 			new_value = temp;
 		}
@@ -41,6 +47,8 @@ void	expand_wc(t_token *token)
 	t_wildcards	*wc_tmp;
 
 	wc_pattern = ft_strdup(token->value);
+	if (!wc_pattern)
+		return (error_msg(MEM, "expand_wc"));
 	wc_exp = wildcard_expension(wc_pattern);
 	free(wc_pattern);
 	if (!wc_exp)

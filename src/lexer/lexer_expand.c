@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 10:20:31 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/27 17:20:43 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/27 18:17:56 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	insert_wc_expand(char **temp, int i, t_token **last_new)
 	while (temp[i])
 	{
 		new_token = init_token(TOKEN_TEXT, temp[i]);
+		if (!new_token)
+			return (error_msg(MEM, "insert_wc_expand"));
 		(*last_new)->next = new_token;
 		*last_new = new_token;
 		i++;
@@ -67,6 +69,8 @@ static void	single_expand(t_token **current)
 		temp = ft_split((*current)->value, ' ');
 		free((*current)->value);
 		(*current)->value = ft_strdup(temp[0]);
+		if (!(*current)->value)
+			return (error_msg(MEM, "single_expand"));
 		last_new = (*current);
 		next_token = (*current)->next;
 		i = 1;
