@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:30:23 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/24 17:10:22 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:41:23 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	handle_open_error(int *fd, char *file)
 bool	is_urandom(char *str)
 {
 	if (!ft_strncmp(str, "/dev/urandom", ft_strlen(str)))
+		return (true);
+	if (!ft_strncmp(str, "/dev/random", ft_strlen(str)))
 		return (true);
 	return (false);
 }
