@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   put_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:44:03 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/27 14:40:10 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/27 16:31:44 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// int g_signal = 0;
 
 void	reopen_heredoc(int *infile_fd, char *file)
 {
@@ -46,7 +48,7 @@ void	put_heredoc(int infile_fd, char *limiter)
 		prompt(MAGENTA "| " RESET);
 		prompt(CYAN "-> " RESET);
 		line = get_next_line(STDIN_FILENO);
-		if (!line || is_limiter(line, limiter))
+		if (!line || *line == '\0' || is_limiter(line, limiter))
 			break ;
 		write(infile_fd, line, ft_strlen(line));
 		free(line);

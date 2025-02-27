@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:20:41 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 13:48:41 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:09:10 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	match_pattern(char *file, char *pattern, int p_size)
 	if (!file || !*file)
 		return (false);
 	if (p_size == 1 && pattern[0] == '*')
-		return (true);
+		return (is_not_hidden_file(file));
 	else if (p_size > f_size)
 		return (false);
 	else if (pattern[0] == '*' && (occurence_count(pattern, '*') < 2))

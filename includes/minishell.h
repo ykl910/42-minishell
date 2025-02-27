@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 17:55:48 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:08:42 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <term.h>
 # include <termios.h>
 # include <unistd.h>
 
@@ -161,6 +162,7 @@ bool					match_suffix(char *file, char *pattern, int f_size,
 							int p_size);
 bool					match_subpatterns(char **sub_patterns, char *file,
 							int f_size);
+bool					is_not_hidden_file(char *file);
 void					expand_var(t_token *token, t_shell *shell);
 void					expand_wc(t_token *token);
 void					expand_token(t_token **token, t_shell *shell);

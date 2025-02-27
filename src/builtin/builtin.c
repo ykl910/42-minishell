@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 18:11:28 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/27 11:23:25 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	builtin_export(char *line, t_shell *shell)
 		shell->status = 1;
 	else
 		shell->status = 0;
-	if(is_path(name))
+	if (is_path(name))
 		get_paths(shell);
 	free(name);
 	free(value);
@@ -156,7 +156,7 @@ void	builtin_unset(char *target, t_shell *shell)
 	free(current->name);
 	free(current->value);
 	free(current);
-	if(is_path(target))
+	if (is_path(target))
 	{
 		ft_free_tab((void **)shell->paths);
 		shell->paths = NULL;
@@ -194,7 +194,8 @@ void	builtin_exit(char **args, t_shell *shell)
 		{
 			exit_code = ft_atol(args[1]);
 			if (INT_MIN > exit_code || exit_code > INT_MAX)
-				return (error_msg(RED EXIT RESET, args[1]), exit(255));
+				return (error_msg(RED EXIT RESET, args[1]), free(shell),
+					rl_clear_history(), exit(255));
 			else if (args[2])
 			{
 				shell->status = 1;
@@ -202,7 +203,8 @@ void	builtin_exit(char **args, t_shell *shell)
 			}
 		}
 		else
-			return (error_msg(RED EXIT RESET, args[1]), exit(255));
+			return (error_msg(RED EXIT RESET, args[1]), free(shell),
+				rl_clear_history(), exit(255));
 	}
 	free_shell(shell);
 	rl_clear_history();

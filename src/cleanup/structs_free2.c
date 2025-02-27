@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs_free2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:29:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 14:27:12 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/27 11:41:58 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	free_exit(int *exit_status, t_shell *shell)
 		free_ast(shell->ast);
 	if (shell->prompt)
 		free(shell->prompt);
+	rl_clear_history();
 	exit(status);
 }
