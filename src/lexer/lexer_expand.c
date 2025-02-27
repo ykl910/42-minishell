@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 10:20:31 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/27 15:24:48 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/27 17:20:43 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,25 @@ static void	expand_text(t_token *token, int *wc_flag, int *var_flag)
 	}
 }
 
+static void	insert_wc_expand(char **temp, int i, t_token **last_new)
+{
+	t_token	*new_token;
+
+	new_token = NULL;
+	while (temp[i])
+	{
+		new_token = init_token(TOKEN_TEXT, temp[i]);
+		(*last_new)->next = new_token;
+		*last_new = new_token;
+		i++;
+	}
+}
+
 static void	single_expand(t_token **current)
 {
 	char	**temp;
 	int		i;
 	t_token	*last_new;
-	t_token	*new_token;
 	t_token	*next_token;
 
 	if (!(*current)->value)
@@ -57,16 +70,10 @@ static void	single_expand(t_token **current)
 		last_new = (*current);
 		next_token = (*current)->next;
 		i = 1;
-		while (temp[i])
-		{
-			new_token = init_token(TOKEN_TEXT, temp[i]);
-			last_new->next = new_token;
-			last_new = new_token;
-			i++;
-		}
+		insert_wc_expand(temp, i, &last_new);
 		last_new->next = next_token;
 		ft_free_tab((void **)temp);
-		(*current) = next_token;		
+		(*current) = next_token;
 	}
 	else
 		(*current) = (*current)->next;

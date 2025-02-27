@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 19:35:28 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/27 17:07:11 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,40 +84,6 @@ static char	*expand_env(char *segment, t_shell *shell)
 		}
 	}
 	return (expanded);
-}
-
-void	expand_wc(t_token *token)
-{
-	char		*wc_pattern;
-	t_wildcards	*wc_exp;
-	char		*temp;
-	char		*new_value;
-	t_wildcards	*wc_tmp;
-
-	new_value = NULL;
-	wc_pattern = ft_strdup(token->value);
-	wc_exp = wildcard_expension(wc_pattern);
-	free(wc_pattern);
-	if (!wc_exp)
-	{
-		error_msg(RED WC RESET, token->value);
-		return ;
-	}
-	free(token->value);
-	wc_tmp = wc_exp;
-	new_value = ft_calloc(1, sizeof(char));
-	while (wc_exp)
-	{
-		temp = ft_strjoin(new_value, wc_exp->file);
-		free(new_value);
-		new_value = temp;
-		temp = ft_strjoin(new_value, " ");
-		free(new_value);
-		new_value = temp;
-		wc_exp = wc_exp->next;
-	}
-	token->value = new_value;
-	free_wildcard(wc_tmp);
 }
 
 void	expand_var(t_token *token, t_shell *shell)
