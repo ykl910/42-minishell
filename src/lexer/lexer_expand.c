@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 10:20:31 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 19:35:25 by kyang            ###   ########.fr       */
+/*   Updated: 2025/02/27 15:24:48 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,27 @@ static void	single_expand(t_token **current)
 
 	if (!(*current)->value)
 		return ;
-	temp = ft_split((*current)->value, ' ');
-	free((*current)->value);
-	(*current)->value = ft_strdup(temp[0]);
-	last_new = (*current);
-	next_token = (*current)->next;
-	i = 1;
-	while (temp[i])
+	if ((*current)->value[0] != '\'' && (*current)->value[0] != '"')
 	{
-		new_token = init_token(TOKEN_TEXT, temp[i]);
-		last_new->next = new_token;
-		last_new = new_token;
-		i++;
+		temp = ft_split((*current)->value, ' ');
+		free((*current)->value);
+		(*current)->value = ft_strdup(temp[0]);
+		last_new = (*current);
+		next_token = (*current)->next;
+		i = 1;
+		while (temp[i])
+		{
+			new_token = init_token(TOKEN_TEXT, temp[i]);
+			last_new->next = new_token;
+			last_new = new_token;
+			i++;
+		}
+		last_new->next = next_token;
+		ft_free_tab((void **)temp);
+		(*current) = next_token;		
 	}
-	last_new->next = next_token;
-	ft_free_tab((void **)temp);
-	(*current) = next_token;
+	else
+		(*current) = (*current)->next;
 }
 
 static void	final_expansion(t_token **token)

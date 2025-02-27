@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   put_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:44:03 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/25 15:51:07 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:40:10 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//int g_signal = 0;
 
 void	reopen_heredoc(int *infile_fd, char *file)
 {
