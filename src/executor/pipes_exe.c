@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_exe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:51:46 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/27 18:49:33 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:09:37 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int	cmd_forker(t_ast_node *node, t_shell *shell, int input_fd)
 
 int	execute_pipeline(t_ast_node *node, t_shell *shell, int input_fd)
 {
-	int pipe_fd[2];
+	int	pipe_fd[2];
 
 	if (!node)
 		return (node->status);
