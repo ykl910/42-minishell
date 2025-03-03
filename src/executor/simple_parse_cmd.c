@@ -6,11 +6,62 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 15:11:17 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 15:12:11 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/03 18:09:35 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_expend(char **arg, t_shell *shell)
+{
+	char	*expended;
+
+	if (*arg[0] != '$')
+		return (0);
+	expended = variable_expension(*arg, shell);
+	if (!expended)
+		return (-1);
+	else
+	{
+		free(*arg);
+		*arg = ft_strdup(expended);
+		if (!*arg)
+		{
+			*arg = NULL;
+			free(expended);
+			return (error_msg(MEM, "check_expend"), -1);
+		}
+		free(expended);
+		return (0);
+	}
+}
+
+static char	**append_args_exec(char **origin_args, char *new_arg)
+{
+	char	**new_args;
+	int		i;
+
+	i = 0;
+	i = ft_tabsize((void **)origin_args);
+	new_args = ft_calloc((i + 2), sizeof(char *));
+	if (!new_args)
+		return (NULL);
+	i = 0;
+	while (origin_args[i])
+	{
+		new_args[i] = ft_strdup(origin_args[i]);
+		if (!new_args[i])
+			return (error_msg(MEM, "append_args(1)"),
+				ft_free_tab((void **)new_args), NULL);
+		i++;
+	}
+	ft_free_tab((void **)origin_args);
+	new_args[i] = ft_strdup(new_arg);
+	if (!new_args[i])
+		return (error_msg(MEM, "append_args(2)"),
+			ft_free_tab((void **)new_args), NULL);
+	return (new_args);
+}
 
 int	create_cmd(char ***cmd, char *arg)
 {
@@ -32,14 +83,14 @@ int	create_cmd(char ***cmd, char *arg)
 			return (error_msg(MEM, "create_cmd(2)"), -1);
 		return (0);
 	}
-	temp = append_args(*cmd, arg);
+	temp = append_args_exec(*cmd, arg);
 	if (!temp)
 		return (-1);
 	*cmd = temp;
 	return (0);
 }
 
-void	parse_simple_cmd(t_ast_node *node)
+void	parse_simple_cmd(t_ast_node *node, t_shell *shell)
 {
 	char	**args;
 	int		i;
@@ -52,8 +103,13 @@ void	parse_simple_cmd(t_ast_node *node)
 	{
 		if (!simple_is_redir(node, args, &i))
 		{
-			if (create_cmd(&(node->cmd), args[i]) == -1)
+			if(check_expend(&args[i], shell) == -1)
+				i++;
+			else
+			{
+				if(create_cmd(&(node->cmd), args[i]) == -1)
 				return ;
+			}
 			i++;
 		}
 	}

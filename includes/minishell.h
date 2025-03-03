@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/03 15:24:15 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:14:01 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void					handle_open_error(int *fd, char *file);
 bool					is_redir(t_cmd *clst_node, char **args, int *i);
 
 // v2 simple
-void					parse_simple_cmd(t_ast_node *node);
+void					parse_simple_cmd(t_ast_node *node, t_shell *shell);
 
 // signal
 void					handle_sigint(int sig);

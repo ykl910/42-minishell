@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 12:40:19 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:03:00 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	builtin_echo(char **cmd, t_shell *shell)
 	}
 	else
 		i++;
-	if (!cmd[i])
-		return ;
 	while (cmd[i])
 	{
 		ft_printf("%s", cmd[i]);

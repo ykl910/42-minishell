@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:24:18 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 14:32:07 by kyang            ###   ########.fr       */
+/*   Updated: 2025/03/03 17:11:47 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*Gerer cas de figure si create_node renvoie NULL -> Retour Main et free ?*/
 
 static t_ast_node	*parse_txt(t_token **tokens)
 {

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/03 11:22:37 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/03 18:19:51 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ void	executor(t_ast_node **head_node, t_shell *shell)
 	ast_traversal(current, shell);
 	reset_fds(shell);
 	free_ast(*head_node);
+	free_clist(&shell->clist);
 	*head_node = NULL;
 }

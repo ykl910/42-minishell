@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/03 15:22:18 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/03 16:00:53 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	execute_command(t_ast_node *node, t_shell *shell)
 	current = node;
 	if (current && current->left && current->node_type == COMMAND_SUBSHELL)
 		current = current->left;
-	parse_simple_cmd(current);
+	parse_simple_cmd(current, shell);
 	simple_std_dup(&node, shell);
 	if (built_in_exec(shell, current->cmd) == 0)
 		return (shell->status);
