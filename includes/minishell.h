@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/27 15:08:42 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:24:15 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,25 @@ typedef struct s_env
 	struct s_env		*next;
 }						t_env;
 
+typedef struct s_cmd
+{
+	char				*abs_path;
+	char				**cmd;
+	int					fd_in;
+	int					fd_out;
+	bool				redir_in;
+	bool				redir_out;
+	int					status;
+	pid_t				pid;
+	struct s_cmd		*next;
+}						t_cmd;
+
 typedef struct s_shell
 {
 	t_env				*shell_env;
 	t_token				*token_lst;
 	t_ast_node			*ast;
+	t_cmd				*clist;
 	char				**paths;
 	char				*prompt;
 	int					status;
@@ -116,7 +130,7 @@ typedef struct s_shell
 void					error_msg(char *msg, char *context);
 
 // builtin
-int						built_in_exec(t_shell *shell, t_ast_node *node);
+int						built_in_exec(t_shell *shell, char **cmd);
 void					builtin_cd(char **cmd, t_shell *shell);
 void					builtin_echo(char **cmd, t_shell *shell);
 void					builtin_pwd(t_shell *shell);
@@ -179,18 +193,30 @@ char					**quotes_handler(char **args);
 
 // exec
 void					cmd_builder(t_ast_node *node);
-void					parse_path(t_ast_node *node, t_shell *shell);
-int						create_cmd(char ***cmd, char *arg);
-void					new_process(t_ast_node *node, t_shell *shell);
+void					simple_parse_path(t_ast_node *node, t_shell *shell);
 void					put_heredoc(int infile_fd, char *limiter);
 void					reopen_heredoc(int *infile_fd, char *file);
 void					handle_open_error(int *fd, char *file);
 bool					is_urandom(char *str);
 int						execute_command(t_ast_node *node, t_shell *shell);
 void					redir_std(t_ast_node **current);
-int						execute_pipeline(t_ast_node *node, t_shell *shell,
-							int input_fd);
 void					executor(t_ast_node **head_node, t_shell *shell);
+bool					simple_is_redir(t_ast_node *node, char **args, int *i);
+
+// v2 pipes
+int						run_pipe(t_ast_node *node, t_shell *shell);
+t_cmd					*get_clist(t_ast_node *node);
+int						parse_cmd(t_cmd **clst_node, t_ast_node *ast_node);
+void					pipes_parse_path(t_cmd *current, t_shell *shell);
+void					p_handle_cmd_error(t_cmd **current, int err_code);
+void					p_handle_error(t_cmd **current, t_shell *shell);
+void					s_handle_cmd_error(t_ast_node **current, int err_code);
+void					s_handle_error(t_ast_node **current, t_shell *shell);
+void					handle_open_error(int *fd, char *file);
+bool					is_redir(t_cmd *clst_node, char **args, int *i);
+
+// v2 simple
+void					parse_simple_cmd(t_ast_node *node);
 
 // signal
 void					handle_sigint(int sig);
@@ -207,6 +233,7 @@ void					free_wildcard(t_wildcards *node);
 void					free_env(t_env **node);
 void					free_tokens(t_token **node);
 void					free_shell(t_shell *shell);
+void					free_clist(t_cmd **cmd_lst);
 void					free_exit(int *exit_status, t_shell *shell);
 
 #endif

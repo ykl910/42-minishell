@@ -6,18 +6,34 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 16:46:08 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:22:18 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	simple_process(t_ast_node *node, t_shell *shell)
+static void	simple_std_dup(t_ast_node **current, t_shell *shell)
+{
+	if ((*current)->infile_fd != -1)
+	{
+		if(dup2((*current)->infile_fd, STDIN_FILENO) == -1)
+			s_handle_error(current, shell);
+		close((*current)->infile_fd);
+	}
+	if ((*current)->outfile_fd != -1)
+	{
+		if(dup2((*current)->outfile_fd, STDOUT_FILENO) == -1)
+			s_handle_error(current, shell);
+		close((*current)->outfile_fd);
+	}
+}
+
+static void	simple_process(t_ast_node *node, t_shell *shell)
 {
 	char	**temp_env_array;
 
 	temp_env_array = NULL;
-	parse_path(node, shell);
+	simple_parse_path(node, shell);
 	shell->status = node->status;
 	if (!node->cmd_abs_path)
 		free_exit(&node->status, shell);
@@ -27,7 +43,7 @@ void	simple_process(t_ast_node *node, t_shell *shell)
 	free_exit(&node->status, shell);
 }
 
-void	child_process(t_ast_node *node, t_shell *shell)
+static void	child_process(t_ast_node *node, t_shell *shell)
 {
 	if (node->redir_in && node->infile_fd == -1)
 	{
@@ -43,7 +59,7 @@ void	child_process(t_ast_node *node, t_shell *shell)
 		simple_process(node, shell);
 }
 
-void	parent_process(t_ast_node *node)
+static void	parent_process(t_ast_node *node)
 {
 	if (node->infile_fd != -1)
 		close(node->infile_fd);
@@ -60,9 +76,9 @@ int	execute_command(t_ast_node *node, t_shell *shell)
 	current = node;
 	if (current && current->left && current->node_type == COMMAND_SUBSHELL)
 		current = current->left;
-	cmd_builder(current);
-	redir_std(&node);
-	if (built_in_exec(shell, current) == 0)
+	parse_simple_cmd(current);
+	simple_std_dup(&node, shell);
+	if (built_in_exec(shell, current->cmd) == 0)
 		return (shell->status);
 	pid = fork();
 	if (pid == 0)

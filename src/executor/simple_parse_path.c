@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes_utils.c                                      :+:      :+:    :+:   */
+/*   simple_parse_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/27 18:15:29 by kyang            ###   ########.fr       */
+/*   Created: 2025/03/03 12:36:35 by alacroix          #+#    #+#             */
+/*   Updated: 2025/03/03 15:25:36 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,6 @@ static bool	is_abs_path(t_ast_node *node)
 	if (!ft_strncmp(node->cmd[0], "/", 1) || !ft_strncmp(node->cmd[0], "./", 2))
 		return (true);
 	return (false);
-}
-
-static void	handle_cmd_error(t_ast_node *node, int err_code)
-{
-	node->status = err_code;
-	node->cmd_abs_path = NULL;
-	error_msg(RED CMD RESET, node->cmd[0]);
 }
 
 static int	try_access(t_ast_node *node, char **cmd)
@@ -50,7 +43,7 @@ static void	check_relative_cmd(t_ast_node *node, t_shell *shell)
 	i = 0;
 	if (!shell->paths)
 	{
-		handle_cmd_error(node, 127);
+		s_handle_cmd_error(&node, 127);
 		return ;
 	}
 	while (shell->paths[i])
@@ -63,7 +56,7 @@ static void	check_relative_cmd(t_ast_node *node, t_shell *shell)
 		free(node->cmd_abs_path);
 		i++;
 	}
-	handle_cmd_error(node, 127);
+	s_handle_cmd_error(&node, 127);
 }
 
 static void	check_abs_cmd(t_ast_node *node)
@@ -86,7 +79,7 @@ static void	check_abs_cmd(t_ast_node *node)
 	error_msg(RED CMD RESET, node->cmd[0]);
 }
 
-void	parse_path(t_ast_node *node, t_shell *shell)
+void	simple_parse_path(t_ast_node *node, t_shell *shell)
 {
 	if (!node->cmd)
 		return ;
@@ -99,31 +92,4 @@ void	parse_path(t_ast_node *node, t_shell *shell)
 	}
 	else
 		check_relative_cmd(node, shell);
-}
-
-int	create_cmd(char ***cmd, char *arg)
-{
-	int		cmd_size;
-	char	**temp;
-
-	temp = NULL;
-	if (!cmd || !*cmd)
-		cmd_size = 0;
-	else
-		cmd_size = ft_tabsize((void **)*cmd);
-	if (cmd_size == 0)
-	{
-		*cmd = ft_calloc(2, sizeof(char *));
-		if (!*cmd)
-			return (error_msg(MEM, "create cmd(1)"), -1);
-		*cmd[0] = ft_strdup(arg);
-		if (!(*cmd)[0])
-			return (error_msg(MEM, "create_cmd(2)"), -1);
-		return (0);
-	}
-	temp = append_args(*cmd, arg);
-	if (!temp)
-		return (-1);
-	*cmd = temp;
-	return (0);
 }

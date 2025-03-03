@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:03:36 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/25 14:33:48 by kyang            ###   ########.fr       */
+/*   Updated: 2025/03/03 11:22:37 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ast_traversal(t_ast_node *current, t_shell *shell)
 	if (!current)
 		return ;
 	if (current->node_type == COMMAND_PIPE)
-		shell->status = execute_pipeline(current, shell, STDIN_FILENO);
+		shell->status = run_pipe(current, shell);
 	else if (current->node_type == COMMAND_AND)
 	{
 		executor(&current->left, shell);

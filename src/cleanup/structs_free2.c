@@ -6,11 +6,36 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:29:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/27 11:41:58 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:02:16 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_clist(t_cmd **cmd_lst)
+{
+	t_cmd	*temp;
+	t_cmd	*next;
+
+	if (!cmd_lst || !*cmd_lst)
+		return ;
+	temp = *cmd_lst;
+	while (temp != NULL)
+	{
+		next = temp->next;
+		if (temp->abs_path)
+			free(temp->abs_path);
+		if (temp->cmd)
+			ft_free_tab((void **)temp->cmd);
+		if (temp->fd_in > -1)
+			close(temp->fd_in);
+		if (temp->fd_out > -1)
+			close(temp->fd_out);
+		free(temp);
+		temp = next;
+	}
+	*cmd_lst = NULL;
+}
 
 void	free_exit(int *exit_status, t_shell *shell)
 {
@@ -25,6 +50,8 @@ void	free_exit(int *exit_status, t_shell *shell)
 		ft_free_tab((void **)shell->paths);
 	if (shell->ast)
 		free_ast(shell->ast);
+	if(shell->clist)
+		free_clist(&shell->clist);
 	if (shell->prompt)
 		free(shell->prompt);
 	rl_clear_history();

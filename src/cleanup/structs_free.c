@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:29:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 14:28:35 by kyang            ###   ########.fr       */
+/*   Updated: 2025/03/03 15:06:17 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	free_shell(t_shell *shell)
 		ft_free_tab((void **)shell->paths);
 	if (shell->ast)
 		free_ast(shell->ast);
+	if (shell->clist)
+		free_clist(&shell->clist);
 	if (shell->prompt)
 		free(shell->prompt);
 }

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:24:13 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 18:11:37 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:07:33 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	struct_init(t_shell *shell)
 	shell->shell_env = NULL;
 	shell->token_lst = NULL;
 	shell->paths = NULL;
+	shell->clist = NULL;
 	shell->prompt = NULL;
 	shell->status = 0;
 	shell->prev_status = 0;
