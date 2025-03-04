@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:20:41 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/27 15:09:10 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:51:48 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static bool	match_pattern(char *file, char *pattern, int p_size)
 		if (!sub_patterns)
 			return (false);
 		else
-			return (match_subpatterns(sub_patterns, file, f_size));
+			return (match_subpatterns(sub_patterns, pattern, file, f_size));
 	}
 }
 

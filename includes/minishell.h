@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/03 17:14:01 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 13:10:01 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int						occurence_count(char *str, char occurence);
 bool					match_prefix(char *file, char *pattern, int p_size);
 bool					match_suffix(char *file, char *pattern, int f_size,
 							int p_size);
-bool					match_subpatterns(char **sub_patterns, char *file,
+bool					match_subpatterns(char **sub_patterns, char *pattern, char *file,
 							int f_size);
 bool					is_not_hidden_file(char *file);
 void					expand_var(t_token *token, t_shell *shell);
