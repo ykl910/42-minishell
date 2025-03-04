@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/04 13:10:01 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:24:42 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef enum e_token_type
 	TOKEN_OR,
 	TOKEN_LPAREN,
 	TOKEN_RPAREN,
-}						e_token;
+}						t_tok_enum;
 
 typedef enum e_node_type
 {
@@ -60,7 +60,7 @@ typedef enum e_node_type
 	COMMAND_AND,
 	COMMAND_OR,
 	COMMAND_SUBSHELL,
-}						e_command;
+}						t_com_enum;
 
 typedef struct s_wildcard
 {
@@ -71,14 +71,14 @@ typedef struct s_wildcard
 
 typedef struct s_token
 {
-	e_token				token_type;
+	t_tok_enum			token_type;
 	char				*value;
 	struct s_token		*next;
 }						t_token;
 
 typedef struct s_ast_node
 {
-	e_command			node_type;
+	t_com_enum			node_type;
 	char				**value;
 	char				**cmd;
 	char				*cmd_abs_path;
@@ -155,7 +155,7 @@ char					**env_lst_to_array(t_env *env);
 void					get_paths(t_shell *shell);
 
 // lexer
-t_token					*init_token(e_token type, char *av);
+t_token					*init_token(t_tok_enum type, char *av);
 int						ft_issep(char c);
 int						is_token_separator(char *av, int i);
 int						count_input(char *av);
@@ -174,17 +174,17 @@ int						occurence_count(char *str, char occurence);
 bool					match_prefix(char *file, char *pattern, int p_size);
 bool					match_suffix(char *file, char *pattern, int f_size,
 							int p_size);
-bool					match_subpatterns(char **sub_patterns, char *pattern, char *file,
-							int f_size);
+bool					match_subpatterns(char **sub_patterns, char *pattern,
+							char *file, int f_size);
 bool					is_not_hidden_file(char *file);
 void					expand_var(t_token *token, t_shell *shell);
 void					expand_wc(t_token *token);
 void					expand_token(t_token **token, t_shell *shell);
 
 // parser
-int						get_precedence(e_token token);
-e_command				get_command_type(e_token token_type);
-t_ast_node				*create_node(e_command type, t_ast_node *left,
+int						get_precedence(t_tok_enum token);
+t_com_enum				get_command_type(t_tok_enum token_type);
+t_ast_node				*create_node(t_com_enum type, t_ast_node *left,
 							t_ast_node *right, char *value);
 char					**append_args(char **origin_args, char *new_arg);
 t_ast_node				*parse_expression(t_token **tokens, int min_precedence,
@@ -214,6 +214,8 @@ void					s_handle_cmd_error(t_ast_node **current, int err_code);
 void					s_handle_error(t_ast_node **current, t_shell *shell);
 void					handle_open_error(int *fd, char *file);
 bool					is_redir(t_cmd *clst_node, char **args, int *i);
+void					pipes_std_dup(t_cmd **current, t_shell *shell);
+void					simple_std_dup(t_ast_node **current, t_shell *shell);
 
 // v2 simple
 void					parse_simple_cmd(t_ast_node *node, t_shell *shell);

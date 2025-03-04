@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:13:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/03 17:11:18 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:16:48 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**append_args(char **origin_args, char *new_arg)
 	return (new_args);
 }
 
-int	get_precedence(e_token token)
+int	get_precedence(t_tok_enum token)
 {
 	if (token == TOKEN_AND || token == TOKEN_OR)
 		return (1);
@@ -55,7 +55,7 @@ int	get_precedence(e_token token)
 		return (-1);
 }
 
-e_command	get_command_type(e_token token_type)
+t_com_enum	get_command_type(t_tok_enum token_type)
 {
 	if (token_type == TOKEN_AND)
 		return (COMMAND_AND);
@@ -67,7 +67,7 @@ e_command	get_command_type(e_token token_type)
 		return (COMMAND_SIMPLE);
 }
 
-t_ast_node	*create_node(e_command type, t_ast_node *left, t_ast_node *right,
+t_ast_node	*create_node(t_com_enum type, t_ast_node *left, t_ast_node *right,
 		char *value)
 {
 	t_ast_node	*node;

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:29:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 15:02:16 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:19:12 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_exit(int *exit_status, t_shell *shell)
 		ft_free_tab((void **)shell->paths);
 	if (shell->ast)
 		free_ast(shell->ast);
-	if(shell->clist)
+	if (shell->clist)
 		free_clist(&shell->clist);
 	if (shell->prompt)
 		free(shell->prompt);

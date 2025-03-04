@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:53:37 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 14:36:16 by kyang            ###   ########.fr       */
+/*   Updated: 2025/03/04 14:15:50 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*init_token(e_token type, char *av)
+t_token	*init_token(t_tok_enum type, char *av)
 {
 	t_token	*token;
 

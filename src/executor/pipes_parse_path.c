@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   V2pipes_parse_path.c                               :+:      :+:    :+:   */
+/*   pipes_parse_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:10:51 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 12:54:37 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:20:57 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static bool	is_abs_path(t_cmd *current)
 {
-	if (!ft_strncmp(current->cmd[0], "/", 1) || !ft_strncmp(current->cmd[0], "./", 2))
+	if (!ft_strncmp(current->cmd[0], "/", 1) || !ft_strncmp(current->cmd[0],
+			"./", 2))
 		return (true);
 	return (false);
 }

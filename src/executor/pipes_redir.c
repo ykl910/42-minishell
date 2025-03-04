@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   V2pipes_redir.c                                    :+:      :+:    :+:   */
+/*   pipes_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 11:07:15 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 12:27:09 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:18:29 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	redirect_infile(t_cmd *node, char **args, int *i)
 		if (node->fd_in < 0)
 			handle_open_error(&node->fd_in, args[*i + 1]);
 	}
-	if(!node->redir_in)
+	if (!node->redir_in)
 		node->redir_in = true;
 	*i += 2;
 }
@@ -36,7 +36,7 @@ static void	redirect_trunc_outile(t_cmd *node, char **args, int *i)
 	node->fd_out = open(args[*i + 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (node->fd_out < 0)
 		handle_open_error(&node->fd_out, args[*i + 1]);
-	if(!node->redir_out)
+	if (!node->redir_out)
 		node->redir_out = true;
 	*i += 2;
 }
@@ -48,7 +48,7 @@ static void	redirect_app_outfile(t_cmd *node, char **args, int *i)
 	node->fd_out = open(args[*i + 1], O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (node->fd_out < 0)
 		handle_open_error(&node->fd_out, args[*i + 1]);
-	if(!node->redir_out)
+	if (!node->redir_out)
 		node->redir_out = true;
 	*i += 2;
 }
@@ -70,7 +70,7 @@ static void	redirect_here_doc(t_cmd *node, char **args, int *i)
 	reopen_heredoc(&node->fd_in, args[*i + 1]);
 	free(limiter);
 	unlink("/tmp/hdoc");
-	if(!node->redir_in)
+	if (!node->redir_in)
 		node->redir_in = true;
 	*i += 2;
 }

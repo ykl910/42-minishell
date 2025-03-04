@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 11:09:02 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 17:12:38 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:18:51 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static int	add_cmd_arg(char ***cmd, char *arg)
 
 int	parse_cmd(t_cmd **clst_node, t_ast_node *ast_node)
 {
-	char **args;
-	int i;
-	int status;
+	char	**args;
+	int		i;
+	int		status;
 
 	i = 0;
 	status = 0;

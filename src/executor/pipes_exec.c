@@ -6,27 +6,11 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 11:02:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 17:13:54 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:23:30 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	pipes_std_dup(t_cmd **current, t_shell *shell)
-{
-	if ((*current)->fd_in != -1)
-	{
-		if (dup2((*current)->fd_in, STDIN_FILENO) == -1)
-			p_handle_error(current, shell);
-		close((*current)->fd_in);
-	}
-	if ((*current)->fd_out != -1)
-	{
-		if (dup2((*current)->fd_out, STDOUT_FILENO) == -1)
-			p_handle_error(current, shell);
-		close((*current)->fd_out);
-	}
-}
 
 static void	execute_cmd(t_cmd *current, t_shell *shell)
 {

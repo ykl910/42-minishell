@@ -6,27 +6,11 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:43:02 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/03 16:00:53 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:23:49 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	simple_std_dup(t_ast_node **current, t_shell *shell)
-{
-	if ((*current)->infile_fd != -1)
-	{
-		if(dup2((*current)->infile_fd, STDIN_FILENO) == -1)
-			s_handle_error(current, shell);
-		close((*current)->infile_fd);
-	}
-	if ((*current)->outfile_fd != -1)
-	{
-		if(dup2((*current)->outfile_fd, STDOUT_FILENO) == -1)
-			s_handle_error(current, shell);
-		close((*current)->outfile_fd);
-	}
-}
 
 static void	simple_process(t_ast_node *node, t_shell *shell)
 {

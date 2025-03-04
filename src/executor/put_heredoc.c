@@ -6,13 +6,11 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:44:03 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 11:37:51 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:20:24 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int g_signal = 0;
 
 void	reopen_heredoc(int *infile_fd, char *file)
 {
@@ -29,6 +27,7 @@ static bool	is_limiter(char *line, char *limiter)
 		return (true);
 	return (false);
 }
+
 static void	prompt(char *str)
 {
 	ft_putstr_fd(str, STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:24:18 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/03 17:11:47 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:17:50 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_ast_node	*parse_expression(t_token **tokens, int min_precedence,
 {
 	t_ast_node	*left;
 	t_ast_node	*right;
-	e_token		op;
+	t_tok_enum	op;
 	int			precedence;
 
 	if (!*tokens)
