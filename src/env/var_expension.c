@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:58:12 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/04 12:05:33 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:00:31 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ char	*variable_expension(char *variable, t_shell *shell)
 	current = shell->shell_env;
 	if (!ft_strncmp(variable, "?", ft_strlen(variable)))
 		return (ft_itoa(shell->prev_status));
-	if (!ft_strncmp(variable, "UID", ft_strlen(variable)))
-		return (getenv("UID"));
 	while (current)
 	{
 		if (is_env_var(current->name, variable))

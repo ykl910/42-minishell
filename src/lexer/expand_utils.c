@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:30:25 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/27 18:11:20 by kyang            ###   ########.fr       */
+/*   Updated: 2025/03/04 17:31:50 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,9 @@ static char	*expand_env(char *segment, t_shell *shell)
 			expand_variable(segment, &i, shell, &expanded);
 		else
 		{
-			if (segment[i] != '"')
-			{
-				temp = ft_strjoin_char(expanded, segment[i]);
-				free(expanded);
-				expanded = temp;
-			}
+			temp = ft_strjoin_char(expanded, segment[i]);
+			free(expanded);
+			expanded = temp;
 			i++;
 		}
 	}
