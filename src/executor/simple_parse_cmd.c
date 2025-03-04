@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 15:11:17 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 18:09:35 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:23:09 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@ static int	check_expend(char **arg, t_shell *shell)
 
 	if (*arg[0] != '$')
 		return (0);
-	expended = variable_expension(*arg, shell);
-	if (!expended)
-		return (-1);
-	else
-	{
-		free(*arg);
-		*arg = ft_strdup(expended);
-		if (!*arg)
-		{
-			*arg = NULL;
-			free(expended);
-			return (error_msg(MEM, "check_expend"), -1);
-		}
-		free(expended);
+	if (*arg[0] == '$' && ft_strlen(*arg) == 1)
 		return (0);
+	expended = variable_expension(*arg, shell);
+	free(*arg);
+	if (!expended)
+		*arg = ft_strdup(" ");
+	else
+		*arg = ft_strdup(expended);
+	if (!*arg)
+	{
+		*arg = NULL;
+		free(expended);
+		return (error_msg(MEM, "check_expend"), -1);
 	}
+	free(expended);
+	return (0);
 }
 
 static char	**append_args_exec(char **origin_args, char *new_arg)
@@ -103,13 +103,10 @@ void	parse_simple_cmd(t_ast_node *node, t_shell *shell)
 	{
 		if (!simple_is_redir(node, args, &i))
 		{
-			if(check_expend(&args[i], shell) == -1)
-				i++;
-			else
-			{
-				if(create_cmd(&(node->cmd), args[i]) == -1)
+			if (check_expend(&args[i], shell) == -1)
 				return ;
-			}
+			if (create_cmd(&(node->cmd), args[i]) == -1)
+				return ;
 			i++;
 		}
 	}

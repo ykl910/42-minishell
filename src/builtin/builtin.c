@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:39:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 17:03:00 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:32:46 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,15 @@ void	builtin_echo(char **cmd, t_shell *shell)
 		i++;
 	while (cmd[i])
 	{
-		ft_printf("%s", cmd[i]);
-		if (cmd[i + 1])
-			ft_printf(" ");
-		i++;
+		if (!ft_strncmp(cmd[i], "-n", ft_strlen(cmd[i])))
+			i++;
+		else
+		{
+			ft_printf("%s", cmd[i]);
+			if (cmd[i + 1])
+				ft_printf(" ");
+			i++;
+		}
 	}
 	if (new_line)
 		ft_printf("\n");
@@ -108,8 +113,7 @@ void	builtin_export(char *line, t_shell *shell)
 		value = ft_calloc(1, sizeof(char));
 	if (!value)
 	{
-		error_msg(MEM, "builtin_export for env_var =");
-		error_msg(line, NULL);
+		error_msg(MEM, "builtin_export");
 		return ;
 	}
 	if (put_env_var(line, name, value, shell) == -1)
@@ -192,7 +196,7 @@ void	builtin_exit(char **args, t_shell *shell)
 		{
 			exit_code = ft_atol(args[1]);
 			if (INT_MIN > exit_code || exit_code > INT_MAX)
-				return (error_msg(RED EXIT RESET, args[1]), free(shell),
+				return (error_msg(RED EXIT RESET, args[1]), free_shell(shell),
 					rl_clear_history(), exit(255));
 			else if (args[2])
 			{
@@ -201,7 +205,7 @@ void	builtin_exit(char **args, t_shell *shell)
 			}
 		}
 		else
-			return (error_msg(RED EXIT RESET, args[1]), free(shell),
+			return (error_msg(RED EXIT RESET, args[1]), free_shell(shell),
 				rl_clear_history(), exit(255));
 	}
 	free_shell(shell);
