@@ -6,13 +6,14 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 11:05:01 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/03 17:14:47 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/05 14:47:09 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	create_head_cmd(t_cmd **cmd_lst, t_ast_node *ast_node)
+static int	create_head_cmd(t_cmd **cmd_lst, t_ast_node *ast_node,
+		t_shell *shell)
 {
 	*cmd_lst = malloc(sizeof(t_cmd));
 	if (!*cmd_lst)
@@ -25,10 +26,11 @@ static int	create_head_cmd(t_cmd **cmd_lst, t_ast_node *ast_node)
 	(*cmd_lst)->redir_out = false;
 	(*cmd_lst)->status = 0;
 	(*cmd_lst)->next = NULL;
-	return (parse_cmd(cmd_lst, ast_node));
+	return (parse_cmd(cmd_lst, ast_node, shell));
 }
 
-static int	create_node_cmd(t_cmd **cmd_lst, t_ast_node *ast_node)
+static int	create_node_cmd(t_cmd **cmd_lst, t_ast_node *ast_node,
+		t_shell *shell)
 {
 	t_cmd	*new;
 
@@ -46,18 +48,18 @@ static int	create_node_cmd(t_cmd **cmd_lst, t_ast_node *ast_node)
 	new->status = 0;
 	new->next = (*cmd_lst);
 	(*cmd_lst) = new;
-	return (parse_cmd(&new, ast_node));
+	return (parse_cmd(&new, ast_node, shell));
 }
 
-static int	add_node(t_cmd **cmd_lst, t_ast_node *current)
+static int	add_node(t_cmd **cmd_lst, t_ast_node *current, t_shell *shell)
 {
 	if (!*cmd_lst || !cmd_lst)
-		return (create_head_cmd(cmd_lst, current));
+		return (create_head_cmd(cmd_lst, current, shell));
 	else
-		return (create_node_cmd(cmd_lst, current));
+		return (create_node_cmd(cmd_lst, current, shell));
 }
 
-t_cmd	*get_clist(t_ast_node *node)
+t_cmd	*get_clist(t_ast_node *node, t_shell *shell)
 {
 	t_ast_node	*current;
 	t_cmd		*cmd_lst;
@@ -71,9 +73,9 @@ t_cmd	*get_clist(t_ast_node *node)
 	while (current)
 	{
 		if (current->node_type == COMMAND_PIPE)
-			status = add_node(&cmd_lst, current->right);
+			status = add_node(&cmd_lst, current->right, shell);
 		else
-			status = add_node(&cmd_lst, current);
+			status = add_node(&cmd_lst, current, shell);
 		if (status == -1)
 			return (free_clist(&cmd_lst), NULL);
 		current = current->left;

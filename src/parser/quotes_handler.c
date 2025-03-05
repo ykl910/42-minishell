@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 18:00:52 by alacroix          #+#    #+#             */
-/*   Updated: 2025/02/26 13:20:21 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/05 14:45:33 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,12 @@ static char	*remove_quotes(char *str)
 	return (res);
 }
 
-char	**quotes_handler(char **args)
+char	**quotes_handler(char **args, t_shell *shell)
 {
 	int		i;
 	int		count;
 	char	**parsed;
+	bool	to_expend;
 
 	i = 0;
 	count = ft_tabsize((void **)args);
@@ -63,9 +64,12 @@ char	**quotes_handler(char **args)
 		return (error_msg(MEM, "quotes_handler"), NULL);
 	while (i < count)
 	{
+		to_expend = check_expend(args[i]);
 		parsed[i] = remove_quotes(args[i]);
 		if (!parsed)
 			return (ft_free_tab((void **)parsed), NULL);
+		if (to_expend)
+			parsed[i] = expension(parsed[i], shell);
 		i++;
 	}
 	return (parsed);

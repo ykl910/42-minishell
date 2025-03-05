@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/27 17:48:18 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/05 14:47:22 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,13 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		signals();
-		shell.prompt = get_prompt(shell.prev_status);
-		line = readline(shell.prompt);
+		if (isatty(STDIN_FILENO))
+		{
+			shell.prompt = get_prompt(shell.prev_status);
+			line = readline(shell.prompt);
+		}
+		else
+			line = readline(NULL);
 		if (!line)
 			input_eof(&line, &shell);
 		else

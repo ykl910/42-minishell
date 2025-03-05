@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 11:02:57 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/04 14:23:30 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:07:11 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	run_pipe(t_ast_node *node, t_shell *shell)
 	t_cmd	*current_cmd;
 	int		status;
 
-	shell->clist = get_clist(node);
+	shell->clist = get_clist(node, shell);
 	current_cmd = shell->clist;
 	while (1)
 	{

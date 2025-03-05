@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 11:09:02 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/04 17:18:45 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:05:58 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	add_cmd_arg(char ***cmd, char *arg)
 	return (0);
 }
 
-int	parse_cmd(t_cmd **clst_node, t_ast_node *ast_node)
+int	parse_cmd(t_cmd **clst_node, t_ast_node *ast_node, t_shell *shell)
 {
 	char	**args;
 	int		i;
@@ -47,7 +47,7 @@ int	parse_cmd(t_cmd **clst_node, t_ast_node *ast_node)
 
 	i = 0;
 	status = 0;
-	args = quotes_handler(ast_node->value);
+	args = quotes_handler(ast_node->value, shell);
 	if (!args)
 		return (-1);
 	while (args[i])

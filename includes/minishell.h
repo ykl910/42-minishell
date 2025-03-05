@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/04 14:24:42 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/05 14:34:30 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,9 @@ t_ast_node				*create_node(t_com_enum type, t_ast_node *left,
 char					**append_args(char **origin_args, char *new_arg);
 t_ast_node				*parse_expression(t_token **tokens, int min_precedence,
 							t_shell *shell);
-char					**quotes_handler(char **args);
+char					**quotes_handler(char **args, t_shell *shell);
+bool					check_expend(char *str);
+char					*expension(char *str, t_shell *shell);
 
 // exec
 void					cmd_builder(t_ast_node *node);
@@ -205,8 +207,9 @@ bool					simple_is_redir(t_ast_node *node, char **args, int *i);
 
 // v2 pipes
 int						run_pipe(t_ast_node *node, t_shell *shell);
-t_cmd					*get_clist(t_ast_node *node);
-int						parse_cmd(t_cmd **clst_node, t_ast_node *ast_node);
+t_cmd					*get_clist(t_ast_node *node, t_shell *shell);
+int						parse_cmd(t_cmd **clst_node, t_ast_node *ast_node,
+							t_shell *shell);
 void					pipes_parse_path(t_cmd *current, t_shell *shell);
 void					p_handle_cmd_error(t_cmd **current, int err_code);
 void					p_handle_error(t_cmd **current, t_shell *shell);
