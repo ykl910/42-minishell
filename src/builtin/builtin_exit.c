@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 14:30:30 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/05 16:05:17 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:47:49 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,25 @@ static void	manage_args_error(t_shell *shell)
 static void	exit_args(char **args, t_shell *shell)
 {
 	long long	exit_code;
+	size_t		args_len;
 
+	args_len = ft_tabsize((void **)args);
+	if (ft_isalpha(args[1][0]))
+	{
+		error_msg(RED EXIT RESET, args[1]);
+		clean_exit(2, shell);
+	}
 	exit_code = 0;
 	exit_code = ft_atoll(args[1]);
-	if (INT_MIN > exit_code || exit_code > INT_MAX)
-		manage_num_error(args[1], shell);
+	if (args_len == 2)
+	{
+		if (INT_MIN > exit_code || exit_code > INT_MAX)
+			manage_num_error(args[1], shell);
+		else
+			clean_exit(exit_code, shell);
+	}
 	else
-		clean_exit(exit_code, shell);
+		manage_args_error(shell);
 }
 
 void	builtin_exit(char **args, t_shell *shell)
@@ -51,8 +63,6 @@ void	builtin_exit(char **args, t_shell *shell)
 	ft_printf("exit\n");
 	if (args_len == 1)
 		clean_exit(0, shell);
-	else if (args_len == 2)
-		exit_args(args, shell);
 	else
-		manage_args_error(shell);
+		exit_args(args, shell);
 }

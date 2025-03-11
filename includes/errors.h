@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:23:42 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/04 14:43:20 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:46:34 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@
 # define SYN_RPA "Syntax Error: Missing ')'"
 # define SYN_OPE "Syntax Error: Missing operand"
 # define SYN_TOK "Syntax Error: Unexpected token"
+# define EXPORT "ERROR: Not a valid identifier: "
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:12:42 by kyang             #+#    #+#             */
-/*   Updated: 2025/02/26 14:50:02 by kyang            ###   ########.fr       */
+/*   Updated: 2025/03/11 13:17:10 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ void	input_eof(char **line, t_shell *shell)
 void	handle_sigint(int sig)
 {
 	(void)sig;
+	g_exit_status = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	//if (g_exit_status == 0)
 	rl_redisplay();
 }
 
@@ -36,7 +38,10 @@ int	get_return_value(int *status)
 	if (WIFEXITED(*status))
 		return (WEXITSTATUS(*status));
 	else if (WIFSIGNALED(*status))
-		return (128 + WTERMSIG(*status));
+	{
+		g_exit_status = 128 + WTERMSIG(*status);
+		return (g_exit_status);
+	}
 	else
 		return (1);
 }

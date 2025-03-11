@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/05 16:19:00 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:48:03 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			g_exit_status = 0;
 
 static char	*get_prompt(int status)
 {
@@ -90,6 +92,12 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		signals();
+		if (g_exit_status == 130)
+		{
+			shell.prev_status = 130;
+			g_exit_status = 0;
+			continue ;
+		}
 		line = get_input(&shell);
 		if (!line && isatty(STDIN_FILENO))
 			input_eof(&line, &shell);

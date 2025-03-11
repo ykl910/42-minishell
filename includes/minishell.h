@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:17:29 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/05 14:34:30 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:48:28 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define SIGQUIT 3
 # define MAX_FILE_SIZE 100000
 
-// extern int				g_signal;
+extern int				g_exit_status;
 
 typedef enum e_token_type
 {
@@ -194,14 +194,12 @@ bool					check_expend(char *str);
 char					*expension(char *str, t_shell *shell);
 
 // exec
-void					cmd_builder(t_ast_node *node);
 void					simple_parse_path(t_ast_node *node, t_shell *shell);
 void					put_heredoc(int infile_fd, char *limiter);
 void					reopen_heredoc(int *infile_fd, char *file);
 void					handle_open_error(int *fd, char *file);
 bool					is_urandom(char *str);
 int						execute_command(t_ast_node *node, t_shell *shell);
-void					redir_std(t_ast_node **current);
 void					executor(t_ast_node **head_node, t_shell *shell);
 bool					simple_is_redir(t_ast_node *node, char **args, int *i);
 
