@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 14:26:40 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/11 14:46:25 by kyang            ###   ########.fr       */
+/*   Updated: 2025/03/12 10:53:43 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	builtin_env(t_shell *shell)
 	}
 }
 
-static int	check_export(char *name, t_shell *shell)
+static int	check_export(char *name, char *line, t_shell *shell)
 {
-	if (!ft_isalpha(name[0]) && name[0] != '_')
+	if (name[0] && !ft_isalpha(name[0]) && name[0] != '_')
 	{
 		shell->status = 1;
-		return (error_msg(RED EXPORT RESET, name), 0);
+		return (error_msg(RED EXPORT RESET, line), 0);
 	}
 	return (1);
 }
@@ -49,9 +49,9 @@ void	builtin_export(char *line, t_shell *shell)
 	if (!line)
 		return ;
 	name = get_var_name(line);
-	if (!check_export(name, shell))
-		return ;
 	if (!name)
+		return ;
+	if (!check_export(name, line, shell))
 		return ;
 	value = get_var_value(line);
 	builtin_unset(name, shell);

@@ -58,5 +58,8 @@ fclean: clean
 
 re: fclean all
 
+debug:
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=ignore_leak_readline ./minishell
+
 .PHONY: all clean fclean re
 .DEFAULT_GOAL := all

@@ -6,7 +6,7 @@
 /*   By: kyang <kyang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:20:48 by kyang             #+#    #+#             */
-/*   Updated: 2025/03/11 14:48:03 by kyang            ###   ########.fr       */
+/*   Updated: 2025/03/12 10:54:52 by kyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,18 @@ static void	run_shell(char *line, t_shell *shell)
 
 static char	*get_input(t_shell *shell)
 {
+	char	*input;
+
 	if (isatty(STDIN_FILENO))
 	{
 		shell->prompt = get_prompt(shell->prev_status);
-		return (readline(shell->prompt));
+		input = readline(shell->prompt);
+		if (g_exit_status == 130)
+		{
+			shell->prev_status = 130;
+			g_exit_status = 0;
+		}
+		return (input);
 	}
 	else
 		return (get_next_line(0));
