@@ -6,7 +6,7 @@
 /*   By: alacroix <alacroix@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 11:07:15 by alacroix          #+#    #+#             */
-/*   Updated: 2025/03/04 14:18:29 by alacroix         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:54:12 by alacroix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	redirect_here_doc(t_cmd *node, char **args, int *i)
 	limiter = ft_strdup(args[*i + 1]);
 	if (!limiter)
 		return ;
-	node->fd_in = open("/tmp/hdoc", O_CREAT | O_RDWR | O_APPEND, 0644);
+	node->fd_in = open("/tmp/hdoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (node->fd_in < 0)
 		handle_open_error(&node->fd_in, args[*i + 1]);
 	put_heredoc(node->fd_in, limiter);
